@@ -1,4 +1,4 @@
 package com.ertools.weather_check.view
 
-class MainDataFragmet {
+class MainDataFragment {
 }

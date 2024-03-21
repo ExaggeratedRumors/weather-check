@@ -6,39 +6,43 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherDTO (
-    val coord: Coord,
-    val weather: List<Weather>,
-    val base: String,
-    val main: WeatherMain,
-    val visibility: Int,
-    val wind: Wind,
-    val clouds: Clouds,
-    val dt: Int,
-    val sys: WeatherSys,
-    val timezone: Int,
-    val id: Int,
-    val name: String,
-    val cod: Int
+data class ForecastDTO (
+    val cod: String,
+    val message: Int,
+    val cnt: Int,
+    val list: List<Forecast>,
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherMain (
+data class Forecast (
+    val dt: Int,
+    val main: ForecastMain,
+    val weather: List<Weather>,
+    val clouds: Clouds,
+    val wind: Wind,
+    val visibility: Int,
+    val pop: Double,
+    val sys: ForecastSys,
+    val dtTxt: String,
+)
+
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class ForecastMain (
     val temp: Double,
     val feelsLike: Double,
     val tempMin: Double,
     val tempMax: Double,
     val pressure: Int,
-    val humidity: Int,
     val seaLevel: Int,
-    val grndLevel: Int
+    val grndLevel: Int,
+    val humidity: Int,
+    val tempKf: Double,
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherSys (
-    val country: String,
-    val sunrise: Int,
-    val sunset: Int
+data class ForecastSys (
+    val pod: String,
 )

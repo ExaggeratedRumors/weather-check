@@ -1,4 +1,4 @@
-package com.ertools.weather_check.utils
+package com.ertools.weather_check.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.PropertyNamingStrategies

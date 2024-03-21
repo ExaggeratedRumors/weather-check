@@ -6,7 +6,6 @@ import android.net.NetworkCapabilities
 import android.widget.Toast
 import com.ertools.weather_check.utils.Utils
 import com.google.gson.Gson
-import org.json.JSONObject
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.BufferedWriter
@@ -28,7 +27,7 @@ class FetchManager(private val context: Context) {
                     Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
                     return@execute
                 }
-                val url = URL(Utils.getApiUrl(11, 11))
+                val url = URL(Utils.getWeatherUrl(11, 11))
                 val connection = url.openConnection() as HttpURLConnection
                 val responseCode = connection.responseCode
                 if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -37,7 +36,7 @@ class FetchManager(private val context: Context) {
                 }
                 val inputStream = BufferedInputStream(connection.inputStream)
                 val responseData = inputStream.bufferedReader().use(BufferedReader::readText)
-
+                saveDataToFile(context, responseData)
             } catch (e: Exception) {
                 Toast.makeText(context, "Internet connection error", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()

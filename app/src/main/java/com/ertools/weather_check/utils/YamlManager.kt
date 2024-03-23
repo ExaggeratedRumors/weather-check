@@ -42,5 +42,12 @@ class YamlManager {
             println("ENGINE: Cannot write to yaml object.")
             exitProcess(1)
         }
+
+        fun <T> convertToJson(value: String, outputType: Class<T>) = try {
+            mapper.readValue(value, outputType)
+        } catch (e: Exception) {
+            println("ENGINE: Cannot convert to json object.")
+            exitProcess(1)
+        }
     }
 }

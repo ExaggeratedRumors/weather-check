@@ -6,7 +6,6 @@ import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.nio.file.Files
 import java.nio.file.Paths
-import kotlin.system.exitProcess
 
 class YamlManager {
     companion object {
@@ -30,7 +29,6 @@ class YamlManager {
                 }
         } catch (e: Exception) {
             println("ENGINE: Cannot read $sourcePath file or file is incorrect with data object.")
-            exitProcess(1)
         }!!
 
         fun writeYamlObject(sourcePath: String, value: Any) = try {
@@ -40,14 +38,13 @@ class YamlManager {
                 }
         } catch (e: Exception) {
             println("ENGINE: Cannot write to yaml object.")
-            exitProcess(1)
         }
 
         fun <T> convertToJson(value: String, outputType: Class<T>) = try {
-            mapper.readValue(value, outputType)
+            val p = mapper.readValue(value, outputType)
+            p
         } catch (e: Exception) {
             println("ENGINE: Cannot convert to json object.")
-            exitProcess(1)
         }
     }
 }

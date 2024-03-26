@@ -3,12 +3,17 @@ package com.ertools.weather_check.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ertools.weather_check.R
+import com.ertools.weather_check.model.FetchManager
+import com.ertools.weather_check.model.Location
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportFragmentManager
+        val testLocation = Location("London", 51.5074, 0.1278)
+        val fm = FetchManager(this, testLocation)
+        val data = fm.fetchWeatherData()
+        println(data.toString())
     }
 
     fun initializeFragments() {

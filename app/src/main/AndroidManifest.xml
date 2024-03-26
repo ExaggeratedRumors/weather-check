@@ -22,27 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <fragment
-            android:id="@+id/main_data"
-            android:name="com.ertools.weather_check.view.MainDataFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="main_data" />
-        <fragment
-            android:id="@+id/second_data"
-            android:name="com.ertools.weather_check.view.SecondDataFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="second_data "/>
-        <fragment
-            android:id="@+id/forecast"
-            android:name="com.ertools.weather_check.view.ForecastFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="forecast" />
-
-
     </application>
 
 </manifest>

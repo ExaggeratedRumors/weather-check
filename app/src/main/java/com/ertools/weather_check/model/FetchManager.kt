@@ -21,10 +21,10 @@ class FetchManager(private val context: Context, private val location: Location)
     }
 
     fun fetchWeatherData() =
-         fetchData(Utils::getWeatherUrl, Utils.WEATHER_DATA_PATH, WeatherDTO::class.java) as WeatherDTO?
+         fetchData(Utils::getWeatherUrl, Utils.WEATHER_DATA_PATH, WeatherDTO::class.java)
 
     fun fetchForecastData() =
-        fetchData(Utils::getForecastUrl, Utils.FORECAST_DATA_PATH, ForecastDTO::class.java) as ForecastDTO?
+        fetchData(Utils::getForecastUrl, Utils.FORECAST_DATA_PATH, ForecastDTO::class.java)
 
     private fun <T> fetchData(
         call: (Double, Double) -> String,
@@ -33,14 +33,21 @@ class FetchManager(private val context: Context, private val location: Location)
     ): Any {
         var response : T?
         try {
+            println("1")
             response = fetchDataFromServer(call, valueType)
+            println("2")
+
             saveDataToFile(destinationPath, response!!)
+            println("3")
         } catch (e: Exception) {
             Toast.makeText(context, "Internet connection error", Toast.LENGTH_SHORT).show()
             response = null
             e.printStackTrace()
         }
-        if(response == null) response = fetchDataFromFile(destinationPath, valueType)
+        println("4")
+        if(response == null) response = (fetchDataFromFile(destinationPath, valueType) as T)!!
+        println("5")
+        if(response == null) println("no niestety mordko")
         return response
     }
 
@@ -62,7 +69,7 @@ class FetchManager(private val context: Context, private val location: Location)
             }
             val inputStream = BufferedInputStream(connection.inputStream)
             val responseText = inputStream.bufferedReader().use(BufferedReader::readText)
-            response = YamlManager.convertToJson(responseText, valueType)
+            response = (YamlManager.convertToJson(responseText, valueType) as T)!!
         }
         return response
     }

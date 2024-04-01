@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.utils.YamlManager
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.net.HttpURLConnection
@@ -33,24 +32,16 @@ class FetchManager(private val context: Context, private val location: Location)
     ): Any {
         var response : T?
         try {
-            println("1")
             response = fetchDataFromServer(call, valueType)
-            println("2")
-
             saveDataToFile(destinationPath, response!!)
-            println("3")
         } catch (e: Exception) {
             Toast.makeText(context, "Internet connection error", Toast.LENGTH_SHORT).show()
             response = null
             e.printStackTrace()
         }
-        println("4")
         if(response == null) response = (fetchDataFromFile(destinationPath, valueType) as T)!!
-        println("5")
-        if(response == null) println("no niestety mordko")
         return response
     }
-
 
     private fun <T> fetchDataFromServer(call: (Double, Double) -> String, valueType: Class<T>): T? {
         var response: T? = null
@@ -69,17 +60,16 @@ class FetchManager(private val context: Context, private val location: Location)
             }
             val inputStream = BufferedInputStream(connection.inputStream)
             val responseText = inputStream.bufferedReader().use(BufferedReader::readText)
-            response = (YamlManager.convertToJson(responseText, valueType) as T)!!
+            response = DataManager.convertToJson(responseText, valueType)
         }
         return response
     }
 
     private fun <T> fetchDataFromFile(sourcePath: String, valueType: Class<T>) =
-        YamlManager.readYamlObject(sourcePath, valueType)
+        DataManager.readYamlObject(sourcePath, valueType)
 
     private fun saveDataToFile(destinationPath: String, value: Any) =
-        YamlManager.writeYamlObject(destinationPath, value)
-
+        DataManager.writeYamlObject(destinationPath, value)
 
     private fun getConnectionType(context: Context): ConnectionType {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?

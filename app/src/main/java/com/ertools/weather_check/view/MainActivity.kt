@@ -3,10 +3,13 @@ package com.ertools.weather_check.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ertools.weather_check.R
+import com.ertools.weather_check.dto.Favourities
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.model.Location
 
 class MainActivity : AppCompatActivity() {
+    val favourities = Favourities()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

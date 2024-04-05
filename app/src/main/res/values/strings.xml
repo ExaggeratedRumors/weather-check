@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">weather-check</string>
     <string name="decision_current_location">Use current location</string>
-    <string name="input_new_location">Input new location</string>
+    <string name="decision_input_new_location">Input new location</string>
+    <string name="app_version">v1.0-stable</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.ertools.weather_check.dto
 
-import com.ertools.weather_check.model.Location
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -9,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class Favourities {
+class Favorites {
     @JsonProperty
     val locations = mutableListOf<Location>()
 

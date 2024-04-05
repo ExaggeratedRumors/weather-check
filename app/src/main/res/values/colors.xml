@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Light theme colors -->
+    <color name="primary">#E5DDC5</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="primary_alt">#F1EEDC</color>
+    <color name="on_primary_alt">#FFFFFFFF</color>
+    <color name="secondary">#F1EEDC</color>
+    <color name="on_secondary">#FFFFFFFF</color>
+    <color name="surface">#B7C3E1</color>
+    <color name="on_surface">#FFFFFFFF</color>
+    <color name="background">#BED7DC</color>
+    <color name="on_background">#655B3E</color>
 </resources>

@@ -22,7 +22,7 @@ class DataManager {
             )
         }
 
-        fun <T> readYamlObject(sourcePath: String, valueType: Class<T>): T? = try {
+        fun <T> readObject(sourcePath: String, valueType: Class<T>): T? = try {
             Files.newBufferedReader(Paths.get(sourcePath))
                 .use {
                     println("ENGINE: Data read from file $sourcePath")
@@ -33,7 +33,7 @@ class DataManager {
             null
         }
 
-        fun writeYamlObject(sourcePath: String, value: Any) = try {
+        fun writeObject(sourcePath: String, value: Any) = try {
             Files.newBufferedWriter(Paths.get(sourcePath))
                 .use {
                     mapper.writeValue(it, value)

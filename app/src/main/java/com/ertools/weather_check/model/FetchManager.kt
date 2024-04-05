@@ -1,6 +1,7 @@
 package com.ertools.weather_check.model
 
 import android.content.Context
+import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
@@ -51,7 +52,7 @@ class FetchManager(private val context: Context, private val location: Location)
                 Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
                 throw Exception("No internet connection")
             }
-            val url = URL(call(location.lat, location.lon))
+            val url = URL(call(location.latitude, location.longitude))
             val connection = url.openConnection() as HttpURLConnection
             val responseCode = connection.responseCode
             if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -66,10 +67,10 @@ class FetchManager(private val context: Context, private val location: Location)
     }
 
     private fun <T> fetchDataFromFile(sourcePath: String, valueType: Class<T>) =
-        DataManager.readYamlObject(sourcePath, valueType)
+        DataManager.readObject(sourcePath, valueType)
 
     private fun saveDataToFile(destinationPath: String, value: Any) =
-        DataManager.writeYamlObject(destinationPath, value)
+        DataManager.writeObject(destinationPath, value)
 
     private fun getConnectionType(context: Context): ConnectionType {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?

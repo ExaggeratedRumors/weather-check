@@ -1,12 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:stretchColumns="1">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MAIN"/>
+        android:orientation="vertical"
+        android:gravity="center">
+
+    <TextView
+            android:id="@+id/main_localization_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CITY"/>
+
+        <TextView
+            android:id="@+id/main_coordinates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(LAT, LON)"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/main_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"/>
+
+        <TextView
+            android:id="@+id/main_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0\u2103C"/>
+
+        <TextView
+            android:id="@+id/main_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0hPa"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/main_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sunny"
+            app:layout_column="1"
+            app:icon="@drawable/baseline_cloud_24"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

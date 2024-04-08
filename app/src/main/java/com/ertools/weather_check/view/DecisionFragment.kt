@@ -31,6 +31,7 @@ class DecisionFragment: Fragment() {
     private lateinit var view: View
     private var selectedLocation: Location? = null
     private var savedInstance: Bundle? = null
+    private var favorites: Favorites = DataManager.readObject(Utils.FAVOURITE_PATH, Favorites::class.java) ?: Favorites()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,6 +125,8 @@ class DecisionFragment: Fragment() {
                     return@setPositiveButton
                 }
                 selectedLocation = Location(name, latitude, longitude)
+                selectedLocation?.let { favorites.modify { this.add(selectedLocation!!) } }
+                DataManager.writeObject(Utils.FAVOURITE_PATH, favorites)
                 storeLocationAndChangeFragment()
             }
 
@@ -161,7 +164,6 @@ class DecisionFragment: Fragment() {
 
     private fun serviceFavoritesLocationsSpinner() {
         val spinner = view.findViewById<Spinner>(R.id.decision_favorites_locations)
-        val favorites = DataManager.readObject(Utils.FAVOURITE_PATH, Favorites::class.java) ?: Favorites()
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,

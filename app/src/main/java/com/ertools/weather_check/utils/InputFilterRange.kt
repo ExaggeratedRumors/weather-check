@@ -4,7 +4,6 @@ import android.text.InputFilter
 import android.text.Spanned
 
 class InputFilterRange(private val min: Double, private val max: Double) : InputFilter {
-
     override fun filter(
         source: CharSequence?,
         start: Int,

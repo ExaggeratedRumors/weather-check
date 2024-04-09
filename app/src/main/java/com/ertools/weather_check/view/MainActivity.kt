@@ -3,16 +3,15 @@ package com.ertools.weather_check.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ertools.weather_check.R
-import com.ertools.weather_check.dto.Favorites
-import com.ertools.weather_check.model.FetchManager
 
 class MainActivity : AppCompatActivity() {
-    val favourities = Favorites()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+    }
+
+    fun initializeDecisionFragment() {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val decisionFragment = DecisionFragment()

@@ -14,7 +14,7 @@ data class WeatherDTO (
     val visibility: Int,
     val wind: Wind,
     val clouds: Clouds,
-    val dt: Int,
+    val dt: Long,
     val sys: WeatherSys,
     val timezone: Int,
     val id: Int,

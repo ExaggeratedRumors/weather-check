@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -17,13 +16,13 @@
             android:id="@+id/main_localization_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CITY"/>
+            android:text="@string/main_city"/>
 
         <TextView
             android:id="@+id/main_coordinates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(LAT, LON)"/>
+            android:text="@string/main_coordinates"/>
 
     </LinearLayout>
 
@@ -37,37 +36,33 @@
             android:id="@+id/main_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:00:00"/>
+            android:text="@string/main_time"/>
 
         <TextView
             android:id="@+id/main_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0\u2103C"/>
+            android:text="@string/main_temperature"/>
 
         <TextView
             android:id="@+id/main_pressure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0hPa"/>
+            android:text="@string/main_pressure"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/main_weather_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:src="@drawable/baseline_cloud_24"
+        android:contentDescription="@string/main_weather_icon" />
 
-        <TextView
-            android:id="@+id/main_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sunny"
-            app:layout_column="1"
-            app:icon="@drawable/baseline_cloud_24"/>
-
-    </LinearLayout>
-
-
+    <TextView
+        android:id="@+id/main_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/main_weather" />
 </LinearLayout>

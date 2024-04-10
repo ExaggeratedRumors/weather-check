@@ -31,6 +31,7 @@ class MainDataFragment : Fragment() {
         initializeLocation()
         fetchWeatherData()
         initializeTime()
+        initializeTemperature()
         return this.view
     }
 
@@ -56,5 +57,10 @@ class MainDataFragment : Fragment() {
     private fun initializeTime() {
         val time = view.findViewById<TextView>(R.id.main_time)
         time.text = timestampToTime(weatherData.dt)
+    }
+
+    private fun initializeTemperature() {
+        val temperature = view.findViewById<TextView>(R.id.main_temperature)
+        temperature.text = weatherData.main.temp.toString()
     }
 }

@@ -14,9 +14,11 @@ import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.timestampToTime
 
-class MainDataFragment : Fragment() {
+class MainDataFragment(
+    private val listener: LocationListener,
+    private val location: Location
+) : Fragment() {
     private lateinit var view: View
-    private lateinit var selectedLocation: Location
     private var savedInstance: Bundle? = null
     private lateinit var weatherData: WeatherDTO
 
@@ -27,7 +29,6 @@ class MainDataFragment : Fragment() {
     ): View {
         this.view = inflater.inflate(R.layout.fragment_main_data, container, false)
         this.savedInstance = savedInstanceState
-        fetchSelectedLocation()
         initializeLocation()
         fetchWeatherData()
         initializeTime()
@@ -35,23 +36,17 @@ class MainDataFragment : Fragment() {
         return this.view
     }
 
-    private fun fetchSelectedLocation() {
-        this.savedInstance?.serializable<Location>(Utils.STORE_FAVORITE_LOCATION)?.let {
-            this.selectedLocation = it
-        } ?: throw Exception("No location selected")
-    }
-
     private fun initializeLocation() {
         val locationName = view.findViewById<TextView>(R.id.main_localization_name)
-        locationName.text = selectedLocation.name
+        locationName.text = location.name
         val locationCoordinates = view.findViewById<TextView>(R.id.main_coordinates)
-        val coordinates = "(${selectedLocation.lat}, ${selectedLocation.lon})"
+        val coordinates = "(${location.lat}, ${location.lon})"
         locationCoordinates.text = coordinates
     }
 
     private fun fetchWeatherData() {
         val fetchManager = FetchManager(requireContext())
-        weatherData = fetchManager.fetchWeatherData(selectedLocation)
+        weatherData = fetchManager.fetchWeatherData(location)
     }
 
     private fun initializeTime() {

@@ -2,11 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:stretchColumns="1"
+    android:baselineAligned="true">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/second_wind_strength"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SECOND"/>
+        android:text="@string/main_temperature"/>
 
+    <TextView
+        android:id="@+id/second_wind_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_weather"/>
+
+    <TextView
+        android:id="@+id/second_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_weather"/>
+
+    <TextView
+        android:id="@+id/second_sightings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_weather"/>
 </LinearLayout>

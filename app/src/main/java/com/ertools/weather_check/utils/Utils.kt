@@ -17,6 +17,7 @@ object Utils {
 
     /** Connection **/
     const val connection_date = "2021-07-01 00:00:00"
+    const val DATA_FETCH_TIME_DIFF = 300 // in seconds
 
     /** URL **/
     fun getWeatherUrl(lat: Double, lon: Double) =

@@ -16,8 +16,6 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.Favorites
 import com.ertools.weather_check.dto.Location
@@ -27,7 +25,7 @@ import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
 import com.google.android.gms.location.LocationServices
 
-class DecisionFragment: Fragment() {
+class DecisionFragment(private val listener: LocationListener): Fragment() {
     private lateinit var view: View
     private var selectedLocation: Location? = null
     private var savedInstance: Bundle? = null
@@ -67,7 +65,7 @@ class DecisionFragment: Fragment() {
                                 location.latitude,
                                 location.longitude
                             )
-                            storeLocationAndChangeFragment()
+                            storeLocationAndLeaveFragment()
                         }  else {
                             Toast.makeText(
                                 requireContext(),
@@ -127,7 +125,7 @@ class DecisionFragment: Fragment() {
                 selectedLocation = Location(name, latitude, longitude)
                 selectedLocation?.let { favorites.modify { this.add(selectedLocation!!) } }
                 DataManager.writeObject(Utils.FAVOURITE_PATH, favorites)
-                storeLocationAndChangeFragment()
+                storeLocationAndLeaveFragment()
             }
 
             builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -153,7 +151,7 @@ class DecisionFragment: Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position == 0) return
                 selectedLocation = Locations.cities[position]
-                storeLocationAndChangeFragment()
+                storeLocationAndLeaveFragment()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -175,7 +173,7 @@ class DecisionFragment: Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedLocation = favorites.locations[position]
-                storeLocationAndChangeFragment()
+                storeLocationAndLeaveFragment()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -184,19 +182,17 @@ class DecisionFragment: Fragment() {
         }
     }
 
-    fun storeLocationAndChangeFragment() {
+    fun storeLocationAndLeaveFragment() {
         Toast.makeText(
             requireContext(),
             "Location: ${selectedLocation?.name} ${selectedLocation?.lat} ${selectedLocation?.lon}",
             Toast.LENGTH_SHORT
         ).show()
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.hide(this@DecisionFragment)
-        savedInstance?.putSerializable(Utils.STORE_FAVORITE_LOCATION, selectedLocation)
-        transaction.show(MainDataFragment())
-        transaction.show(SecondDataFragment())
-        transaction.show(ForecastFragment())
-        transaction.commit()
+        listener.notifyLocationChanged(selectedLocation)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(Utils.STORE_FAVORITE_LOCATION, selectedLocation)
     }
 }

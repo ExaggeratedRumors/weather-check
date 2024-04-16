@@ -1,4 +1,4 @@
-package com.ertools.weather_check.view
+package com.ertools.weather_check.fragments
 
 import android.Manifest
 import android.app.AlertDialog
@@ -23,6 +23,8 @@ import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.utils.InputFilterRange
 import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.activities.LocationListener
+import com.ertools.weather_check.widgets.RemovableSpinnerAdapter
 import com.google.android.gms.location.LocationServices
 
 class DecisionFragment(private val listener: LocationListener): Fragment() {
@@ -65,7 +67,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
                                 location.latitude,
                                 location.longitude
                             )
-                            storeLocationAndLeaveFragment()
+                            onSelectedLocation()
                         }  else {
                             Toast.makeText(
                                 requireContext(),
@@ -125,7 +127,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
                 selectedLocation = Location(name, latitude, longitude)
                 selectedLocation?.let { favorites.modify { this.add(selectedLocation!!) } }
                 DataManager.writeObject(Utils.FAVOURITE_PATH, favorites)
-                storeLocationAndLeaveFragment()
+                onSelectedLocation()
             }
 
             builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -145,13 +147,13 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
             android.R.layout.simple_spinner_item,
             cities
         )
-        adapter.setDropDownViewResource(R.layout.view_spinner)
+        adapter.setDropDownViewResource(R.layout.item_removable_spinner)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position == 0) return
                 selectedLocation = Locations.cities[position]
-                storeLocationAndLeaveFragment()
+                onSelectedLocation()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -162,18 +164,17 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
 
     private fun serviceFavoritesLocationsSpinner() {
         val spinner = view.findViewById<Spinner>(R.id.decision_favorites_locations)
-        val adapter = ArrayAdapter(
+        val adapter = RemovableSpinnerAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
             favorites.locations.map { it.name }
         )
-        adapter.setDropDownViewResource(R.layout.view_spinner)
+        adapter.setDropDownViewResource(R.layout.item_removable_spinner)
         spinner.adapter = adapter
         spinner.setSelection(-1)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedLocation = favorites.locations[position]
-                storeLocationAndLeaveFragment()
+                onSelectedLocation()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -182,7 +183,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
         }
     }
 
-    fun storeLocationAndLeaveFragment() {
+    fun onSelectedLocation() {
         Toast.makeText(
             requireContext(),
             "Location: ${selectedLocation?.name} ${selectedLocation?.lat} ${selectedLocation?.lon}",

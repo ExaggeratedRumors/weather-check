@@ -1,4 +1,4 @@
-package com.ertools.weather_check.view
+package com.ertools.weather_check.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.Location
+import com.ertools.weather_check.fragments.DecisionFragment
+import com.ertools.weather_check.fragments.ForecastFragment
+import com.ertools.weather_check.fragments.MainDataFragment
+import com.ertools.weather_check.fragments.SecondDataFragment
+import com.ertools.weather_check.model.FetchManager
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private var currentFragment: Fragment? = null
@@ -20,13 +25,17 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     private fun showStackedFragments() {
+        val fetchManager = FetchManager(this)
+        val weatherData = fetchManager.fetchWeatherData(location!!)
+        val forecastData = fetchManager.fetchForecastData(location!!)
+
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
         transaction.hide(decisionFragment)
         transaction.remove(decisionFragment)
-        transaction.add(R.id.main_data, MainDataFragment(this, location!!))
-        transaction.add(R.id.second_data, SecondDataFragment(this, location!!))
-        transaction.add(R.id.forecast, ForecastFragment(this, location!!))
+        transaction.add(R.id.main_data, MainDataFragment(this, weatherData, location!!))
+        transaction.add(R.id.second_data, SecondDataFragment(this, weatherData))
+        transaction.add(R.id.forecast, ForecastFragment(this, forecastData))
         transaction.commit()
     }
 

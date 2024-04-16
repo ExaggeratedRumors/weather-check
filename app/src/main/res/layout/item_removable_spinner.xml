@@ -10,6 +10,7 @@
     >
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.9"
@@ -22,6 +23,7 @@
         />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_button"
         app:iconGravity="start"
         app:icon="@drawable/baseline_delete_24"
         app:backgroundTint="@color/secondary"
@@ -30,6 +32,6 @@
         android:layout_weight="0.1"
         android:padding="10dp"
         android:src="@drawable/baseline_delete_24"
-        android:contentDescription="@string/main_weather"/>
+        android:contentDescription="@string/item_remove_location"/>
 
 </LinearLayout>

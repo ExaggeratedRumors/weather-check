@@ -1,4 +1,4 @@
-package com.ertools.weather_check.view
+package com.ertools.weather_check.activities
 
 import com.ertools.weather_check.dto.Location
 

@@ -1,4 +1,4 @@
-package com.ertools.weather_check.view
+package com.ertools.weather_check.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,17 +10,16 @@ import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.model.FetchManager
-import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.timestampToTime
+import com.ertools.weather_check.activities.LocationListener
 
 class MainDataFragment(
     private val listener: LocationListener,
+    private val weatherData: WeatherDTO,
     private val location: Location
 ) : Fragment() {
     private lateinit var view: View
     private var savedInstance: Bundle? = null
-    private lateinit var weatherData: WeatherDTO
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +29,6 @@ class MainDataFragment(
         this.view = inflater.inflate(R.layout.fragment_main_data, container, false)
         this.savedInstance = savedInstanceState
         initializeLocation()
-        fetchWeatherData()
         initializeTime()
         initializeTemperature()
         return this.view
@@ -42,11 +40,6 @@ class MainDataFragment(
         val locationCoordinates = view.findViewById<TextView>(R.id.main_coordinates)
         val coordinates = "(${location.lat}, ${location.lon})"
         locationCoordinates.text = coordinates
-    }
-
-    private fun fetchWeatherData() {
-        val fetchManager = FetchManager(requireContext())
-        weatherData = fetchManager.fetchWeatherData(location)
     }
 
     private fun initializeTime() {

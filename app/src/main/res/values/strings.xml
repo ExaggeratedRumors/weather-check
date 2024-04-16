@@ -10,4 +10,5 @@
     <string name="main_pressure">0hPa</string>
     <string name="main_weather">Sunny</string>
     <string name="main_weather_icon">weather</string>
+    <string name="item_remove_location">Delete location</string>
 </resources>

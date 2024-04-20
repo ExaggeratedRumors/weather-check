@@ -15,10 +15,12 @@ import com.ertools.weather_check.fragments.MainDataFragment
 import com.ertools.weather_check.fragments.SecondDataFragment
 import com.ertools.weather_check.model.DataFetchException
 import com.ertools.weather_check.model.FetchManager
+import com.ertools.weather_check.widgets.ViewPagerAdapter
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private var currentFragment: Fragment? = null
     private var location: Location? = null
+    private val viewPagerAdapter = ViewPagerAdapter(this, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +51,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
         when(valueType) {
-            WeatherDTO::class.java -> {
-                val mainDataFragment = MainDataFragment(this, dto as WeatherDTO, location!!)
-                showFragment(mainDataFragment)
-                val secondDataFragment = SecondDataFragment(this, dto as WeatherDTO)
-                showFragment(secondDataFragment)
-            }
-            ForecastDTO::class.java -> showFragment(ForecastFragment(this, dto as ForecastDTO))
+            WeatherDTO::class.java -> viewPagerAdapter.updateData(dto as WeatherDTO)
+            ForecastDTO::class.java -> viewPagerAdapter.updateData(dto as ForecastDTO)
             else -> return
         }
     }

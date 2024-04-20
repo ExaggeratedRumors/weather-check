@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
         transaction.hide(decisionFragment)
         transaction.remove(decisionFragment)
         transaction.add(R.id.main_data, MainDataFragment(this, weatherData, location!!))
-        transaction.add(R.id.second_data, SecondDataFragment(this, weatherData))
-        transaction.add(R.id.forecast, ForecastFragment(this, forecastData))
+//        transaction.add(R.id.second_data, SecondDataFragment(this, weatherData))
+//        transaction.add(R.id.forecast, ForecastFragment(this, forecastData))
         transaction.commit()
     }
 

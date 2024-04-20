@@ -43,11 +43,11 @@ class DataManager {
             println("ENGINE: Cannot write to yaml object.")
         }
 
-        fun <T> convertToJson(value: String, outputType: Class<T>): T? = try {
+        fun <T> convertToJson(value: String, outputType: Class<T>): T = try {
             mapper.readValue(value, outputType)
         } catch (e: Exception) {
             println("ENGINE: Cannot convert to json object.")
-            null
+            throw e
         }
     }
 }

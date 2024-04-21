@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
 
     private var location: Location? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,15 +25,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         setContentView(R.layout.activity_main)
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Weather"
-                1 -> tab.text = "Details"
-                2 -> tab.text = "Forecast"
-            }
-        }.attach()
-
+        requestLocation()
     }
 
     override fun notifyLocationChanged(location: Location?) {
@@ -55,18 +48,26 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
-        supportFragmentManager.beginTransaction().apply {
-            for (fragment in supportFragmentManager.fragments) remove(fragment)
-        }.commit()
+        runOnUiThread {
+            supportFragmentManager.beginTransaction().apply {
+                for (fragment in supportFragmentManager.fragments) remove(fragment)
+            }.commit()
 
-        val viewPagerAdapter = ViewPagerAdapter(this, this)
-        viewPager.adapter = viewPagerAdapter
-        viewPager.visibility = View.VISIBLE
+            viewPagerAdapter = ViewPagerAdapter(this, this)
+            viewPager.adapter = viewPagerAdapter
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                when (position) {
+                    0 -> tab.text = "Weather"
+                    1 -> tab.text = "Details"
+                    2 -> tab.text = "Forecast"
+                }
+            }.attach()
+            viewPager.visibility = View.VISIBLE
 
-        when(valueType) {
-            WeatherDTO::class.java -> viewPagerAdapter.updateData(dto as WeatherDTO)
-            ForecastDTO::class.java -> viewPagerAdapter.updateData(dto as ForecastDTO)
-            else -> return
+            when(valueType) {
+                WeatherDTO::class.java -> viewPagerAdapter.updateData(dto as WeatherDTO)
+                ForecastDTO::class.java -> viewPagerAdapter.updateData(dto as ForecastDTO)
+            }
         }
     }
 
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         location?.let {
             val fetchManager = FetchManager(this, this)
             fetchManager.fetchWeatherData(it)
-            fetchManager.fetchForecastData(it)
+            //fetchManager.fetchForecastData(it)
         }
     }
 }

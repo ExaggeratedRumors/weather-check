@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.MainActivity"
     android:orientation="vertical">
 
@@ -11,17 +12,33 @@
         android:layout_height="match_parent"
         android:id="@+id/menu" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        app:tabSelectedTextColor="@color/on_background"/>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <Button
+        android:id="@+id/change_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary">
-
-    </com.google.android.material.tabs.TabLayout>
+        android:layout_below="@+id/tab_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="600dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="monospace"
+        android:text="Change location"
+        android:textAlignment="center"
+        android:textColor="@color/on_primary" />
 
 </RelativeLayout>

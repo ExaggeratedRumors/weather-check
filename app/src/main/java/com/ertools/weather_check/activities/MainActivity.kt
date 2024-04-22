@@ -3,6 +3,7 @@ package com.ertools.weather_check.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.viewpager2.widget.ViewPager2
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var changeLocationBtn: Button
 
     private var location: Location? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         setContentView(R.layout.activity_main)
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
+        changeLocationBtn = findViewById(R.id.change_location)
         requestLocation()
     }
 
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun requestLocation() {
         this.location = null
+
         supportFragmentManager.beginTransaction().apply {
             for (fragment in supportFragmentManager.fragments) remove(fragment)
         }.commit()
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
             .commit()
 
         viewPager.visibility = View.GONE
+        changeLocationBtn.visibility = View.GONE
     }
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
@@ -55,6 +60,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
             viewPagerAdapter = ViewPagerAdapter(this, this)
             viewPager.adapter = viewPagerAdapter
+
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 when (position) {
                     0 -> tab.text = "Weather"
@@ -63,6 +69,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 }
             }.attach()
             viewPager.visibility = View.VISIBLE
+            changeLocationBtn.visibility = View.VISIBLE
+
+            println("END NOTIFY DATA FETCH")
 
             when(valueType) {
                 WeatherDTO::class.java -> viewPagerAdapter.updateData(dto as WeatherDTO)

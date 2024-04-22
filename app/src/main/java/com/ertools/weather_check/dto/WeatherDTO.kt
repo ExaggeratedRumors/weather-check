@@ -3,6 +3,7 @@ package com.ertools.weather_check.dto
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
+import java.io.Serializable
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,7 +21,7 @@ data class WeatherDTO (
     val id: Int,
     val name: String,
     val cod: Int
-)
+) : Serializable
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -33,7 +34,7 @@ data class WeatherMain (
     val humidity: Int,
     val seaLevel: Int,
     val grndLevel: Int
-)
+) : Serializable
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,4 +42,4 @@ data class WeatherSys (
     val country: String,
     val sunrise: Int,
     val sunset: Int
-)
+) : Serializable

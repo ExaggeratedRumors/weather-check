@@ -8,6 +8,8 @@ object Utils {
 
     /** Storage **/
     const val STORE_FAVORITE_LOCATION = "store_favorite_location"
+    const val STORE_WEATHER_DTO = "store_weather_dto"
+    const val STORE_FORECAST_DTO = "store_forecast_dto"
 
     /** Permissions **/
     const val PERMISSIONS_REQUEST_LOCATION = 100

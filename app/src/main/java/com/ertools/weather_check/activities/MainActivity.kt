@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
             .replace(R.id.menu, MenuFragment(this))
             .commit()
 
+        tabLayout.visibility = View.GONE
         viewPager.visibility = View.GONE
         changeLocationBtn.visibility = View.GONE
     }
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 }.commit()
 
                 viewPagerAdapter = ViewPagerAdapter(this, this)
+                viewPager = findViewById(R.id.view_pager)
                 viewPager.adapter = viewPagerAdapter
 
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -73,6 +75,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
                         2 -> tab.text = "Forecast"
                     }
                 }.attach()
+
+                tabLayout.visibility = View.VISIBLE
                 viewPager.visibility = View.VISIBLE
                 changeLocationBtn.visibility = View.VISIBLE
             }

@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.utils.chooseIcon
 import com.ertools.weather_check.utils.serializable
+import com.ertools.weather_check.utils.setDescription
 import com.ertools.weather_check.utils.timestampToTime
 
 class WeatherFragment : Fragment() {
@@ -55,27 +57,5 @@ class WeatherFragment : Fragment() {
         /** Icon **/
         val icon = view.findViewById<ImageView>(R.id.weather_icon)
         icon.setImageResource(chooseIcon(dto.weather[0].description))
-    }
-
-    private fun setDescription(raw: String): String {
-        val withSpaces = raw.replace("_", " ")
-        withSpaces[0].uppercase()
-        return withSpaces
-    }
-
-    private fun chooseIcon(description: String): Int {
-        if(description.contains("thunderstorm"))
-            return R.drawable.weather_lightning
-        if(description.contains("drizzle"))
-            return R.drawable.weather_rainy
-        if(description.contains("rain"))
-            return R.drawable.weather_pouring
-        if(description.contains("snow"))
-            return R.drawable.weather_snowy_heavy
-        if(description.contains("clouds"))
-            return R.drawable.weather_cloudy
-        if(description.contains("clear"))
-            return R.drawable.weather_sunny
-        return R.drawable.weather_fog
     }
 }

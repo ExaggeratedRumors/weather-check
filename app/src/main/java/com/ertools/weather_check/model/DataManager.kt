@@ -6,8 +6,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.FileNotFoundException
-import java.nio.file.Files
-import java.nio.file.Paths
 
 class DataManager {
     companion object {
@@ -29,11 +27,6 @@ class DataManager {
                 println("ENGINE: Data read from file $sourcePath")
                 mapper.readValue(it, valueType)
             }
-            /*Files.newBufferedReader(Paths.get(sourcePath))
-                .use {
-                    println("ENGINE: Data read from file $sourcePath")
-                    mapper.readValue(it, valueType)
-                }*/
         } catch (e: FileNotFoundException) {
             null
         } catch (e: Exception) {
@@ -47,11 +40,6 @@ class DataManager {
                 mapper.writeValue(it, value)
                 println("ENGINE: Data wrote to file $sourcePath")
             }
-            /*Files.newBufferedWriter(Paths.get(sourcePath))
-                .use {
-                    mapper.writeValue(it, value)
-                    println("ENGINE: Data wrote to file $sourcePath")
-                }*/
         } catch (e: Exception) {
             e.printStackTrace()
             println("ENGINE: Cannot write to yaml object.")

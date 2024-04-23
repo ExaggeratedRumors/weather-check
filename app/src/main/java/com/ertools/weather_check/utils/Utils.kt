@@ -2,8 +2,8 @@ package com.ertools.weather_check.utils
 
 object Utils {
     /** Pathing **/
-    const val WEATHER_DATA_PATH = "weather_data.json"
-    const val FORECAST_DATA_PATH = "forecast_data.json"
+    const val WEATHER_DATA_PATH = "_weather.json"
+    const val FORECAST_DATA_PATH = "_forecast.json"
     const val HISTORY_PATH = "history.json"
     const val FETCH_LOGS_PATH = "fetch_logs.json"
 
@@ -26,6 +26,6 @@ object Utils {
     const val WEATHER_URL = "https://pro.openweathermap.org/data/2.5/weather?"
     const val FORECAST_URL = "https://pro.openweathermap.org/data/2.5/forecast?"
     const val API_KEY_SUFFIX = "&APPID=$API_KEY"
-    fun getCityInterfix(city: String) = "q=$city"
-    fun getCoordinatesInterfix(lat: Double, lon: Double) = "lat=$lat&lon=$lon"
+    fun getCityAffix(city: String) = "q=$city"
+    fun getCoordinatesAffix(lat: Double, lon: Double) = "lat=$lat&lon=$lon"
 }

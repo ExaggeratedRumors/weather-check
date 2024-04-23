@@ -1,154 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:stretchColumns="1"
-    android:baselineAligned="true">
+    android:background="@color/background"
+    android:layout_marginHorizontal="24dp"
+    android:stretchColumns="1" >
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_weight="1"
-        >
+        android:baselineAligned="false" >
 
-        <TextView
-            android:id="@+id/day_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_day"/>
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/temperature_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_temperature"/>
+            <TextView
+                android:id="@+id/day_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_day"/>
 
-        <ImageView
-            android:id="@+id/icon_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:contentDescription="@string/weather_icon"
-            android:src="@drawable/weather_sunny" />
+            <TextView
+                android:id="@+id/temperature_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_temperature"/>
 
-        <TextView
-            android:id="@+id/weather_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_description"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/icon_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:src="@drawable/weather_sunny"
+                android:contentDescription="@string/weather_icon"
+                app:tint="@color/on_background" />
+
+            <TextView
+                android:id="@+id/weather_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_description" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_weight="1">
+        android:baselineAligned="false" >
 
-        <TextView
-            android:id="@+id/day_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_day"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/temperature_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_temperature"/>
+            <TextView
+                android:id="@+id/day_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_day"/>
 
-        <ImageView
-            android:id="@+id/icon_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:src="@drawable/weather_sunny"
-            android:contentDescription="@string/weather_icon" />
+            <TextView
+                android:id="@+id/temperature_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_temperature"/>
 
-        <TextView
-            android:id="@+id/weather_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_description"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/icon_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:src="@drawable/weather_sunny"
+                android:contentDescription="@string/weather_icon"
+                app:tint="@color/on_background" />
+
+            <TextView
+                android:id="@+id/weather_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_description" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_weight="1">
+        android:baselineAligned="false" >
 
-        <TextView
-            android:id="@+id/day_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_day"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/temperature_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_temperature"/>
+            <TextView
+                android:id="@+id/day_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_day"/>
 
-        <ImageView
-            android:id="@+id/icon_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:src="@drawable/weather_sunny"
-            android:contentDescription="@string/weather_icon" />
+            <TextView
+                android:id="@+id/temperature_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_temperature"/>
 
-        <TextView
-            android:id="@+id/weather_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_description"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/icon_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:src="@drawable/weather_sunny"
+                android:contentDescription="@string/weather_icon"
+                app:tint="@color/on_background" />
+
+            <TextView
+                android:id="@+id/weather_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_description" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_weight="1">
+        android:baselineAligned="false" >
 
-        <TextView
-            android:id="@+id/day_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_day"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/temperature_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_temperature"/>
+            <TextView
+                android:id="@+id/day_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_day"/>
 
-        <ImageView
-            android:id="@+id/icon_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:src="@drawable/weather_sunny"
-            android:contentDescription="@string/weather_icon" />
+            <TextView
+                android:id="@+id/temperature_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_temperature"/>
 
-        <TextView
-            android:id="@+id/weather_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weather_description"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/icon_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:src="@drawable/weather_sunny"
+                android:contentDescription="@string/weather_icon"
+                app:tint="@color/on_background" />
+
+            <TextView
+                android:id="@+id/weather_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/weather_description" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
 </LinearLayout>

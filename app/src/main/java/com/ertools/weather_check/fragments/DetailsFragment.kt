@@ -26,16 +26,16 @@ class DetailsFragment : Fragment() {
     }
 
     private fun updateData(dto: WeatherDTO) {
-        val windStrength = view.findViewById<TextView>(R.id.second_wind_strength)
+        val windStrength = view.findViewById<TextView>(R.id.details_wind_speed)
         windStrength.text = dto.wind.speed.toString()
 
-        val windDirection = view.findViewById<TextView>(R.id.second_wind_direction)
+        val windDirection = view.findViewById<TextView>(R.id.details_wind_direction)
         windDirection.text = dto.wind.deg.toString()
 
-        val humidity = view.findViewById<TextView>(R.id.second_humidity)
+        val humidity = view.findViewById<TextView>(R.id.details_humidity)
         humidity.text = dto.main.humidity.toString()
 
-        val visibility = view.findViewById<TextView>(R.id.second_visibility)
+        val visibility = view.findViewById<TextView>(R.id.details_sunrise)
         visibility.text = dto.visibility.toString()
     }
 }

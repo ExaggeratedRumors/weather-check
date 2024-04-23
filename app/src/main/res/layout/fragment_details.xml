@@ -3,31 +3,164 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:stretchColumns="1"
-    android:baselineAligned="true">
+    android:orientation="vertical"
+    android:layout_marginHorizontal="24dp"
+    android:background="@color/background"
+    android:stretchColumns="1">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
 
     <TextView
-        android:id="@+id/second_wind_strength"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weather_temperature"/>
+        android:id="@+id/details_wind_speed"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="24sp"
+        android:autoSizeMaxTextSize="32sp"
+        android:textColor="@color/on_background"
+        android:text="@string/details_wind_speed"/>
 
     <TextView
-        android:id="@+id/second_wind_direction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weather_description"/>
+        android:id="@+id/details_wind_direction"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="24sp"
+        android:autoSizeMaxTextSize="32sp"
+        android:textColor="@color/on_background"
+        android:text="@string/details_wind_direction"/>
 
     <TextView
-        android:id="@+id/second_humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weather_description"/>
+        android:id="@+id/details_humidity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="24sp"
+        android:autoSizeMaxTextSize="32sp"
+        android:textColor="@color/on_background"
+        android:text="@string/details_humidity"/>
 
-    <TextView
-        android:id="@+id/second_visibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weather_description"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/details_sunrise_label"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/details_sunrise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/details_sunrise"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:contentDescription="@string/details_sunset_icon"
+            android:gravity="center"
+            android:padding="32dp"
+            android:src="@drawable/weather_partly_cloudy"
+            android:textAlignment="gravity" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/details_sunset_label"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/details_sunset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="monospace"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="24sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:textColor="@color/on_background"
+                android:text="@string/details_sunset"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:contentDescription="@string/details_sunset_icon"
+            android:gravity="center"
+            android:padding="32dp"
+            android:src="@drawable/weather_night_partly_cloudy"
+            android:textAlignment="gravity" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
 </LinearLayout>

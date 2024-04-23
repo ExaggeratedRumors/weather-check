@@ -26,7 +26,7 @@ class FetchManager(
         val fetchLogs: FetchLogs? = fetchDataFromFile(Utils.FETCH_LOGS_PATH, FetchLogs::class.java)
 
         val onSuccess: (Any) -> Unit = {
-            saveDataToFile(Utils.WEATHER_DATA_PATH, it)
+            saveDataToFile("${location.name}${Utils.WEATHER_DATA_PATH}", it)
             val logs = if(fetchLogs == null) FetchLogs(System.currentTimeMillis(), 0L)
             else FetchLogs(System.currentTimeMillis(), fetchLogs.forecastTimestamp)
             saveDataToFile(Utils.FETCH_LOGS_PATH, logs)
@@ -36,7 +36,7 @@ class FetchManager(
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
         if(fetchLogs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
-        val data: WeatherDTO = fetchDataFromFile(Utils.WEATHER_DATA_PATH, WeatherDTO::class.java)
+        val data: WeatherDTO = fetchDataFromFile("${location.name}${Utils.WEATHER_DATA_PATH}", WeatherDTO::class.java)
             ?: return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
         listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
     }
@@ -45,7 +45,7 @@ class FetchManager(
         val fetchLogs: FetchLogs? = fetchDataFromFile(Utils.FETCH_LOGS_PATH, FetchLogs::class.java)
 
         val onSuccess: (Any) -> Unit = {
-            saveDataToFile(Utils.FORECAST_DATA_PATH, it)
+            saveDataToFile("${location.name}${Utils.FORECAST_DATA_PATH}", it)
             val logs = if(fetchLogs == null) FetchLogs(0L, System.currentTimeMillis())
             else FetchLogs(fetchLogs.weatherTimestamp, System.currentTimeMillis())
             saveDataToFile(Utils.FETCH_LOGS_PATH, logs)
@@ -55,7 +55,7 @@ class FetchManager(
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
         if(fetchLogs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
-        val data: ForecastDTO = fetchDataFromFile(Utils.FORECAST_DATA_PATH, ForecastDTO::class.java)
+        val data: ForecastDTO = fetchDataFromFile("${location.name}${Utils.FORECAST_DATA_PATH}", ForecastDTO::class.java)
             ?: return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
         listener.notifyDataFetchSuccess(data, ForecastDTO::class.java)
     }
@@ -75,9 +75,9 @@ class FetchManager(
         /** Build URL **/
         val client = OkHttpClient()
         val url = if(location.city != null)
-            "$endpointCall${Utils.getCityInterfix(location.city)}${Utils.API_KEY_SUFFIX}"
+            "$endpointCall${Utils.getCityAffix(location.city)}${Utils.API_KEY_SUFFIX}"
         else if(location.lat != null && location.lon != null)
-            "$endpointCall${Utils.getCoordinatesInterfix(location.lat, location.lon)}${Utils.API_KEY_SUFFIX}"
+            "$endpointCall${Utils.getCoordinatesAffix(location.lat, location.lon)}${Utils.API_KEY_SUFFIX}"
         else return listener.notifyDataFetchFailure(valueType)
 
         /** Build connection **/

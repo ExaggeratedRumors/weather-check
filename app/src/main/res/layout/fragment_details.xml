@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -52,111 +53,127 @@
         android:textColor="@color/on_background"
         android:text="@string/details_humidity"/>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        >
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="24sp"
+            android:autoSizeMaxTextSize="32sp"
+            android:textColor="@color/on_background"
+            android:text="@string/details_sunrise_label"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:fontFamily="monospace"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="24sp"
-                android:autoSizeMaxTextSize="32sp"
-                android:textColor="@color/on_background"
-                android:text="@string/details_sunrise_label"
-                android:maxLines="1"/>
-
-            <TextView
-                android:id="@+id/details_sunrise"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:fontFamily="monospace"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="24sp"
-                android:autoSizeMaxTextSize="32sp"
-                android:textColor="@color/on_background"
-                android:text="@string/details_sunrise"
-                android:maxLines="1"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/details_sunrise"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="24sp"
+            android:autoSizeMaxTextSize="32sp"
+            android:textColor="@color/on_background"
+            android:text="@string/details_sunrise"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_height="0dp"
             android:contentDescription="@string/details_sunset_icon"
             android:gravity="center"
-            android:padding="32dp"
+            android:padding="16dp"
             android:src="@drawable/weather_partly_cloudy"
-            android:textAlignment="gravity" />
+            android:drawableTint="@color/on_primary"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="1.0"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/on_background" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center" >
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="24sp"
+            android:autoSizeMaxTextSize="32sp"
+            android:textColor="@color/on_background"
+            android:text="@string/details_sunset_label"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:fontFamily="monospace"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="24sp"
-                android:autoSizeMaxTextSize="32sp"
-                android:textColor="@color/on_background"
-                android:text="@string/details_sunset_label"
-                android:maxLines="1"/>
-
-            <TextView
-                android:id="@+id/details_sunset"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:fontFamily="monospace"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="24sp"
-                android:autoSizeMaxTextSize="32sp"
-                android:textColor="@color/on_background"
-                android:text="@string/details_sunset"
-                android:maxLines="1"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/details_sunset"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="24sp"
+            android:autoSizeMaxTextSize="32sp"
+            android:textColor="@color/on_background"
+            android:text="@string/details_sunrise"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_height="0dp"
             android:contentDescription="@string/details_sunset_icon"
             android:gravity="center"
-            android:padding="32dp"
+            android:padding="16dp"
             android:src="@drawable/weather_night_partly_cloudy"
-            android:textAlignment="gravity" />
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="1.0"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:tint="@color/on_background" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Space
         android:layout_width="match_parent"

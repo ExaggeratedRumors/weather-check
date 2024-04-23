@@ -12,12 +12,13 @@ data class ForecastDTO (
     val message: Int,
     val cnt: Int,
     val list: List<Forecast>,
+    val city: City
 ) : Serializable
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Forecast (
-    val dt: Int,
+    val dt: Long,
     val main: ForecastMain,
     val weather: List<Weather>,
     val clouds: Clouds,
@@ -46,4 +47,17 @@ data class ForecastMain (
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ForecastSys (
     val pod: String,
+) : Serializable
+
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class City (
+    val id: Long,
+    val name: String,
+    val coord: Coord,
+    val country: String,
+    val population: Long,
+    val timezone: Long,
+    val sunrise: Long,
+    val sunset: Long
 ) : Serializable

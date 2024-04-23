@@ -9,7 +9,7 @@ import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
-import com.ertools.weather_check.fragments.DecisionFragment
+import com.ertools.weather_check.fragments.MenuFragment
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.widgets.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private var viewPagerAdapter: ViewPagerAdapter? = null
     private lateinit var changeLocationBtn: Button
 
     private var location: Location? = null
@@ -28,6 +28,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
         changeLocationBtn = findViewById(R.id.change_location)
+        changeLocationBtn.setOnClickListener {
+            requestLocation()
+        }
         requestLocation()
     }
 
@@ -42,10 +45,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
         supportFragmentManager.beginTransaction().apply {
             for (fragment in supportFragmentManager.fragments) remove(fragment)
         }.commit()
+        viewPagerAdapter = null
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.menu, DecisionFragment(this))
+            .replace(R.id.menu, MenuFragment(this))
             .commit()
 
         viewPager.visibility = View.GONE
@@ -54,28 +58,28 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
         runOnUiThread {
-            supportFragmentManager.beginTransaction().apply {
-                for (fragment in supportFragmentManager.fragments) remove(fragment)
-            }.commit()
+            if(viewPagerAdapter == null) {
+                supportFragmentManager.beginTransaction().apply {
+                    for (fragment in supportFragmentManager.fragments) remove(fragment)
+                }.commit()
 
-            viewPagerAdapter = ViewPagerAdapter(this, this)
-            viewPager.adapter = viewPagerAdapter
+                viewPagerAdapter = ViewPagerAdapter(this, this)
+                viewPager.adapter = viewPagerAdapter
 
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                when (position) {
-                    0 -> tab.text = "Weather"
-                    1 -> tab.text = "Details"
-                    2 -> tab.text = "Forecast"
-                }
-            }.attach()
-            viewPager.visibility = View.VISIBLE
-            changeLocationBtn.visibility = View.VISIBLE
-
-            println("END NOTIFY DATA FETCH")
+                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                    when (position) {
+                        0 -> tab.text = "Weather"
+                        1 -> tab.text = "Details"
+                        2 -> tab.text = "Forecast"
+                    }
+                }.attach()
+                viewPager.visibility = View.VISIBLE
+                changeLocationBtn.visibility = View.VISIBLE
+            }
 
             when(valueType) {
-                WeatherDTO::class.java -> viewPagerAdapter.updateData(dto as WeatherDTO)
-                ForecastDTO::class.java -> viewPagerAdapter.updateData(dto as ForecastDTO)
+                WeatherDTO::class.java -> viewPagerAdapter?.updateData(dto as WeatherDTO)
+                ForecastDTO::class.java -> viewPagerAdapter?.updateData(dto as ForecastDTO)
             }
         }
     }
@@ -89,7 +93,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         location?.let {
             val fetchManager = FetchManager(this, this)
             fetchManager.fetchWeatherData(it)
-            //fetchManager.fetchForecastData(it)
+            fetchManager.fetchForecastData(it)
         }
     }
 }

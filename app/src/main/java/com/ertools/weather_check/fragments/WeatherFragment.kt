@@ -12,7 +12,7 @@ import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.timestampToTime
 
-class MainDataFragment : Fragment() {
+class WeatherFragment : Fragment() {
     private lateinit var view: View
 
     override fun onCreateView(
@@ -20,8 +20,8 @@ class MainDataFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        this.view = inflater.inflate(R.layout.fragment_main_data, container, false)
-        savedInstanceState?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
+        this.view = inflater.inflate(R.layout.fragment_weather, container, false)
+        arguments?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
             updateData(dto)
         }
         return this.view

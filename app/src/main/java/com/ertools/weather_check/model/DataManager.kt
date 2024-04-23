@@ -1,9 +1,11 @@
 package com.ertools.weather_check.model
 
+import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.FileNotFoundException
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -22,24 +24,36 @@ class DataManager {
             )
         }
 
-        fun <T> readObject(sourcePath: String, valueType: Class<T>): T? = try {
-            Files.newBufferedReader(Paths.get(sourcePath))
+        fun <T> readObject(sourcePath: String, valueType: Class<T>, context: Context): T? = try {
+            context.openFileInput(sourcePath).use {
+                println("ENGINE: Data read from file $sourcePath")
+                mapper.readValue(it, valueType)
+            }
+            /*Files.newBufferedReader(Paths.get(sourcePath))
                 .use {
                     println("ENGINE: Data read from file $sourcePath")
                     mapper.readValue(it, valueType)
-                }
+                }*/
+        } catch (e: FileNotFoundException) {
+            null
         } catch (e: Exception) {
             println("ENGINE: Cannot read $sourcePath file or file is incorrect with data object.")
             null
         }
 
-        fun writeObject(sourcePath: String, value: Any) = try {
-            Files.newBufferedWriter(Paths.get(sourcePath))
+
+        fun writeObject(sourcePath: String, value: Any, context: Context) = try {
+            context.openFileOutput(sourcePath, Context.MODE_PRIVATE).use {
+                mapper.writeValue(it, value)
+                println("ENGINE: Data wrote to file $sourcePath")
+            }
+            /*Files.newBufferedWriter(Paths.get(sourcePath))
                 .use {
                     mapper.writeValue(it, value)
                     println("ENGINE: Data wrote to file $sourcePath")
-                }
+                }*/
         } catch (e: Exception) {
+            e.printStackTrace()
             println("ENGINE: Cannot write to yaml object.")
         }
 

@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary"
-        app:tabSelectedTextColor="@color/on_background"/>
+        android:contentDescription="@string/menu_tab"
+        app:tabSelectedTextColor="@color/on_background" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -37,7 +38,7 @@
         android:autoSizeTextType="uniform"
         android:background="@drawable/rounded_button"
         android:fontFamily="monospace"
-        android:text="Change location"
+        android:text="@string/menu_change_location"
         android:textAlignment="center"
         android:textColor="@color/on_primary" />
 

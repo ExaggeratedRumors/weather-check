@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:padding="10dp"
+    android:fontFamily="monospace"
+    android:autoSizeTextType="uniform"
+    android:autoSizeMinTextSize="16sp"
+    android:autoSizeMaxTextSize="24sp"
+    android:gravity="center"
     android:background="@color/secondary"
-    >
-
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.9"
-        android:padding="10dp"
-        android:fontFamily="monospace"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="16sp"
-        android:autoSizeMaxTextSize="24sp"
-        android:textColor="@color/on_secondary"
-        />
-
-</LinearLayout>
+    android:textColor="@color/on_secondary" />

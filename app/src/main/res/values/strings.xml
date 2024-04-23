@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">weather-check</string>
-    <string name="decision_current_location">Use current location</string>
-    <string name="decision_input_new_location">Input new location</string>
     <string name="app_version">v1.0-stable</string>
-    <string name="main_city">CITY</string>
-    <string name="main_coordinates">(LAT, LON)</string>
-    <string name="main_time">00:00:00</string>
-    <string name="main_temperature">0℃</string>
-    <string name="main_pressure">0hPa</string>
-    <string name="main_weather">Sunny</string>
-    <string name="main_weather_icon">weather</string>
+    <string name="menu_current_location">Weather in my location</string>
+    <string name="menu_input_coordinates">Weather by coordinates…</string>
+    <string name="menu_input_city_name">Weather in city…</string>
+    <string name="weather_city">CITY</string>
+    <string name="weather_coordinates">(LAT, LON)</string>
+    <string name="weather_time">00:00:00</string>
+    <string name="weather_temperature">0℃</string>
+    <string name="weather_pressure">0hPa</string>
+    <string name="weather_description">Sunny</string>
+    <string name="weather_icon">weather</string>
     <string name="item_remove_location">Delete location</string>
+    <string name="menu_change_location">Change location</string>
+    <string name="menu_tab">Select tab</string>
+    <string name="weather_day">Monday</string>
 </resources>

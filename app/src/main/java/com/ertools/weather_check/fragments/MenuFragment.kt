@@ -17,21 +17,21 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
-import com.ertools.weather_check.dto.Favorites
+import com.ertools.weather_check.dto.History
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.utils.InputFilterRange
 import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.activities.LocationListener
-import com.ertools.weather_check.widgets.RemovableSpinnerAdapter
+import com.ertools.weather_check.widgets.HistorySpinnerAdapter
 import com.google.android.gms.location.LocationServices
 
-class DecisionFragment(private val listener: LocationListener): Fragment() {
+class MenuFragment(private val listener: LocationListener): Fragment() {
     private lateinit var view: View
+    private lateinit var history: History
     private var selectedLocation: Location? = null
     private var savedInstance: Bundle? = null
-    private var favorites: Favorites = DataManager.readObject(Utils.FAVOURITE_PATH, Favorites::class.java) ?: Favorites()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,11 +39,18 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
         savedInstanceState: Bundle?
     ): View {
         this.savedInstance = savedInstanceState
-        view = inflater.inflate(R.layout.fragment_decision, container, false)
+        view = inflater.inflate(R.layout.fragment_menu, container, false)
+        history = DataManager.readObject(
+            Utils.HISTORY_PATH,
+            History::class.java,
+            requireContext()
+        ) ?: History()
+
         serviceCurrentLocation()
-        serviceInputLocation()
+        serviceInputLocationByCoordinates()
+        serviceInputLocationByCity()
         serviceLocationsSpinner()
-        serviceFavoritesLocationsSpinner()
+        serviceHistoryLocationsSpinner()
         return view
     }
 
@@ -64,6 +71,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
                         if(location != null) {
                             selectedLocation = Location(
                                 "Current location",
+                                "Current city",
                                 location.latitude,
                                 location.longitude
                             )
@@ -92,11 +100,11 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
         }
     }
 
-    private fun serviceInputLocation() {
-        val inputBtn = view.findViewById<Button>(R.id.decision_input_location)
+    private fun serviceInputLocationByCoordinates() {
+        val inputBtn = view.findViewById<Button>(R.id.menu_input_location_by_coords)
         inputBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Input location")
+            builder.setTitle("Input new location")
 
             val latitudeInput = EditText(requireContext())
             val longitudeInput = EditText(requireContext())
@@ -104,7 +112,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
 
             latitudeInput.hint = "Latitude"
             longitudeInput.hint = "Longitude"
-            nameInput.hint = "Name"
+            nameInput.hint = "Name your location"
 
             latitudeInput.filters = arrayOf(InputFilterRange(-90.0, 90.0))
             longitudeInput.filters = arrayOf(InputFilterRange(-180.0, 180.0))
@@ -124,9 +132,49 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
                     Toast.makeText(requireContext(), "Invalid input", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
-                selectedLocation = Location(name, latitude, longitude)
-                selectedLocation?.let { favorites.modify { this.add(selectedLocation!!) } }
-                DataManager.writeObject(Utils.FAVOURITE_PATH, favorites)
+                selectedLocation = Location(name, null, latitude, longitude)
+
+                if(history.locations.find { it.name == name } == null) {
+                    selectedLocation?.let { history.modify { this.add(selectedLocation!!) } }
+                    DataManager.writeObject(Utils.HISTORY_PATH, history, requireContext())
+                }
+
+                onSelectedLocation()
+            }
+
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.cancel()
+            }
+
+            builder.show()
+        }
+    }
+
+    private fun serviceInputLocationByCity() {
+        val inputBtn = view.findViewById<Button>(R.id.menu_input_location_by_name)
+        inputBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Input city name")
+
+            val cityInput = EditText(requireContext())
+            cityInput.hint = "City"
+
+            val layout = LinearLayout(requireContext())
+            layout.orientation = LinearLayout.VERTICAL
+            layout.addView(cityInput)
+            builder.setView(layout)
+
+            builder.setPositiveButton("OK") { _, _ ->
+                val name = cityInput.text.toString()
+                if(name.isEmpty()) {
+                    Toast.makeText(requireContext(), "Invalid input", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                selectedLocation = Location(name, name, null, null)
+                if(history.locations.find { it.name == name} == null) {
+                    selectedLocation?.let { history.modify { this.add(selectedLocation!!) } }
+                    DataManager.writeObject(Utils.HISTORY_PATH, history, requireContext())
+                }
                 onSelectedLocation()
             }
 
@@ -139,7 +187,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
     }
 
     private fun serviceLocationsSpinner() {
-        val spinner = view.findViewById<Spinner>(R.id.decision_locations)
+        val spinner = view.findViewById<Spinner>(R.id.menu_default_locations)
         val cities = mutableListOf("Select location")
         cities.addAll(Locations.cities.map { it.name })
         val adapter = ArrayAdapter(
@@ -147,7 +195,7 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
             android.R.layout.simple_spinner_item,
             cities
         )
-        adapter.setDropDownViewResource(R.layout.item_removable_spinner)
+        adapter.setDropDownViewResource(R.layout.item_spinner)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -162,18 +210,17 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
         }
     }
 
-    private fun serviceFavoritesLocationsSpinner() {
-        val spinner = view.findViewById<Spinner>(R.id.decision_favorites_locations)
-        val adapter = RemovableSpinnerAdapter(
-            requireContext(),
-            favorites.locations.map { it.name }
+    private fun serviceHistoryLocationsSpinner() {
+        val spinner = view.findViewById<Spinner>(R.id.menu_locations_history)
+        val adapter = HistorySpinnerAdapter(
+            history,
+            requireContext()
         )
-        adapter.setDropDownViewResource(R.layout.item_removable_spinner)
         spinner.adapter = adapter
-        spinner.setSelection(-1)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedLocation = favorites.locations[position]
+                if(position == 0) return
+                selectedLocation = history.locations[position]
                 onSelectedLocation()
             }
 
@@ -184,9 +231,14 @@ class DecisionFragment(private val listener: LocationListener): Fragment() {
     }
 
     fun onSelectedLocation() {
+        val info = StringBuilder("Location:")
+        if(selectedLocation?.city != null)
+            info.append(" ${selectedLocation?.city}")
+        if(selectedLocation?.lat != null && selectedLocation?.lon != null)
+            info.append(" (${selectedLocation?.lat} , ${selectedLocation?.lon})")
         Toast.makeText(
             requireContext(),
-            "Location: ${selectedLocation?.name} ${selectedLocation?.lat} ${selectedLocation?.lon}",
+            info,
             Toast.LENGTH_SHORT
         ).show()
         listener.notifyLocationChanged(selectedLocation)

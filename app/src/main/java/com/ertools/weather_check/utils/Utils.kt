@@ -4,7 +4,8 @@ object Utils {
     /** Pathing **/
     const val WEATHER_DATA_PATH = "weather_data.json"
     const val FORECAST_DATA_PATH = "forecast_data.json"
-    const val FAVOURITE_PATH = "favourite.json"
+    const val HISTORY_PATH = "history.json"
+    const val FETCH_LOGS_PATH = "fetch_logs.json"
 
     /** Storage **/
     const val STORE_FAVORITE_LOCATION = "store_favorite_location"
@@ -18,12 +19,13 @@ object Utils {
     const val API_KEY = "f106884003f70637150d0c02a289da8c"
 
     /** Connection **/
-    const val connection_date = "2021-07-01 00:00:00"
-    const val DATA_FETCH_TIME_DIFF = 300 // in seconds
+    const val WEATHER_FETCH_DIFF_SEC = 300
+    const val FORECAST_FETCH_DIFF_SEC = 3600
 
     /** URL **/
-    fun getWeatherUrl(lat: Double, lon: Double) =
-        "https://pro.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&APPID=$API_KEY"
-    fun getForecastUrl(lat: Double, lan: Double) =
-        "https://pro.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lan&APPID=$API_KEY"
+    const val WEATHER_URL = "https://pro.openweathermap.org/data/2.5/weather?"
+    const val FORECAST_URL = "https://pro.openweathermap.org/data/2.5/forecast?"
+    const val API_KEY_SUFFIX = "&APPID=$API_KEY"
+    fun getCityInterfix(city: String) = "q=$city"
+    fun getCoordinatesInterfix(lat: Double, lon: Double) = "lat=$lat&lon=$lon"
 }

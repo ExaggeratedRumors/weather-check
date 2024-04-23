@@ -5,15 +5,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
 import com.ertools.weather_check.activities.LocationListener
+import com.ertools.weather_check.dto.FetchLogs
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
-import java.io.BufferedInputStream
-import java.io.BufferedReader
-import java.net.HttpURLConnection
-import java.net.URL
-import java.util.concurrent.Executors
 import okhttp3.*
 import okio.IOException
 
@@ -26,80 +22,91 @@ class FetchManager(
         NONE, CELLULAR, WIFI, VPN
     }
 
-    fun fetchWeatherData(location: Location) =
-         fetchData(location, Utils::getWeatherUrl, Utils.WEATHER_DATA_PATH, WeatherDTO::class.java)
+    fun fetchWeatherData(location: Location) {
+        val fetchLogs: FetchLogs? = fetchDataFromFile(Utils.FETCH_LOGS_PATH, FetchLogs::class.java)
 
-    fun fetchForecastData(location: Location) =
-        fetchData(location, Utils::getForecastUrl, Utils.FORECAST_DATA_PATH, ForecastDTO::class.java)
+        val onSuccess: (Any) -> Unit = {
+            saveDataToFile(Utils.WEATHER_DATA_PATH, it)
+            val logs = if(fetchLogs == null) FetchLogs(System.currentTimeMillis(), 0L)
+            else FetchLogs(System.currentTimeMillis(), fetchLogs.forecastTimestamp)
+            saveDataToFile(Utils.FETCH_LOGS_PATH, logs)
+        }
 
-    private fun <T> fetchData(
-        location: Location,
-        call: (Double, Double) -> String,
-        destinationPath: String,
-        valueType: Class<T>
-    ) {
-        if(true) fetchDataFromServer(location, call, destinationPath, valueType)
-        else fetchDataFromFile(destinationPath, valueType)
+        if(fetchLogs == null)
+            return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+        if(fetchLogs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
+            return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+        val data: WeatherDTO = fetchDataFromFile(Utils.WEATHER_DATA_PATH, WeatherDTO::class.java)
+            ?: return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+        listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
+    }
+
+    fun fetchForecastData(location: Location) {
+        val fetchLogs: FetchLogs? = fetchDataFromFile(Utils.FETCH_LOGS_PATH, FetchLogs::class.java)
+
+        val onSuccess: (Any) -> Unit = {
+            saveDataToFile(Utils.FORECAST_DATA_PATH, it)
+            val logs = if(fetchLogs == null) FetchLogs(0L, System.currentTimeMillis())
+            else FetchLogs(fetchLogs.weatherTimestamp, System.currentTimeMillis())
+            saveDataToFile(Utils.FETCH_LOGS_PATH, logs)
+        }
+
+        if(fetchLogs == null)
+            return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
+        if(fetchLogs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
+            return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
+        val data: ForecastDTO = fetchDataFromFile(Utils.FORECAST_DATA_PATH, ForecastDTO::class.java)
+            ?: return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
+        listener.notifyDataFetchSuccess(data, ForecastDTO::class.java)
     }
 
     private fun <T> fetchDataFromServer(
         location: Location,
-        endpointCall: (Double, Double) -> String,
-        destinationPath: String,
+        endpointCall: String,
+        onSuccess: (Any) -> (Unit),
         valueType: Class<T>
     ) {
+        /** Check connection **/
         if (getConnectionType(context) == ConnectionType.NONE) {
                 Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
                 throw DataFetchException("No internet connection")
         }
+
+        /** Build URL **/
         val client = OkHttpClient()
-        val request = Request.Builder().url(
-            endpointCall(location.lat, location.lon)
-        ).build()
+        val url = if(location.city != null)
+            "$endpointCall${Utils.getCityInterfix(location.city)}${Utils.API_KEY_SUFFIX}"
+        else if(location.lat != null && location.lon != null)
+            "$endpointCall${Utils.getCoordinatesInterfix(location.lat, location.lon)}${Utils.API_KEY_SUFFIX}"
+        else return listener.notifyDataFetchFailure(valueType)
+
+        /** Build connection **/
+        val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object: Callback {
+
             override fun onFailure(call: Call, e: IOException) {
-                fetchDataFromFile(Utils.WEATHER_DATA_PATH, valueType)
                 listener.notifyDataFetchFailure(valueType)
             }
+
             override fun onResponse(call: Call, response: Response) {
                 if(response.isSuccessful) {
                     val json = response.body!!.string()
                     val dataResponse : T = DataManager.convertToJson(json, valueType)
+                    onSuccess(dataResponse as Any)
                     listener.notifyDataFetchSuccess(dataResponse, valueType)
-                    saveDataToFile(destinationPath, dataResponse as Any)
                 } else {
                     listener.notifyDataFetchFailure(valueType)
                 }
             }
+
         })
-//
-//        //
-//        val executor = Executors.newSingleThreadExecutor()
-//        executor.execute {
-//            if (getConnectionType(context) == ConnectionType.NONE) {
-//                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
-//                throw DataFetchException("No internet connection")
-//            }
-//            val url = URL(call(location.lat, location.lon))
-//            val connection = url.openConnection() as HttpURLConnection
-//            println("responseCode: $connection.responseCode")
-//            val responseCode = connection.responseCode
-//            if (responseCode != HttpURLConnection.HTTP_OK) {
-//                Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show()
-//                throw DataFetchException("Server error")
-//            }
-//            val inputStream = BufferedInputStream(connection.inputStream)
-//            val responseText = inputStream.bufferedReader().use(BufferedReader::readText)
-//            response = DataManager.convertToJson(responseText, valueType)
-//        }
-//        return response
     }
 
     private fun <T> fetchDataFromFile(sourcePath: String, valueType: Class<T>) =
-        DataManager.readObject(sourcePath, valueType)
+        DataManager.readObject(sourcePath, valueType, context)
 
     private fun saveDataToFile(destinationPath: String, value: Any) =
-        DataManager.writeObject(destinationPath, value)
+        DataManager.writeObject(destinationPath, value, context)
 
     private fun getConnectionType(context: Context): ConnectionType {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?

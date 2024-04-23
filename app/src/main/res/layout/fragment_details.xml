@@ -11,23 +11,23 @@
         android:id="@+id/second_wind_strength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_temperature"/>
+        android:text="@string/weather_temperature"/>
 
     <TextView
         android:id="@+id/second_wind_direction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_weather"/>
+        android:text="@string/weather_description"/>
 
     <TextView
         android:id="@+id/second_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_weather"/>
+        android:text="@string/weather_description"/>
 
     <TextView
         android:id="@+id/second_visibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_weather"/>
+        android:text="@string/weather_description"/>
 </LinearLayout>

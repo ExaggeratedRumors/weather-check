@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
-import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
+import com.ertools.weather_check.utils.timestampToTime
 
 class ForecastFragment: Fragment() {
     private lateinit var view: View
@@ -21,14 +21,17 @@ class ForecastFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        this.view = inflater.inflate(R.layout.fragment_main_data, container, false)
-        savedInstanceState?.serializable<ForecastDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
+        this.view = inflater.inflate(R.layout.fragment_forecast, container, false)
+        arguments?.serializable<ForecastDTO>(Utils.STORE_FORECAST_DTO)?.let { dto ->
             updateData(dto)
         }
         return this.view
     }
 
     private fun updateData(dto: ForecastDTO) {
+        val day1 = view.findViewById<TextView>(R.id.day_1)
+        day1.text = timestampToTime(dto.list[0].dt)
+
         val temperature1 = view.findViewById<TextView>(R.id.temperature_1)
         temperature1.text = dto.list[0].main.temp.toString()
         val temperature2 = view.findViewById<TextView>(R.id.temperature_2)

@@ -9,7 +9,7 @@ import java.io.Serializable
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class Favorites : Serializable {
+class History : Serializable {
     @JsonProperty
     val locations = mutableListOf<Location>()
 

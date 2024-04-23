@@ -3,29 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:stretchColumns="1"
     android:baselineAligned="true">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="1"
         >
 
         <TextView
+            android:id="@+id/day_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_day"/>
+
+        <TextView
             android:id="@+id/temperature_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_temperature"/>
-
-        <TextView
-            android:id="@+id/weather_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_weather"/>
+            android:text="@string/weather_temperature"/>
 
         <ImageView
             android:id="@+id/icon_1"
@@ -33,29 +33,35 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:minWidth="48dp"
-            android:contentDescription="@string/main_weather_icon"
+            android:contentDescription="@string/weather_icon"
             android:src="@drawable/weather_sunny" />
+
+        <TextView
+            android:id="@+id/weather_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_description"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/day_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_day"/>
 
         <TextView
             android:id="@+id/temperature_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_temperature"/>
-
-        <TextView
-            android:id="@+id/weather_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_weather"/>
+            android:text="@string/weather_temperature"/>
 
         <ImageView
             android:id="@+id/icon_2"
@@ -64,28 +70,34 @@
             android:minHeight="48dp"
             android:minWidth="48dp"
             android:src="@drawable/weather_sunny"
-            android:contentDescription="@string/main_weather_icon" />
+            android:contentDescription="@string/weather_icon" />
+
+        <TextView
+            android:id="@+id/weather_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_description"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/day_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_day"/>
 
         <TextView
             android:id="@+id/temperature_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_temperature"/>
-
-        <TextView
-            android:id="@+id/weather_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_weather"/>
+            android:text="@string/weather_temperature"/>
 
         <ImageView
             android:id="@+id/icon_3"
@@ -94,28 +106,34 @@
             android:minHeight="48dp"
             android:minWidth="48dp"
             android:src="@drawable/weather_sunny"
-            android:contentDescription="@string/main_weather_icon" />
+            android:contentDescription="@string/weather_icon" />
+
+        <TextView
+            android:id="@+id/weather_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_description"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/day_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_day"/>
 
         <TextView
             android:id="@+id/temperature_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_temperature"/>
-
-        <TextView
-            android:id="@+id/weather_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_weather"/>
+            android:text="@string/weather_temperature"/>
 
         <ImageView
             android:id="@+id/icon_4"
@@ -124,7 +142,13 @@
             android:minHeight="48dp"
             android:minWidth="48dp"
             android:src="@drawable/weather_sunny"
-            android:contentDescription="@string/main_weather_icon" />
+            android:contentDescription="@string/weather_icon" />
+
+        <TextView
+            android:id="@+id/weather_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_description"/>
 
     </LinearLayout>
 </LinearLayout>

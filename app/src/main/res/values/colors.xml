@@ -4,11 +4,11 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Light theme colors -->
-    <color name="primary">#E5DDC5</color>
+    <color name="primary">#EBDAA8</color>
     <color name="on_primary">#FFFFFFFF</color>
-    <color name="primary_alt">#F1EEDC</color>
+    <color name="primary_alt">#C5B380</color>
     <color name="on_primary_alt">#FFFFFFFF</color>
-    <color name="secondary">#F1EEDC</color>
+    <color name="secondary">#C5B380</color>
     <color name="on_secondary">#FFFFFFFF</color>
     <color name="surface">#B7C3E1</color>
     <color name="on_surface">#FFFFFFFF</color>

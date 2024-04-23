@@ -7,4 +7,9 @@ import java.io.Serializable
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Location (val name: String, val lat: Double, val lon: Double): Serializable
+data class Location (
+    val name: String,
+    val city: String?,
+    val lat: Double?,
+    val lon: Double?
+): Serializable

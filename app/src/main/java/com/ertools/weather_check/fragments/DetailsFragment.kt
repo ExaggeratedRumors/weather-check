@@ -7,20 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
-import com.ertools.weather_check.activities.LocationListener
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
 
-class SecondDataFragment : Fragment() {
+class DetailsFragment : Fragment() {
     private lateinit var view : View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        view = inflater.inflate(R.layout.fragment_second_data, container, false)
-        savedInstanceState?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
+        view = inflater.inflate(R.layout.fragment_details, container, false)
+        arguments?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
             updateData(dto)
         }
         return this.view

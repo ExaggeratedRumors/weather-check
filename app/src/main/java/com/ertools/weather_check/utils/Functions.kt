@@ -1,6 +1,5 @@
 package com.ertools.weather_check.utils
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import java.io.Serializable
@@ -15,6 +14,6 @@ inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = whe
 fun timestampToTime(timestamp: Long): String {
     val timeInMs = timestamp * 1000
     val date = java.util.Date(timeInMs)
-    val sdf = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+    val sdf = SimpleDateFormat("EEEE, dd/MM/yyyy HH:mm", Locale.ENGLISH)
     return sdf.format(date)
 }

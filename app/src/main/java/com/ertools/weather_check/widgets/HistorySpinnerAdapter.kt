@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.History
+import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.utils.Utils
 import com.google.android.material.button.MaterialButton
@@ -15,27 +17,34 @@ import com.google.android.material.textview.MaterialTextView
 class HistorySpinnerAdapter (
     private val source: History,
     private val context: Context,
-) : BaseAdapter() {
+) : ArrayAdapter<String>(
+    context, R.layout.text_spinner,
+    mutableListOf("Select location") + source.locations.map { l -> l.name }
+) {
     private var locations: MutableList<String> = mutableListOf("Select favorite")
 
     init {
         locations.addAll(source.locations.map { it.name })
+    }
 
+    fun removeLocation(position: Int) {
+        source.modify {
+            this.removeIf { it.name == (getItem(position) as String) }
+        }
+        locations.remove(getItem(position))
+        DataManager.writeObject(Utils.HISTORY_PATH, source, context)
+        notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
         return locations.size
     }
 
-    override fun getItem(position: Int): Any {
-        return locations[position]
-    }
-
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(
             R.layout.item_removable_spinner,
             parent,
@@ -54,8 +63,6 @@ class HistorySpinnerAdapter (
             DataManager.writeObject(Utils.HISTORY_PATH, source, context)
             notifyDataSetChanged()
         }
-
-        return view
+        return super.getView(position, convertView, parent)
     }
-
 }

@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -213,22 +215,47 @@ class MenuFragment: Fragment() {
 
     private fun serviceHistoryLocationsSpinner() {
         val spinner = view.findViewById<Spinner>(R.id.menu_locations_history)
-        val adapter = HistorySpinnerAdapter(
-            history,
-            requireContext()
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.text_spinner,
+            mutableListOf("Select from history") + history.locations.map { l -> l.name }
         )
+        adapter.setDropDownViewResource(R.layout.item_spinner)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position == 0) return
-                selectedLocation = history.locations[position - 1]
-                onSelectedLocation()
+                spinner.setSelection(0)
+                askSpinnerItem(position, adapter)
+                adapter.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 selectedLocation = null
             }
         }
+    }
+
+    fun askSpinnerItem(position: Int, adapter: ArrayAdapter<String>){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("U choose location: ${history.locations[position].name}")
+
+        builder.setPositiveButton("Use") { _, _ ->
+            selectedLocation = history.locations[position]
+            onSelectedLocation()
+        }
+
+        builder.setNeutralButton("Remove") { _, _ ->
+            adapter.remove(adapter.getItem(position) as String)
+            history.modify { this.removeAt(position) }
+            DataManager.writeObject(Utils.HISTORY_PATH, history, requireContext())
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
     }
 
     fun onSelectedLocation() {

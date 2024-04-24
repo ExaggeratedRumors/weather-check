@@ -151,8 +151,10 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     }
 
     override fun <T> notifyDataFetchFailure(valueType: Class<T>) {
-        location = null
-        Toast.makeText(this, "Failed to fetch data", Toast.LENGTH_SHORT).show()
-        requestLocation()
+        runOnUiThread {
+            location = null
+            Toast.makeText(this, "Failed to fetch data", Toast.LENGTH_SHORT).show()
+            requestLocation()
+        }
     }
 }

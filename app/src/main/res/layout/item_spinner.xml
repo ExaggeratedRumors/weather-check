@@ -8,5 +8,6 @@
     android:autoSizeMinTextSize="16sp"
     android:autoSizeMaxTextSize="24sp"
     android:gravity="center"
+    android:descendantFocusability="blocksDescendants"
     android:background="@color/secondary"
     android:textColor="@color/on_secondary" />

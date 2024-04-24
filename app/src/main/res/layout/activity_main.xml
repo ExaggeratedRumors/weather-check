@@ -55,6 +55,7 @@
         android:padding="0dp"
         android:src="@drawable/map_marker"
         android:contentDescription="@string/menu_change_location"
+        android:tooltipText="@string/menu_change_location"
         app:tint="@color/on_primary"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.3333"
@@ -72,14 +73,14 @@
         android:padding="0dp"
         android:src="@drawable/temperature_kelvin"
         android:contentDescription="@string/menu_change_units"
+        android:tooltipText="@string/menu_change_units"
         app:tint="@color/on_primary"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.3333"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/change_location"
- />
+        app:layout_constraintLeft_toRightOf="@id/change_location" />
 
     <ImageButton
         android:id="@+id/refresh"
@@ -90,6 +91,7 @@
         android:padding="0dp"
         android:src="@drawable/refresh"
         android:contentDescription="@string/menu_refresh"
+        android:tooltipText="@string/menu_refresh"
         app:tint="@color/on_primary"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.3333"

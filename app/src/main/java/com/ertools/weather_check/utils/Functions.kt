@@ -15,7 +15,7 @@ inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = whe
 fun timestampToTime(timestamp: Long): String {
     val timeInMs = timestamp * 1000
     val date = java.util.Date(timeInMs)
-    val sdf = SimpleDateFormat("EEEE, dd/MM/yyyy HH:mm", Locale.ENGLISH)
+    val sdf = SimpleDateFormat("EEEE dd/MM/yyyy HH:mm", Locale.ENGLISH)
     return sdf.format(date)
 }
 
@@ -24,7 +24,7 @@ fun kelvinToCelsius(kelvin: Double): Double {
 }
 
 fun setTemperature(raw: Double): String
-        = "${"%.2f".format(kelvinToCelsius(raw))}°C"
+        = "${"%.2f".format(kelvinToCelsius(raw), Locale.ENGLISH)}°C"
 
 fun setDescription(raw: String): String {
     return raw[0].uppercase() + raw.substring(1).replace("_", " ")

@@ -27,11 +27,12 @@ import com.ertools.weather_check.activities.DataFetchListener
 import com.ertools.weather_check.widgets.HistorySpinnerAdapter
 import com.google.android.gms.location.LocationServices
 
-class MenuFragment(private val listener: DataFetchListener): Fragment() {
+class MenuFragment: Fragment() {
     private lateinit var view: View
     private lateinit var history: History
     private var selectedLocation: Location? = null
     private var savedInstance: Bundle? = null
+    var listener: DataFetchListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +56,7 @@ class MenuFragment(private val listener: DataFetchListener): Fragment() {
     }
 
     private fun serviceCurrentLocation() {
-        val currentBtn = view.findViewById<Button>(R.id.decision_current_location)
+        val currentBtn = view.findViewById<Button>(R.id.menu_current_location)
         currentBtn.setOnClickListener {
             val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             if(requireActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -238,9 +239,9 @@ class MenuFragment(private val listener: DataFetchListener): Fragment() {
             info.append(" (${selectedLocation?.lat} , ${selectedLocation?.lon})")
         Toast.makeText(
             requireContext(),
-            info,
+            if(listener == null) "No listener" else info,
             Toast.LENGTH_SHORT
         ).show()
-        listener.notifyLocationChanged(selectedLocation)
+        listener?.notifyLocationChanged(selectedLocation)
     }
 }

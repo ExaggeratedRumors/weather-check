@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
@@ -15,7 +14,6 @@ import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.fragments.MenuFragment
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.widgets.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,22 +24,23 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     private lateinit var refreshBtn: ImageButton
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var menuFragment: MenuFragment
     private var viewPagerAdapter: ViewPagerAdapter? = null
     private var unitStateCelsius = true
-
     private var location: Location? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         /** State from instance **/
         unitStateCelsius = savedInstanceState?.getBoolean(Utils.STORE_UNIT_STATE) ?: true
-        viewPagerAdapter = savedInstanceState?.serializable<ViewPagerAdapter>(Utils.STORE_VIEW_PAGER)
 
         /** UI widgets **/
         setContentView(R.layout.activity_main)
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
         changeLocationBtn = findViewById(R.id.change_location)
+        menuFragment = MenuFragment()
 
         /** Buttons listeners **/
         changeLocationBtn.setOnClickListener {
@@ -49,8 +48,11 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         }
         changeUnitsBtn = findViewById(R.id.change_units)
         changeUnitsBtn.setOnClickListener {
-
-            //viewPagerAdapter?.changeUnits()
+            unitStateCelsius = !unitStateCelsius
+            changeUnitsBtn.setImageResource(
+                if (unitStateCelsius) R.drawable.temperature_celsius else R.drawable.temperature_kelvin
+            )
+            viewPagerAdapter?.changeUnits(unitStateCelsius)
         }
         refreshBtn = findViewById(R.id.refresh)
         refreshBtn.setOnClickListener {
@@ -84,9 +86,10 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         }.commit()
         viewPagerAdapter = null
 
+        menuFragment.listener = this
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.menu, MenuFragment(this))
+            .replace(R.id.menu, menuFragment)
             .commit()
 
         tabLayout.visibility = View.GONE
@@ -112,10 +115,11 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
         runOnUiThread {
             if(viewPagerAdapter == null) {
-               removeAllFragments()
+                removeAllFragments()
 
-                viewPagerAdapter = ViewPagerAdapter(this, this)
+                viewPagerAdapter = ViewPagerAdapter(this)
                 viewPager = findViewById(R.id.view_pager)
+                viewPager.isSaveEnabled = false
                 viewPager.adapter = viewPagerAdapter
 
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->

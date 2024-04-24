@@ -18,6 +18,7 @@ import com.ertools.weather_check.utils.timestampToTime
 
 class ForecastFragment: Fragment() {
     private lateinit var view: View
+    private var unitRes = R.string.temperature_celsius_short
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +26,9 @@ class ForecastFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         this.view = inflater.inflate(R.layout.fragment_forecast, container, false)
+        arguments?.getBoolean(Utils.STORE_UNIT_STATE)?.let { isCelsius ->
+            unitRes = if (isCelsius) R.string.temperature_celsius_short else R.string.temperature_kelvin_short
+        }
         arguments?.serializable<ForecastDTO>(Utils.STORE_FORECAST_DTO)?.let { dto ->
             updateData(dto)
         }
@@ -44,13 +48,13 @@ class ForecastFragment: Fragment() {
 
         /** Temperatures **/
         val temperature1 = view.findViewById<TextView>(R.id.temperature_1)
-        temperature1.text = getString(R.string.temperature_format_short, setTemperature(dto.list[0].main.temp))
+        temperature1.text = getString(unitRes, setTemperature(dto.list[0].main.temp))
         val temperature2 = view.findViewById<TextView>(R.id.temperature_2)
-        temperature2.text = getString(R.string.temperature_format_short, setTemperature(dto.list[8].main.temp))
+        temperature2.text = getString(unitRes, setTemperature(dto.list[8].main.temp))
         val temperature3 = view.findViewById<TextView>(R.id.temperature_3)
-        temperature3.text = getString(R.string.temperature_format_short, setTemperature(dto.list[16].main.temp))
+        temperature3.text = getString(unitRes, setTemperature(dto.list[16].main.temp))
         val temperature4 = view.findViewById<TextView>(R.id.temperature_4)
-        temperature4.text = getString(R.string.temperature_format_short, setTemperature(dto.list[24].main.temp))
+        temperature4.text = getString(unitRes, setTemperature(dto.list[24].main.temp))
 
         /** Descriptions **/
         val weather1 = view.findViewById<TextView>(R.id.weather_1)

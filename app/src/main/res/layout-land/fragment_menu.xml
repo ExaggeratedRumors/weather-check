@@ -22,7 +22,7 @@
         android:textAlignment="center"
         android:textColor="@color/on_background"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintTop_toTopOf="parent"
@@ -56,11 +56,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="12dp"
-        android:layout_marginTop="12dp"
+        android:padding="24dp"
         android:background="@drawable/rounded_surface"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintHeight_percent="0.7"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menu_version"
@@ -79,131 +78,88 @@
             android:fontFamily="monospace"
             android:text="@string/menu_current_location"
             android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@color/on_primary"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.16"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
-
-        <Space
-            android:id="@+id/space1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/menu_current_location"
+            app:layout_constraintRight_toLeftOf="@id/guideline_y"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
+            app:layout_constraintWidth_percent="0.4" />
+
 
         <Button
             android:id="@+id/menu_input_location_by_coords"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="@dimen/max_small"
             android:autoSizeMinTextSize="@dimen/min_small"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/rounded_button"
             android:fontFamily="monospace"
             android:text="@string/menu_input_coordinates"
             android:textAlignment="center"
             android:textColor="@color/on_primary"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.16"
+            app:layout_constraintBottom_toTopOf="@+id/menu_input_location_by_name"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/space1"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
-
-        <Space
-            android:id="@+id/space2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            app:layout_constraintRight_toRightOf="@id/guideline_y"
+            app:layout_constraintTop_toBottomOf="@id/menu_current_location"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/menu_input_location_by_coords"
+            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
+            app:layout_constraintWidth_percent="0.4" />
 
         <Button
             android:id="@+id/menu_input_location_by_name"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/rounded_button"
-            android:fontFamily="monospace"
-            android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="@dimen/max_small"
             android:autoSizeMinTextSize="@dimen/min_small"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="monospace"
+            android:text="@string/menu_input_city_name"
             android:textAlignment="center"
             android:textColor="@color/on_primary"
-            android:text="@string/menu_input_city_name"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/space2"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
-
-        <Space
-            android:id="@+id/space3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            app:layout_constraintRight_toLeftOf="@id/guideline_y"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/menu_input_location_by_name"
+            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
+            app:layout_constraintWidth_percent="0.4" />
 
         <Spinner
             android:id="@+id/menu_default_locations"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:autoSizeMaxTextSize="@dimen/max_small"
+            android:autoSizeMinTextSize="@dimen/min_small"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/primary"
             android:fontFamily="monospace"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMaxTextSize="@dimen/max_small"
-            android:autoSizeMinTextSize="@dimen/min_small"
-            android:tooltipText="Choose a location"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/on_primary"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.16"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:tooltipText="Choose a location"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_y"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/space3"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
-
-        <Space
-            android:id="@+id/space4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_x"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/menu_default_locations"
+            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
+            app:layout_constraintWidth_percent="0.45" />
 
         <Spinner
             android:id="@+id/menu_locations_history"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="@dimen/max_small"
             android:autoSizeMinTextSize="@dimen/min_small"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/primary"
             android:fontFamily="monospace"
@@ -211,13 +167,27 @@
             android:textColor="@color/on_primary"
             android:tooltipText="Check your browser history"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.16"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_x"
+            app:layout_constraintLeft_toRightOf="@id/guideline_y"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/space4"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.85" />
+            app:layout_constraintWidth_percent="0.45" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_y"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_x"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

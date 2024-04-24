@@ -6,8 +6,10 @@
     <string name="menu_input_city_name">Weather in city…</string>
     <string name="weather_city">CITY</string>
     <string name="weather_coordinates">(LAT, LON)</string>
-    <string name="temperature_format">Temperature: %1$s℃</string>
-    <string name="temperature_format_short">%1$s℃</string>
+    <string name="temperature_celsius_long">Temperature: %1$s℃</string>
+    <string name="temperature_kelvin_long">Temperature: %1$sK</string>
+    <string name="temperature_celsius_short">%1$s℃</string>
+    <string name="temperature_kelvin_short">%1$sK</string>
     <string name="wind_speed_format">Wind speed: %1$.2fm/s </string>
     <string name="wind_direction_format">Wind direction: %1$d&#0176;</string>
     <string name="humidity_format">Humidity: %1$d&#65285;</string>

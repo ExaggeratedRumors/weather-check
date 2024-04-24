@@ -52,13 +52,15 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
             changeUnitsBtn.setImageResource(
                 if (unitStateCelsius) R.drawable.temperature_celsius else R.drawable.temperature_kelvin
             )
-            viewPagerAdapter?.changeUnits(unitStateCelsius)
+            removeAllFragments()
+            viewPagerAdapter = null
+            requestData(FetchManager.ForceFetch.DATA)
         }
         refreshBtn = findViewById(R.id.refresh)
         refreshBtn.setOnClickListener {
             removeAllFragments()
             viewPagerAdapter = null
-            requestData(forceFetchFromServer = true)
+            requestData(FetchManager.ForceFetch.SERVER)
         }
 
         /** Start application logic **/
@@ -99,11 +101,11 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         refreshBtn.visibility = View.GONE
     }
 
-    override fun requestData(forceFetchFromServer: Boolean) {
+    override fun requestData(forceFetch: FetchManager.ForceFetch) {
         location?.let {
             val fetchManager = FetchManager(this, this)
-            fetchManager.fetchWeatherData(it, forceFetchFromServer)
-            fetchManager.fetchForecastData(it, forceFetchFromServer)
+            fetchManager.fetchWeatherData(it, forceFetch)
+            fetchManager.fetchForecastData(it, forceFetch)
         }
     }
 
@@ -118,6 +120,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
                 removeAllFragments()
 
                 viewPagerAdapter = ViewPagerAdapter(this)
+                viewPagerAdapter?.changeUnits(unitStateCelsius)
                 viewPager = findViewById(R.id.view_pager)
                 viewPager.isSaveEnabled = false
                 viewPager.adapter = viewPagerAdapter
@@ -135,6 +138,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
                 changeLocationBtn.visibility = View.VISIBLE
                 changeUnitsBtn.visibility = View.VISIBLE
                 refreshBtn.visibility = View.VISIBLE
+
             }
 
             when(valueType) {

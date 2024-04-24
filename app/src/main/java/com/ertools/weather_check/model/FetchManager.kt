@@ -9,7 +9,6 @@ import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.utils.timestampToTime
 import okhttp3.*
 import okio.IOException
 
@@ -18,11 +17,15 @@ class FetchManager(
     private val listener: DataFetchListener
 ) {
 
+    enum class ForceFetch {
+        DATA, SERVER, NONE
+    }
+
     enum class ConnectionType {
         NONE, CELLULAR, WIFI, VPN
     }
 
-    fun  fetchWeatherData(location: Location, force: Boolean = false) {
+    fun fetchWeatherData(location: Location, force: ForceFetch = ForceFetch.NONE) {
         /** Init data **/
         val logs: FetchLogs? = fetchDataFromFile(
             Utils.FETCH_LOGS_PATH, FetchLogs::class.java
@@ -40,9 +43,18 @@ class FetchManager(
             saveDataToFile(Utils.FETCH_LOGS_PATH, newLogs)
         }
 
-        /** If fetch from server is forced and no internet connection, notify failure **/
-        if(force && !isInternetAvailable)
+        /** Service force fetch server **/
+        if(force == ForceFetch.SERVER && !isInternetAvailable)
             return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+        else if(force == ForceFetch.SERVER)
+            return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+
+        /** Service force fetch data **/
+        if(force == ForceFetch.DATA && data == null)
+            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+        else if(force == ForceFetch.DATA && data != null)
+            return listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
+
 
         /** If logs or data are not available and no internet connection, notify failure **/
         if((logs == null || data == null) && !isInternetAvailable)
@@ -57,14 +69,14 @@ class FetchManager(
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
 
         /** If data is deprecated, fetch data from server **/
-        if(force || logs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
+        if(logs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
 
         /** Otherwise return data **/
         listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
     }
 
-    fun fetchForecastData(location: Location, force: Boolean = false) {
+    fun fetchForecastData(location: Location, force: ForceFetch = ForceFetch.NONE) {
         /** Init data **/
         val logs: FetchLogs? = fetchDataFromFile(
             Utils.FETCH_LOGS_PATH, FetchLogs::class.java
@@ -83,7 +95,7 @@ class FetchManager(
         }
 
         /** If fetch from server is forced and no internet connection, notify failure **/
-        if(force && !isInternetAvailable)
+        if(force == ForceFetch.SERVER && !isInternetAvailable)
             return listener.notifyDataFetchFailure(WeatherDTO::class.java)
 
         /** If logs or data are not available and no internet connection, notify failure **/
@@ -99,7 +111,7 @@ class FetchManager(
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
 
         /** If data is deprecated, fetch data from server **/
-        if(force || logs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
+        if(force == ForceFetch.SERVER || logs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
 
         /** Otherwise return data **/

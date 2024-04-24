@@ -50,7 +50,8 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         changeUnitsBtn.setOnClickListener {
             unitStateCelsius = !unitStateCelsius
             changeUnitsBtn.setImageResource(
-                if (unitStateCelsius) R.drawable.temperature_celsius else R.drawable.temperature_kelvin
+                if (unitStateCelsius) R.drawable.temperature_kelvin
+                else R.drawable.temperature_celsius
             )
             removeAllFragments()
             viewPagerAdapter = null
@@ -88,6 +89,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         }.commit()
         viewPagerAdapter = null
 
+        menuFragment = MenuFragment()
         menuFragment.listener = this
         supportFragmentManager
             .beginTransaction()
@@ -104,8 +106,8 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     override fun requestData(forceFetch: FetchManager.ForceFetch) {
         location?.let {
             val fetchManager = FetchManager(this, this)
-            fetchManager.fetchWeatherData(it, forceFetch)
-            fetchManager.fetchForecastData(it, forceFetch)
+            fetchManager.fetchData(it, WeatherDTO::class.java, forceFetch)
+            fetchManager.fetchData(it, ForecastDTO::class.java, forceFetch)
         }
     }
 

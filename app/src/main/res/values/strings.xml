@@ -33,4 +33,5 @@
     <string name="details_wind_speed">Wind speed:\t70km/h</string>
     <string name="menu_change_units">Change units</string>
     <string name="menu_refresh">Refresh data</string>
+    <string name="spinner_select_location">Select location</string>
 </resources>

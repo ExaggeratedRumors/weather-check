@@ -25,97 +25,67 @@ class FetchManager(
         NONE, CELLULAR, WIFI, VPN
     }
 
-    fun fetchWeatherData(location: Location, force: ForceFetch = ForceFetch.NONE) {
+    fun <T> fetchData(
+        location: Location,
+        valueType: Class<T>,
+        force: ForceFetch = ForceFetch.NONE
+    ) {
+        if(valueType != WeatherDTO::class.java && valueType != ForecastDTO::class.java)
+            throw IllegalArgumentException("Invalid data type")
+
+        /** Choose constance **/
+        val dataPath = if(valueType == WeatherDTO::class.java) Utils.WEATHER_DATA_PATH
+        else Utils.FORECAST_DATA_PATH
+
+        val logsPath = if(valueType == WeatherDTO::class.java) Utils.WEATHER_LOGS_PATH
+        else Utils.FORECAST_LOGS_PATH
+
+        val url = if(valueType == WeatherDTO::class.java) Utils.WEATHER_URL
+        else Utils.FORECAST_URL
+
+        val fetchDiff = if(valueType == WeatherDTO::class.java) Utils.WEATHER_FETCH_DIFF_SEC
+        else Utils.FORECAST_FETCH_DIFF_SEC
+
         /** Init data **/
-        val logs: FetchLogs? = fetchDataFromFile(
-            Utils.FETCH_LOGS_PATH, FetchLogs::class.java
-        )
-        val data: WeatherDTO? = fetchDataFromFile(
-            "${location.name}${Utils.WEATHER_DATA_PATH}", WeatherDTO::class.java
-        )
+        val logs: FetchLogs? = fetchDataFromFile(logsPath, FetchLogs::class.java)
+        val data: T? = fetchDataFromFile("${location.name}$dataPath", valueType)
         val isInternetAvailable = getConnectionType(context) != ConnectionType.NONE
         val onSuccess: (Any) -> Unit = {
-            saveDataToFile("${location.name}${Utils.WEATHER_DATA_PATH}", it)
-            val newLogs = if(logs == null)
-                FetchLogs(System.currentTimeMillis() / 1000, 0L)
-            else
-                FetchLogs(System.currentTimeMillis() / 1000, logs.forecastTimestamp)
-            saveDataToFile(Utils.FETCH_LOGS_PATH, newLogs)
+            saveDataToFile("${location.name}$dataPath", it)
+            saveDataToFile(logsPath, FetchLogs(System.currentTimeMillis() / 1000))
         }
 
         /** Service force fetch server **/
         if(force == ForceFetch.SERVER && !isInternetAvailable)
-            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+            return listener.notifyDataFetchFailure(valueType)
         else if(force == ForceFetch.SERVER)
-            return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+            return fetchDataFromServer(location, url, onSuccess, valueType)
 
         /** Service force fetch data **/
         if(force == ForceFetch.DATA && data == null)
-            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+            return listener.notifyDataFetchFailure(valueType)
         else if(force == ForceFetch.DATA && data != null)
-            return listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
+            return listener.notifyDataFetchSuccess(data, valueType)
 
 
         /** If logs or data are not available and no internet connection, notify failure **/
         if((logs == null || data == null) && !isInternetAvailable)
-            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+            return listener.notifyDataFetchFailure(valueType)
 
         /** If logs & data available and no internet connection, load data **/
         if(data != null && !isInternetAvailable)
-            return listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
+            return listener.notifyDataFetchSuccess(data, valueType)
 
         /** If logs or data are not available, fetch data from server **/
         if(logs == null || data == null)
-            return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+            return fetchDataFromServer(location, url, onSuccess, valueType)
 
         /** If data is deprecated, fetch data from server **/
-        if(logs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
-            return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+        if(logs.timestamp + (fetchDiff * 60) < System.currentTimeMillis() / 1000)
+            return fetchDataFromServer(location, url, onSuccess, valueType)
 
         /** Otherwise return data **/
-        listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
-    }
-
-    fun fetchForecastData(location: Location, force: ForceFetch = ForceFetch.NONE) {
-        /** Init data **/
-        val logs: FetchLogs? = fetchDataFromFile(
-            Utils.FETCH_LOGS_PATH, FetchLogs::class.java
-        )
-        val data: ForecastDTO? = fetchDataFromFile(
-            "${location.name}${Utils.FORECAST_DATA_PATH}", ForecastDTO::class.java
-        )
-        val isInternetAvailable = getConnectionType(context) != ConnectionType.NONE
-        val onSuccess: (Any) -> Unit = {
-            saveDataToFile("${location.name}${Utils.FORECAST_DATA_PATH}", it)
-            val newLogs = if(logs == null)
-                FetchLogs(0L, System.currentTimeMillis() / 1000)
-            else
-                FetchLogs(logs.weatherTimestamp, System.currentTimeMillis() / 1000)
-            saveDataToFile(Utils.FETCH_LOGS_PATH, newLogs)
-        }
-
-        /** If fetch from server is forced and no internet connection, notify failure **/
-        if(force == ForceFetch.SERVER && !isInternetAvailable)
-            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
-
-        /** If logs or data are not available and no internet connection, notify failure **/
-        if((logs == null || data == null) && !isInternetAvailable)
-            return listener.notifyDataFetchFailure(ForecastDTO::class.java)
-
-        /** If logs & data available and no internet connection, load data **/
-        if(data != null && !isInternetAvailable)
-            return listener.notifyDataFetchSuccess(data, ForecastDTO::class.java)
-
-        /** If logs or data are not available, fetch data from server **/
-        if(logs == null || data == null)
-            return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
-
-        /** If data is deprecated, fetch data from server **/
-        if(force == ForceFetch.SERVER || logs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
-            return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
-
-        /** Otherwise return data **/
-        listener.notifyDataFetchSuccess(data, ForecastDTO::class.java)
+        listener.notifyDataFetchSuccess(data, valueType)
     }
 
     private fun <T> fetchDataFromServer(

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.History
+import com.ertools.weather_check.model.DataManager
+import com.ertools.weather_check.utils.Utils
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 
@@ -18,6 +20,7 @@ class HistorySpinnerAdapter (
 
     init {
         locations.addAll(source.locations.map { it.name })
+
     }
 
     override fun getCount(): Int {
@@ -44,10 +47,11 @@ class HistorySpinnerAdapter (
         cityNameTextView.text = locations[position]
 
         removeButton.setOnClickListener {
-            locations.remove(getItem(position))
             source.modify {
                 this.removeIf { it.name == (getItem(position) as String) }
             }
+            locations.remove(getItem(position))
+            DataManager.writeObject(Utils.HISTORY_PATH, source, context)
             notifyDataSetChanged()
         }
 

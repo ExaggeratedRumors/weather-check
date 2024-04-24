@@ -51,12 +51,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menu_title"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintWidth_percent="0.3" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="12dp"
+        android:padding="24dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/rounded_surface"
         app:layout_constraintHeight_default="percent"

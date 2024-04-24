@@ -115,9 +115,6 @@ class MenuFragment: Fragment() {
             longitudeInput.hint = "Longitude"
             nameInput.hint = "Name your location"
 
-            latitudeInput.filters = arrayOf(InputFilterRange(-90.0, 90.0))
-            longitudeInput.filters = arrayOf(InputFilterRange(-180.0, 180.0))
-
             val layout = LinearLayout(requireContext())
             layout.orientation = LinearLayout.VERTICAL
             layout.addView(latitudeInput)
@@ -129,10 +126,13 @@ class MenuFragment: Fragment() {
                 val latitude = latitudeInput.text.toString().toDoubleOrNull()
                 val longitude = longitudeInput.text.toString().toDoubleOrNull()
                 val name = nameInput.text.toString()
-                if(latitude == null || longitude == null || name.isEmpty()) {
+
+                if(latitude == null || longitude == null || name.isEmpty()
+                    || latitude !in -90.0..90.0 || longitude !in -180.0..180.0) {
                     Toast.makeText(requireContext(), "Invalid input", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
+
                 selectedLocation = Location(name, null, latitude, longitude)
 
                 if(history.locations.find { it.name == name } == null) {
@@ -193,7 +193,7 @@ class MenuFragment: Fragment() {
         cities.addAll(Locations.cities.map { it.name })
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.text_spinner,
             cities
         )
         adapter.setDropDownViewResource(R.layout.item_spinner)
@@ -221,7 +221,7 @@ class MenuFragment: Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position == 0) return
-                selectedLocation = history.locations[position]
+                selectedLocation = history.locations[position - 1]
                 onSelectedLocation()
             }
 

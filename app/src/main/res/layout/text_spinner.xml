@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary"
+    android:fontFamily="monospace"
+    android:autoSizeTextType="uniform"
+    android:autoSizeMaxTextSize="@dimen/max_big"
+    android:autoSizeMinTextSize="@dimen/min_big"
+    android:textAlignment="center"
+    android:textColor="@color/on_primary"
+    android:padding="10dp"
+    android:text="@string/spinner_select_location"
+    />

@@ -26,7 +26,6 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         this.view = inflater.inflate(R.layout.fragment_weather, container, false)
-        println("IN WEATHER ONCREATE")
         arguments?.getBoolean(Utils.STORE_UNIT_STATE)?.let { isCelsius ->
             unitRes = if (isCelsius) R.string.temperature_celsius_long else R.string.temperature_kelvin_long
         }

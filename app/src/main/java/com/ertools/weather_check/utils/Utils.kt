@@ -5,7 +5,8 @@ object Utils {
     const val WEATHER_DATA_PATH = "_weather.json"
     const val FORECAST_DATA_PATH = "_forecast.json"
     const val HISTORY_PATH = "history.json"
-    const val FETCH_LOGS_PATH = "fetch_logs.json"
+    const val WEATHER_LOGS_PATH = "weather_logs.json"
+    const val FORECAST_LOGS_PATH = "forecast_logs.json"
 
     /** Storage **/
     const val STORE_WEATHER_DTO = "store_weather_dto"

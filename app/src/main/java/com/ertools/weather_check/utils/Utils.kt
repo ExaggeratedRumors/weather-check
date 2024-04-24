@@ -8,9 +8,10 @@ object Utils {
     const val FETCH_LOGS_PATH = "fetch_logs.json"
 
     /** Storage **/
-    const val STORE_FAVORITE_LOCATION = "store_favorite_location"
     const val STORE_WEATHER_DTO = "store_weather_dto"
     const val STORE_FORECAST_DTO = "store_forecast_dto"
+    const val STORE_UNIT_STATE = "store_unit_state"
+    const val STORE_VIEW_PAGER = "store_view_pager"
 
     /** Permissions **/
     const val PERMISSIONS_REQUEST_LOCATION = 100

@@ -45,7 +45,6 @@ class ViewPagerAdapter(
 
     fun updateData(dto: WeatherDTO) {
         this.weatherDTO = dto
-        println("STAMPIK: ${timestampToTime(dto.dt)}")
     }
 
     fun updateData(dto: ForecastDTO) {

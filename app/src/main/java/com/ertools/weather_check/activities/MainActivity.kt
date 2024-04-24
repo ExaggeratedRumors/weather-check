@@ -2,6 +2,7 @@ package com.ertools.weather_check.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -13,6 +14,8 @@ import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.fragments.MenuFragment
 import com.ertools.weather_check.model.FetchManager
+import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.widgets.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -31,8 +34,8 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         super.onCreate(savedInstanceState)
 
         /** State from instance **/
-        unitStateCelsius = savedInstanceState?.getBoolean("unitStateCelsius") ?: true
-        //viewPagerAdapter = saved
+        unitStateCelsius = savedInstanceState?.getBoolean(Utils.STORE_UNIT_STATE) ?: true
+        viewPagerAdapter = savedInstanceState?.serializable<ViewPagerAdapter>(Utils.STORE_VIEW_PAGER)
 
         /** UI widgets **/
         setContentView(R.layout.activity_main)
@@ -60,6 +63,11 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         requestLocation()
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putBoolean(Utils.STORE_UNIT_STATE, unitStateCelsius)
+        outState.putSerializable(Utils.STORE_VIEW_PAGER, viewPagerAdapter)
+    }
 
     private fun removeAllFragments() {
         supportFragmentManager.beginTransaction().apply {

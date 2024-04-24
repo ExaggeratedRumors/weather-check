@@ -243,9 +243,4 @@ class MenuFragment(private val listener: DataFetchListener): Fragment() {
         ).show()
         listener.notifyLocationChanged(selectedLocation)
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable(Utils.STORE_FAVORITE_LOCATION, selectedLocation)
-    }
 }

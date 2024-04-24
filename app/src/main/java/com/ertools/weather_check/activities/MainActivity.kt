@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.ertools.weather_check.R
@@ -17,16 +18,21 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity(), DataFetchListener {
-    private lateinit var changeLocationBtn: Button
-    private lateinit var changeUnitsBtn: Button
-    private lateinit var refreshBtn: Button
+    private lateinit var changeLocationBtn: ImageButton
+    private lateinit var changeUnitsBtn: ImageButton
+    private lateinit var refreshBtn: ImageButton
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private var viewPagerAdapter: ViewPagerAdapter? = null
+    private var unitStateCelsius = true
 
     private var location: Location? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /** State from instance **/
+        unitStateCelsius = savedInstanceState?.getBoolean("unitStateCelsius") ?: true
+        //viewPagerAdapter = saved
 
         /** UI widgets **/
         setContentView(R.layout.activity_main)
@@ -40,10 +46,13 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         }
         changeUnitsBtn = findViewById(R.id.change_units)
         changeUnitsBtn.setOnClickListener {
+
             //viewPagerAdapter?.changeUnits()
         }
         refreshBtn = findViewById(R.id.refresh)
         refreshBtn.setOnClickListener {
+            removeAllFragments()
+            viewPagerAdapter = null
             requestData(forceFetchFromServer = true)
         }
 
@@ -51,6 +60,12 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         requestLocation()
     }
 
+
+    private fun removeAllFragments() {
+        supportFragmentManager.beginTransaction().apply {
+            for (fragment in supportFragmentManager.fragments) remove(fragment)
+        }.commit()
+    }
 
     /** LocationListener implementation **/
 
@@ -89,9 +104,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
         runOnUiThread {
             if(viewPagerAdapter == null) {
-                supportFragmentManager.beginTransaction().apply {
-                    for (fragment in supportFragmentManager.fragments) remove(fragment)
-                }.commit()
+               removeAllFragments()
 
                 viewPagerAdapter = ViewPagerAdapter(this, this)
                 viewPager = findViewById(R.id.view_pager)

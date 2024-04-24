@@ -43,26 +43,22 @@ class FetchManager(
         /** If fetch from server is forced and no internet connection, notify failure **/
         if(force && !isInternetAvailable)
             return listener.notifyDataFetchFailure(WeatherDTO::class.java)
-        println("F : 1")
+
         /** If logs or data are not available and no internet connection, notify failure **/
         if((logs == null || data == null) && !isInternetAvailable)
             return listener.notifyDataFetchFailure(WeatherDTO::class.java)
-        println("F : 2")
 
         /** If logs & data available and no internet connection, load data **/
         if(data != null && !isInternetAvailable)
             return listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
-        println("F : 3")
 
         /** If logs or data are not available, fetch data from server **/
         if(logs == null || data == null)
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
-        println("F : 4 ${timestampToTime(logs.weatherTimestamp)} and ${timestampToTime(System.currentTimeMillis())} and ${System.currentTimeMillis()}")
 
         /** If data is deprecated, fetch data from server **/
-        if(force || logs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
+        if(force || logs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
-        println("F : 5")
 
         /** Otherwise return data **/
         listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
@@ -103,7 +99,7 @@ class FetchManager(
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
 
         /** If data is deprecated, fetch data from server **/
-        if(force || logs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
+        if(force || logs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis() / 1000)
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
 
         /** Otherwise return data **/

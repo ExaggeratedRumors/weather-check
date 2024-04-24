@@ -40,6 +40,6 @@ data class WeatherMain (
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherSys (
     val country: String,
-    val sunrise: Int,
-    val sunset: Int
+    val sunrise: Long,
+    val sunset: Long
 ) : Serializable

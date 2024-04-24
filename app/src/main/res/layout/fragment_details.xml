@@ -5,15 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_marginHorizontal="24dp"
     android:background="@color/background"
     android:tag="fragment_details"
+    android:padding="24dp"
     android:stretchColumns="1">
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" />
 
     <TextView
         android:id="@+id/details_wind_speed"
@@ -23,8 +18,9 @@
         android:gravity="center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
+        android:maxLines="1"
         android:textColor="@color/on_background"
         android:text="@string/details_wind_speed"/>
 
@@ -36,8 +32,9 @@
         android:gravity="center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
+        android:maxLines="1"
         android:textColor="@color/on_background"
         android:text="@string/details_wind_direction"/>
 
@@ -49,8 +46,9 @@
         android:gravity="center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
+        android:maxLines="1"
         android:textColor="@color/on_background"
         android:text="@string/details_humidity"/>
 
@@ -64,7 +62,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
+            android:gravity="bottom|center"
             android:fontFamily="monospace"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="24sp"
@@ -83,12 +81,12 @@
             android:id="@+id/details_sunrise"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
+            android:gravity="top|center"
             android:fontFamily="monospace"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="24sp"
             android:autoSizeMaxTextSize="32sp"
-            android:textColor="@color/on_background"
+            android:textColor="@color/on_surface"
             android:text="@string/details_sunrise"
             android:maxLines="1"
             app:layout_constraintHeight_default="percent"
@@ -125,7 +123,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
+            android:gravity="bottom|center"
             android:fontFamily="monospace"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="24sp"
@@ -144,12 +142,12 @@
             android:id="@+id/details_sunset"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
+            android:gravity="top|center"
             android:fontFamily="monospace"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="24sp"
             android:autoSizeMaxTextSize="32sp"
-            android:textColor="@color/on_background"
+            android:textColor="@color/on_surface"
             android:text="@string/details_sunrise"
             android:maxLines="1"
             app:layout_constraintHeight_default="percent"
@@ -175,10 +173,5 @@
             app:tint="@color/on_background" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" />
 
 </LinearLayout>

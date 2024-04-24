@@ -25,12 +25,8 @@ v1.0
 - Android Material 1.11.0
 
 # TODO
-1. Layout menu jest relative przez co nie ma prawidłowych proporcji
-widgetów i najeżdżają na siebie. Należy coś z tym zrobić. [DONE]
-2. Istnieją tylko 3 pliki zapisów. Należy sprawdzić, czy każda lokacja
-z osobną nazwą potrzebuje osobnego pliku. [DONE]
-3. Spinner nie zachowuje prawidłowego kształu. Należy to poprawić.
-4. Przetestować czy prawidłowo kasuje rejestry z historii.
-5. Refactoring nazw. [DONE]
-6. Obrót powoduje zawieszenie programu (nie można znaleźć kontruktora Menu).
-7. Obsługa zmiany jednostek.
+1. Refactor powtarzajacego się kodu (Fetchdata)
+2. UI Spinnerów
+3. Spinner wyboru historii.
+4. Obrót powoduje zawieszenie programu (nie można znaleźć kontruktora Menu).
+5. Obsługa zmiany jednostek.

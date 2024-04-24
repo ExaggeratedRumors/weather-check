@@ -3,8 +3,8 @@ package com.ertools.weather_check.widgets
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.ertools.weather_check.R
 import com.ertools.weather_check.activities.DataFetchListener
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.WeatherDTO
@@ -13,11 +13,12 @@ import com.ertools.weather_check.fragments.WeatherFragment
 import com.ertools.weather_check.fragments.DetailsFragment
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.timestampToTime
+import java.io.Serializable
 
 class ViewPagerAdapter(
     private val listener: DataFetchListener,
     private val fragmentActivity: FragmentActivity,
-) : FragmentStateAdapter(fragmentActivity) {
+) : FragmentStateAdapter(fragmentActivity), Serializable {
     private var weatherFragment: WeatherFragment = WeatherFragment()
     private var detailsFragment: DetailsFragment = DetailsFragment()
     private var forecastFragment: ForecastFragment = ForecastFragment()
@@ -35,32 +36,19 @@ class ViewPagerAdapter(
         }
 
         return when (position) {
-            0 -> WeatherFragment().apply { arguments = bundle }
-            1 -> DetailsFragment().apply { arguments = bundle }
-            2 -> ForecastFragment().apply { arguments = bundle }
+            0 -> weatherFragment.apply { arguments = bundle }
+            1 -> detailsFragment.apply { arguments = bundle }
+            2 -> forecastFragment.apply { arguments = bundle }
             else -> throw IllegalArgumentException("Invalid position: $position")
         }
     }
 
     fun updateData(dto: WeatherDTO) {
         this.weatherDTO = dto
-        destroyFragments()
         println("STAMPIK: ${timestampToTime(dto.dt)}")
-
-        val fragment = fragmentActivity.supportFragmentManager.findFragmentByTag("fragment_weather")
-        fragment?.let {
-            fragmentActivity.supportFragmentManager.beginTransaction().remove(it).commit()
-        }
-    }
-
-    private fun destroyFragments() {
-        weatherFragment.onDestroy()
-        detailsFragment.onDestroy()
-        forecastFragment.onDestroy()
     }
 
     fun updateData(dto: ForecastDTO) {
         this.forecastDTO = dto
-        destroyFragments()
     }
 }

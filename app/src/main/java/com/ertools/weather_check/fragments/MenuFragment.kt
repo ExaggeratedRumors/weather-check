@@ -200,7 +200,7 @@ class MenuFragment(private val listener: LocationListener): Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position == 0) return
-                selectedLocation = Locations.cities[position]
+                selectedLocation = Locations.cities[position - 1]
                 onSelectedLocation()
             }
 

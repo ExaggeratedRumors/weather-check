@@ -19,6 +19,7 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         view = inflater.inflate(R.layout.fragment_details, container, false)
+        println("IN DETAILS ONCREATE")
         arguments?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
             updateData(dto)
         }

@@ -7,5 +7,5 @@ interface LocationListener {
     fun requestLocation()
     fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>)
     fun <T> notifyDataFetchFailure(valueType: Class<T>)
-    fun requestData()
+    fun requestData(forceFetchFromServer: Boolean = false)
 }

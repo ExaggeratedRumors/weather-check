@@ -3,7 +3,6 @@ package com.ertools.weather_check.model
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.widget.Toast
 import com.ertools.weather_check.activities.LocationListener
 import com.ertools.weather_check.dto.FetchLogs
 import com.ertools.weather_check.dto.ForecastDTO
@@ -22,41 +21,83 @@ class FetchManager(
         NONE, CELLULAR, WIFI, VPN
     }
 
-    fun fetchWeatherData(location: Location) {
-        val fetchLogs: FetchLogs? = fetchDataFromFile(Utils.FETCH_LOGS_PATH, FetchLogs::class.java)
-
+    fun  fetchWeatherData(location: Location, force: Boolean = false) {
+        /** Init data **/
+        val logs: FetchLogs? = fetchDataFromFile(
+            Utils.FETCH_LOGS_PATH, FetchLogs::class.java
+        )
+        val data: WeatherDTO? = fetchDataFromFile(
+            "${location.name}${Utils.WEATHER_DATA_PATH}", WeatherDTO::class.java
+        )
+        val isInternetAvailable = getConnectionType(context) != ConnectionType.NONE
         val onSuccess: (Any) -> Unit = {
             saveDataToFile("${location.name}${Utils.WEATHER_DATA_PATH}", it)
-            val logs = if(fetchLogs == null) FetchLogs(System.currentTimeMillis(), 0L)
-            else FetchLogs(System.currentTimeMillis(), fetchLogs.forecastTimestamp)
-            saveDataToFile(Utils.FETCH_LOGS_PATH, logs)
+            val newLogs = if(logs == null) FetchLogs(System.currentTimeMillis(), 0L)
+            else FetchLogs(System.currentTimeMillis(), logs.forecastTimestamp)
+            saveDataToFile(Utils.FETCH_LOGS_PATH, newLogs)
         }
 
-        if(fetchLogs == null)
+        /** If fetch from server is forced and no internet connection, notify failure **/
+        if(force && !isInternetAvailable)
+            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+
+        /** If logs or data are not available and no internet connection, notify failure **/
+        if((logs == null || data == null) && !isInternetAvailable)
+            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+
+        /** If logs & data available and no internet connection, load data **/
+        if(data != null && !isInternetAvailable)
+            return listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
+
+        /** If logs or data are not available, fetch data from server **/
+        if(logs == null || data == null)
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
-        if(fetchLogs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
+
+        /** If data is deprecated, fetch data from server **/
+        if(force || logs.weatherTimestamp + (Utils.WEATHER_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
             return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
-        val data: WeatherDTO = fetchDataFromFile("${location.name}${Utils.WEATHER_DATA_PATH}", WeatherDTO::class.java)
-            ?: return fetchDataFromServer(location, Utils.WEATHER_URL, onSuccess, WeatherDTO::class.java)
+
+        /** Otherwise return data **/
         listener.notifyDataFetchSuccess(data, WeatherDTO::class.java)
     }
 
-    fun fetchForecastData(location: Location) {
-        val fetchLogs: FetchLogs? = fetchDataFromFile(Utils.FETCH_LOGS_PATH, FetchLogs::class.java)
-
+    fun fetchForecastData(location: Location, force: Boolean = false) {
+        /** Init data **/
+        val logs: FetchLogs? = fetchDataFromFile(
+            Utils.FETCH_LOGS_PATH, FetchLogs::class.java
+        )
+        val data: ForecastDTO? = fetchDataFromFile(
+            "${location.name}${Utils.FORECAST_DATA_PATH}", ForecastDTO::class.java
+        )
+        val isInternetAvailable = getConnectionType(context) != ConnectionType.NONE
         val onSuccess: (Any) -> Unit = {
             saveDataToFile("${location.name}${Utils.FORECAST_DATA_PATH}", it)
-            val logs = if(fetchLogs == null) FetchLogs(0L, System.currentTimeMillis())
-            else FetchLogs(fetchLogs.weatherTimestamp, System.currentTimeMillis())
-            saveDataToFile(Utils.FETCH_LOGS_PATH, logs)
+            val newLogs = if(logs == null) FetchLogs(0L, System.currentTimeMillis())
+            else FetchLogs(logs.weatherTimestamp, System.currentTimeMillis())
+            saveDataToFile(Utils.FETCH_LOGS_PATH, newLogs)
         }
 
-        if(fetchLogs == null)
+        /** If fetch from server is forced and no internet connection, notify failure **/
+        if(force && !isInternetAvailable)
+            return listener.notifyDataFetchFailure(WeatherDTO::class.java)
+
+        /** If logs or data are not available and no internet connection, notify failure **/
+        if((logs == null || data == null) && !isInternetAvailable)
+            return listener.notifyDataFetchFailure(ForecastDTO::class.java)
+
+        /** If logs & data available and no internet connection, load data **/
+        if(data != null && !isInternetAvailable)
+            return listener.notifyDataFetchSuccess(data, ForecastDTO::class.java)
+
+        /** If logs or data are not available, fetch data from server **/
+        if(logs == null || data == null)
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
-        if(fetchLogs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
+
+        /** If data is deprecated, fetch data from server **/
+        if(force || logs.forecastTimestamp + (Utils.FORECAST_FETCH_DIFF_SEC * 60) < System.currentTimeMillis())
             return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
-        val data: ForecastDTO = fetchDataFromFile("${location.name}${Utils.FORECAST_DATA_PATH}", ForecastDTO::class.java)
-            ?: return fetchDataFromServer(location, Utils.FORECAST_URL, onSuccess, ForecastDTO::class.java)
+
+        /** Otherwise return data **/
         listener.notifyDataFetchSuccess(data, ForecastDTO::class.java)
     }
 
@@ -66,12 +107,6 @@ class FetchManager(
         onSuccess: (Any) -> (Unit),
         valueType: Class<T>
     ) {
-        /** Check connection **/
-        if (getConnectionType(context) == ConnectionType.NONE) {
-                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
-                throw DataFetchException("No internet connection")
-        }
-
         /** Build URL **/
         val client = OkHttpClient()
         val url = if(location.city != null)

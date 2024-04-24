@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         }
         refreshBtn = findViewById(R.id.refresh)
         refreshBtn.setOnClickListener {
-            requestData()
+            requestData(forceFetchFromServer = true)
         }
 
         /** Start application logic **/
@@ -72,11 +73,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
         refreshBtn.visibility = View.GONE
     }
 
-    override fun requestData() {
+    override fun requestData(forceFetchFromServer: Boolean) {
         location?.let {
             val fetchManager = FetchManager(this, this)
-            fetchManager.fetchWeatherData(it)
-            fetchManager.fetchForecastData(it)
+            fetchManager.fetchWeatherData(it, forceFetchFromServer)
+            fetchManager.fetchForecastData(it, forceFetchFromServer)
         }
     }
 
@@ -120,6 +121,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun <T> notifyDataFetchFailure(valueType: Class<T>) {
         location = null
+        Toast.makeText(this, "Failed to fetch data", Toast.LENGTH_SHORT).show()
         requestLocation()
     }
 }

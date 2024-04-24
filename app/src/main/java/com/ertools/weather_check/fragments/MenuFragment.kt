@@ -71,7 +71,7 @@ class MenuFragment(private val listener: LocationListener): Fragment() {
                         if(location != null) {
                             selectedLocation = Location(
                                 "Current location",
-                                "Current city",
+                                null,
                                 location.latitude,
                                 location.longitude
                             )

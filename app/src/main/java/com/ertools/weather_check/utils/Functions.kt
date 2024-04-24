@@ -24,7 +24,7 @@ fun kelvinToCelsius(kelvin: Double): Double {
 }
 
 fun setTemperature(raw: Double): String
-        = "${"%.2f".format(Locale.ROOT, kelvinToCelsius(raw))}°C"
+        = "%.2f".format(Locale.ROOT, kelvinToCelsius(raw))
 
 fun setDescription(raw: String): String {
     return raw[0].uppercase() + raw.substring(1).replace("_", " ")

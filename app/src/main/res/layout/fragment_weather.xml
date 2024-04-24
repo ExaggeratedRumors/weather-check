@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_marginHorizontal="24dp"
     android:background="@color/background"
     android:stretchColumns="1">
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/weather_localization_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:gravity="center"
+        android:gravity="bottom|center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
         android:textColor="@color/on_background"
         android:text="@string/weather_city"/>
 
@@ -32,12 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:gravity="center"
+        android:gravity="top|center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
-        android:textColor="@color/on_background"
+        android:autoSizeMinTextSize="@dimen/min_small"
+        android:autoSizeMaxTextSize="@dimen/max_small"
+        android:textColor="@color/on_surface"
         android:text="@string/weather_coordinates"/>
 
     <TextView
@@ -48,8 +43,11 @@
         android:gravity="center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
+        android:paddingHorizontal="24dp"
+        android:minLines="2"
+        android:maxLines="2"
         android:textColor="@color/on_background"
         android:text="@string/weather_time"/>
 
@@ -61,8 +59,9 @@
         android:gravity="center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
+        android:paddingHorizontal="24dp"
         android:textColor="@color/on_background"
         android:text="@string/weather_temperature"/>
 
@@ -74,8 +73,9 @@
         android:gravity="center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
+        android:paddingHorizontal="24dp"
         android:textColor="@color/on_background"
         android:text="@string/weather_pressure"/>
 
@@ -86,7 +86,8 @@
         android:layout_weight="0.2"
         android:gravity="center"
         android:src="@drawable/weather_sunny"
-        android:contentDescription="@string/weather_icon" />
+        android:contentDescription="@string/weather_icon"
+        app:tint="@color/on_background" />
 
     <TextView
         android:id="@+id/weather_description"
@@ -96,14 +97,9 @@
         android:gravity="top|center"
         android:fontFamily="monospace"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeMaxTextSize="32sp"
+        android:autoSizeMinTextSize="@dimen/min_big"
+        android:autoSizeMaxTextSize="@dimen/max_big"
         android:textColor="@color/on_background"
         android:text="@string/weather_description" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" />
 
 </LinearLayout>

@@ -16,32 +16,45 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity(), LocationListener {
+    private lateinit var changeLocationBtn: Button
+    private lateinit var changeUnitsBtn: Button
+    private lateinit var refreshBtn: Button
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private var viewPagerAdapter: ViewPagerAdapter? = null
-    private lateinit var changeLocationBtn: Button
 
     private var location: Location? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /** UI widgets **/
         setContentView(R.layout.activity_main)
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
         changeLocationBtn = findViewById(R.id.change_location)
+
+        /** Buttons listeners **/
         changeLocationBtn.setOnClickListener {
             requestLocation()
         }
+        changeUnitsBtn = findViewById(R.id.change_units)
+        changeUnitsBtn.setOnClickListener {
+            //viewPagerAdapter?.changeUnits()
+        }
+        refreshBtn = findViewById(R.id.refresh)
+        refreshBtn.setOnClickListener {
+            requestData()
+        }
+
+        /** Start application logic **/
         requestLocation()
     }
 
-    override fun notifyLocationChanged(location: Location?) {
-        this.location = location
-        requestData()
-    }
+
+    /** LocationListener implementation **/
 
     override fun requestLocation() {
         this.location = null
-
         supportFragmentManager.beginTransaction().apply {
             for (fragment in supportFragmentManager.fragments) remove(fragment)
         }.commit()
@@ -55,6 +68,21 @@ class MainActivity : AppCompatActivity(), LocationListener {
         tabLayout.visibility = View.GONE
         viewPager.visibility = View.GONE
         changeLocationBtn.visibility = View.GONE
+        changeUnitsBtn.visibility = View.GONE
+        refreshBtn.visibility = View.GONE
+    }
+
+    override fun requestData() {
+        location?.let {
+            val fetchManager = FetchManager(this, this)
+            fetchManager.fetchWeatherData(it)
+            fetchManager.fetchForecastData(it)
+        }
+    }
+
+    override fun notifyLocationChanged(location: Location?) {
+        this.location = location
+        requestData()
     }
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
@@ -79,6 +107,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 tabLayout.visibility = View.VISIBLE
                 viewPager.visibility = View.VISIBLE
                 changeLocationBtn.visibility = View.VISIBLE
+                changeUnitsBtn.visibility = View.VISIBLE
+                refreshBtn.visibility = View.VISIBLE
             }
 
             when(valueType) {
@@ -91,13 +121,5 @@ class MainActivity : AppCompatActivity(), LocationListener {
     override fun <T> notifyDataFetchFailure(valueType: Class<T>) {
         location = null
         requestLocation()
-    }
-
-    override fun requestData() {
-        location?.let {
-            val fetchManager = FetchManager(this, this)
-            fetchManager.fetchWeatherData(it)
-            fetchManager.fetchForecastData(it)
-        }
     }
 }

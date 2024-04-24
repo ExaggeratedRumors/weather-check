@@ -13,6 +13,7 @@ import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.chooseIcon
 import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.setDescription
+import com.ertools.weather_check.utils.setTemperature
 import com.ertools.weather_check.utils.timestampToTime
 
 class WeatherFragment : Fragment() {
@@ -44,11 +45,11 @@ class WeatherFragment : Fragment() {
 
         /** Temperature **/
         val temperature = view.findViewById<TextView>(R.id.weather_temperature)
-        temperature.text = dto.main.temp.toString()
+        temperature.text = getString(R.string.temperature_format, setTemperature(dto.main.temp))
 
         /** Pressure **/
         val pressure = view.findViewById<TextView>(R.id.weather_pressure)
-        pressure.text = dto.main.pressure.toString()
+        pressure.text = getString(R.string.pressure_format, dto.main.pressure)
 
         /** Description **/
         val description = view.findViewById<TextView>(R.id.weather_description)

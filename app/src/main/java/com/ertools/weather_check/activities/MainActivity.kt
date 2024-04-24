@@ -16,7 +16,7 @@ import com.ertools.weather_check.widgets.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainActivity : AppCompatActivity(), LocationListener {
+class MainActivity : AppCompatActivity(), DataFetchListener {
     private lateinit var changeLocationBtn: Button
     private lateinit var changeUnitsBtn: Button
     private lateinit var refreshBtn: Button

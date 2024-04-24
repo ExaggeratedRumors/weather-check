@@ -33,3 +33,4 @@ z osobną nazwą potrzebuje osobnego pliku. [DONE]
 4. Przetestować czy prawidłowo kasuje rejestry z historii.
 5. Refactoring nazw. [DONE]
 6. Obrót powoduje zawieszenie programu (nie można znaleźć kontruktora Menu).
+7. Obsługa zmiany jednostek.

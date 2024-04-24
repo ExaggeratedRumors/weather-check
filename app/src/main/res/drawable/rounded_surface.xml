@@ -8,4 +8,13 @@
         android:topRightRadius="50dp"
         android:bottomLeftRadius="50dp"
         android:bottomRightRadius="50dp"/>
+    <stroke
+        android:width="0dp"
+        android:color="@color/white" />
+
+    <gradient
+        android:startColor="@color/surface"
+        android:endColor="@color/surface"
+        android:angle="120"/>
+
 </shape>

@@ -23,11 +23,11 @@ import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.utils.InputFilterRange
 import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.activities.LocationListener
+import com.ertools.weather_check.activities.DataFetchListener
 import com.ertools.weather_check.widgets.HistorySpinnerAdapter
 import com.google.android.gms.location.LocationServices
 
-class MenuFragment(private val listener: LocationListener): Fragment() {
+class MenuFragment(private val listener: DataFetchListener): Fragment() {
     private lateinit var view: View
     private lateinit var history: History
     private var selectedLocation: Location? = null

@@ -6,6 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/background"
+    android:tag="fragment_forecast"
     android:stretchColumns="1" >
 
 

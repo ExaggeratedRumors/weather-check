@@ -7,6 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/background"
+    android:tag="fragment_weather"
     android:stretchColumns="1">
 
     <TextView

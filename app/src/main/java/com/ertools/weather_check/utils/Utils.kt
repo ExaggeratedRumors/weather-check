@@ -11,6 +11,7 @@ object Utils {
     const val STORE_FORECAST_DTO = "store_forecast_dto"
     const val STORE_UNIT_STATE = "store_unit_state"
     const val STORE_LOCATION = "store_location"
+    const val STORE_FRAGMENT_CART = "store_fragment_cart"
 
     /** API **/
     private const val API_KEY = "f106884003f70637150d0c02a289da8c"

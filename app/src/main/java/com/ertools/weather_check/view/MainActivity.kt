@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     private var viewPagerAdapter: ViewPagerAdapter? = null
     private var unitStateCelsius = true
     private var location: Location? = null
+    private var fragmentCart: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         /** State from instance **/
         unitStateCelsius = savedInstanceState?.getBoolean(Utils.STORE_UNIT_STATE) ?: true
         location = savedInstanceState?.serializable<Location>(Utils.STORE_LOCATION)
+        fragmentCart = savedInstanceState?.getInt(Utils.STORE_FRAGMENT_CART) ?: 0
 
         /** UI widgets **/
         setContentView(R.layout.activity_main)
@@ -81,6 +83,8 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(Utils.STORE_UNIT_STATE, unitStateCelsius)
         outState.putSerializable(Utils.STORE_LOCATION, location)
+        outState.putInt(Utils.STORE_FRAGMENT_CART, viewPager.currentItem)
+
         super.onSaveInstanceState(outState)
     }
 
@@ -136,6 +140,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
                 viewPager = findViewById(R.id.view_pager)
                 viewPager.isSaveEnabled = false
                 viewPager.adapter = viewPagerAdapter
+                viewPager.currentItem = fragmentCart
 
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     when (position) {

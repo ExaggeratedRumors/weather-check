@@ -3,8 +3,7 @@ package com.ertools.weather_check.model
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.ertools.weather_check.activities.DataFetchListener
-import com.ertools.weather_check.dto.FetchLogs
+import com.ertools.weather_check.view.DataFetchListener
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
@@ -37,9 +36,6 @@ class FetchManager(
         val dataPath = if(valueType == WeatherDTO::class.java) Utils.WEATHER_DATA_PATH
         else Utils.FORECAST_DATA_PATH
 
-        val logsPath = if(valueType == WeatherDTO::class.java) Utils.WEATHER_LOGS_PATH
-        else Utils.FORECAST_LOGS_PATH
-
         val url = if(valueType == WeatherDTO::class.java) Utils.WEATHER_URL
         else Utils.FORECAST_URL
 
@@ -47,12 +43,10 @@ class FetchManager(
         else Utils.FORECAST_FETCH_DIFF_SEC
 
         /** Init data **/
-        val logs: FetchLogs? = fetchDataFromFile(logsPath, FetchLogs::class.java)
         val data: T? = fetchDataFromFile("${location.name}$dataPath", valueType)
         val isInternetAvailable = getConnectionType(context) != ConnectionType.NONE
         val onSuccess: (Any) -> Unit = {
             saveDataToFile("${location.name}$dataPath", it)
-            saveDataToFile(logsPath, FetchLogs(System.currentTimeMillis() / 1000))
         }
 
         /** Service force fetch server **/
@@ -67,9 +61,8 @@ class FetchManager(
         else if(force == ForceFetch.DATA && data != null)
             return listener.notifyDataFetchSuccess(data, valueType)
 
-
         /** If logs or data are not available and no internet connection, notify failure **/
-        if((logs == null || data == null) && !isInternetAvailable)
+        if((data == null) && !isInternetAvailable)
             return listener.notifyDataFetchFailure(valueType)
 
         /** If logs & data available and no internet connection, load data **/
@@ -77,13 +70,14 @@ class FetchManager(
             return listener.notifyDataFetchSuccess(data, valueType)
 
         /** If logs or data are not available, fetch data from server **/
-        if(logs == null || data == null)
+        if(data == null)
             return fetchDataFromServer(location, url, onSuccess, valueType)
 
-        println("${logs.timestamp} ${fetchDiff * 60} ${System.currentTimeMillis()/1000}")
-
         /** If data is deprecated, fetch data from server **/
-        if(logs.timestamp + (fetchDiff * 60 / 1000) < System.currentTimeMillis() / 1000)
+        val dataFetchTimestamp = if(valueType == WeatherDTO::class.java) (data as WeatherDTO).dt
+        else (data as ForecastDTO).list[0].dt
+        println("$dataFetchTimestamp $fetchDiff ${System.currentTimeMillis()/1000}")
+        if(dataFetchTimestamp + fetchDiff < System.currentTimeMillis() / 1000)
             return fetchDataFromServer(location, url, onSuccess, valueType)
 
         /** Otherwise return data **/

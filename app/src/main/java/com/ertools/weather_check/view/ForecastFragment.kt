@@ -1,4 +1,4 @@
-package com.ertools.weather_check.fragments
+package com.ertools.weather_check.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,7 +35,9 @@ class ForecastFragment: Fragment() {
         return this.view
     }
 
-    private fun updateData(dto: ForecastDTO) {
+    fun updateData(dto: ForecastDTO) {
+        if(this::view.isInitialized.not()) return
+
         /** Dates **/
         val day1 = view.findViewById<TextView>(R.id.day_1)
         day1.text = timestampToTime(dto.list[0].dt)

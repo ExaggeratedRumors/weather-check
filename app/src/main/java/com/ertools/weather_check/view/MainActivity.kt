@@ -1,8 +1,7 @@
-package com.ertools.weather_check.activities
+package com.ertools.weather_check.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -11,11 +10,9 @@ import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
-import com.ertools.weather_check.fragments.MenuFragment
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
-import com.ertools.weather_check.widgets.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

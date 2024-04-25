@@ -1,4 +1,4 @@
-package com.ertools.weather_check.fragments
+package com.ertools.weather_check.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,7 +35,9 @@ class WeatherFragment : Fragment() {
         return this.view
     }
 
-    private fun updateData(dto: WeatherDTO) {
+    fun updateData(dto: WeatherDTO) {
+        if(this::view.isInitialized.not()) return
+
         /** Location **/
         val locationName = view.findViewById<TextView>(R.id.weather_localization_name)
         locationName.text = dto.name

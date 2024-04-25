@@ -1,4 +1,4 @@
-package com.ertools.weather_check.activities
+package com.ertools.weather_check.view
 
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.model.FetchManager

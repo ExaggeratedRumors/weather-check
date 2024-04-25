@@ -1,4 +1,4 @@
-package com.ertools.weather_check.widgets
+package com.ertools.weather_check.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,9 +6,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.WeatherDTO
-import com.ertools.weather_check.fragments.ForecastFragment
-import com.ertools.weather_check.fragments.WeatherFragment
-import com.ertools.weather_check.fragments.DetailsFragment
 import com.ertools.weather_check.utils.Utils
 import java.io.Serializable
 
@@ -43,10 +40,13 @@ class ViewPagerAdapter(
 
     fun updateData(dto: WeatherDTO) {
         this.weatherDTO = dto
+        weatherFragment.updateData(dto)
+        detailsFragment.updateData(dto)
     }
 
     fun updateData(dto: ForecastDTO) {
         this.forecastDTO = dto
+        forecastFragment.updateData(dto)
     }
 
     fun changeUnits(isCelsius: Boolean) {

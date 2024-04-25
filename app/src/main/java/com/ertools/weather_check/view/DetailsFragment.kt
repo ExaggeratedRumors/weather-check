@@ -1,6 +1,5 @@
-package com.ertools.weather_check.fragments
+package com.ertools.weather_check.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.timestampToTime
-import java.util.Locale
 
 class DetailsFragment : Fragment() {
     private lateinit var view : View
@@ -28,7 +26,9 @@ class DetailsFragment : Fragment() {
         return this.view
     }
 
-    private fun updateData(dto: WeatherDTO) {
+    fun updateData(dto: WeatherDTO) {
+        if(this::view.isInitialized.not()) return
+
         val windStrength = view.findViewById<TextView>(R.id.details_wind_speed)
         windStrength.text = getString(R.string.wind_speed_format, dto.wind.speed)
 
@@ -43,6 +43,5 @@ class DetailsFragment : Fragment() {
 
         val sunset = view.findViewById<TextView>(R.id.details_sunset)
         sunset.text = timestampToTime(dto.sys.sunset).split(" ")[2]
-
     }
 }

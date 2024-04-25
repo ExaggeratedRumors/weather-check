@@ -1,4 +1,4 @@
-package com.ertools.weather_check.fragments
+package com.ertools.weather_check.view
 
 import android.Manifest
 import android.app.AlertDialog
@@ -22,7 +22,6 @@ import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.activities.DataFetchListener
 import com.google.android.gms.location.LocationServices
 
 class MenuFragment: Fragment() {
@@ -103,15 +102,15 @@ class MenuFragment: Fragment() {
         val inputBtn = view.findViewById<Button>(R.id.menu_input_location_by_coords)
         inputBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Input new location")
+            builder.setTitle(getString(R.string.input_window_title))
 
             val latitudeInput = EditText(requireContext())
             val longitudeInput = EditText(requireContext())
             val nameInput = EditText(requireContext())
 
-            latitudeInput.hint = "Latitude"
-            longitudeInput.hint = "Longitude"
-            nameInput.hint = "Name your location"
+            latitudeInput.hint = getString(R.string.input_window_latitude)
+            longitudeInput.hint = getString(R.string.input_window_longitude)
+            nameInput.hint = getString(R.string.input_window_name)
 
             val layout = LinearLayout(requireContext())
             layout.orientation = LinearLayout.VERTICAL
@@ -120,7 +119,7 @@ class MenuFragment: Fragment() {
             layout.addView(nameInput)
             builder.setView(layout)
 
-            builder.setPositiveButton("OK") { _, _ ->
+            builder.setPositiveButton(getString(R.string.input_window_ok)) { _, _ ->
                 val latitude = latitudeInput.text.toString().toDoubleOrNull()
                 val longitude = longitudeInput.text.toString().toDoubleOrNull()
                 val name = nameInput.text.toString()
@@ -141,7 +140,7 @@ class MenuFragment: Fragment() {
                 onSelectedLocation()
             }
 
-            builder.setNegativeButton("Cancel") { dialog, _ ->
+            builder.setNegativeButton(getString(R.string.input_window_cancel)) { dialog, _ ->
                 dialog.cancel()
             }
 
@@ -153,17 +152,17 @@ class MenuFragment: Fragment() {
         val inputBtn = view.findViewById<Button>(R.id.menu_input_location_by_name)
         inputBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Input city name")
+            builder.setTitle(getString(R.string.input_window_title))
 
             val cityInput = EditText(requireContext())
-            cityInput.hint = "City"
+            cityInput.hint = getString(R.string.input_window_city)
 
             val layout = LinearLayout(requireContext())
             layout.orientation = LinearLayout.VERTICAL
             layout.addView(cityInput)
             builder.setView(layout)
 
-            builder.setPositiveButton("OK") { _, _ ->
+            builder.setPositiveButton( getString(R.string.input_window_ok)) { _, _ ->
                 val name = cityInput.text.toString()
                 if(name.isEmpty()) {
                     Toast.makeText(requireContext(), "Invalid input", Toast.LENGTH_SHORT).show()
@@ -177,7 +176,7 @@ class MenuFragment: Fragment() {
                 onSelectedLocation()
             }
 
-            builder.setNegativeButton("Cancel") { dialog, _ ->
+            builder.setNegativeButton( getString(R.string.input_window_cancel)) { dialog, _ ->
                 dialog.cancel()
             }
 
@@ -187,7 +186,7 @@ class MenuFragment: Fragment() {
 
     private fun serviceLocationsSpinner() {
         val spinner = view.findViewById<Spinner>(R.id.menu_default_locations)
-        val cities = mutableListOf("Select location")
+        val cities = mutableListOf(getString(R.string.menu_select_default))
         cities.addAll(Locations.cities.map { it.name })
         val adapter = ArrayAdapter(
             requireContext(),
@@ -214,7 +213,7 @@ class MenuFragment: Fragment() {
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.text_spinner,
-            mutableListOf("Select from history") + history.locations.map { l -> l.name }
+            mutableListOf(getString(R.string.menu_select_history)) + history.locations.map { l -> l.name }
         )
         adapter.setDropDownViewResource(R.layout.item_spinner)
         spinner.adapter = adapter
@@ -234,20 +233,20 @@ class MenuFragment: Fragment() {
 
     private fun askSpinnerItem(position: Int, adapter: ArrayAdapter<String>){
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Manage location: ${history.locations[position].name}")
+        builder.setTitle(getString(R.string.input_window_manage, history.locations[position].name))
 
-        builder.setPositiveButton("Use") { _, _ ->
+        builder.setPositiveButton(getString(R.string.input_window_use)) { _, _ ->
             selectedLocation = history.locations[position]
             onSelectedLocation()
         }
 
-        builder.setNeutralButton("Remove") { _, _ ->
+        builder.setNeutralButton(getString(R.string.input_window_remove)) { _, _ ->
             adapter.remove(adapter.getItem(position + 1) as String)
             history.modify { this.removeAt(position) }
             DataManager.writeObject(Utils.HISTORY_PATH, history, requireContext())
         }
 
-        builder.setNegativeButton("Cancel") { dialog, _ ->
+        builder.setNegativeButton(getString(R.string.input_window_cancel)) { dialog, _ ->
             dialog.cancel()
         }
 

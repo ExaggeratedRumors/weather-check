@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">weather-check</string>
     <string name="app_version">v1.0-stable</string>
-    <string name="menu_current_location">Weather in my location</string>
-    <string name="menu_input_coordinates">Weather by coordinates…</string>
-    <string name="menu_input_city_name">Weather in city…</string>
-    <string name="weather_city">CITY</string>
+    <string name="menu_current_location">Use my location</string>
+    <string name="menu_input_coordinates">Enter coordinates</string>
+    <string name="menu_input_city_name">Enter city</string>
+    <string name="menu_select_default">Select popular</string>
+    <string name="menu_select_history">Select from history</string>
+    <string name="weather_city">CITY?</string>
     <string name="weather_coordinates">(LAT, LON)</string>
     <string name="temperature_celsius_long">Temperature: %1$s℃</string>
     <string name="temperature_kelvin_long">Temperature: %1$sK</string>
@@ -33,5 +35,16 @@
     <string name="details_wind_speed">Wind speed: ?</string>
     <string name="menu_change_units">Change units</string>
     <string name="menu_refresh">Refresh data</string>
-    <string name="spinner_select_location">Select location</string>
+    <string name="input_window_cancel">Cancel</string>
+    <string name="input_window_ok">OK</string>
+    <string name="input_window_title">Enter new location</string>
+    <string name="input_window_latitude">Latitude</string>
+    <string name="input_window_longitude">Longitude</string>
+    <string name="input_window_name">Name your location</string>
+    <string name="input_window_city">City</string>
+    <string name="input_window_use">Use</string>
+    <string name="input_window_remove">Remove</string>
+    <string name="input_window_manage">Manage location: %1$s</string>
+
+
 </resources>

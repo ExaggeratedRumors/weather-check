@@ -7,9 +7,9 @@
     android:background="@drawable/rounded_button"
     android:fontFamily="monospace"
     android:autoSizeTextType="uniform"
-    android:autoSizeMaxTextSize="@dimen/max_big"
-    android:autoSizeMinTextSize="@dimen/min_big"
+    android:autoSizeMaxTextSize="@dimen/max_small"
+    android:autoSizeMinTextSize="@dimen/min_small"
     android:textAlignment="center"
     android:textColor="@color/on_primary"
-    android:text="@string/spinner_select_location"
+    android:text="@string/menu_select_default"
     app:drawableTint="@color/primary" />

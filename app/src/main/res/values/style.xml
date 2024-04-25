@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TabLayoutText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_small</item>
+        <item name="autoSizeMinTextSize">@dimen/min_small</item>
+    </style>
+</resources>

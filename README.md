@@ -25,4 +25,8 @@ v1.0
 - Android Material 1.11.0
 
 # TODO
-x
+- Utworzyć konfigurację aplikacji - wczytywalną oraz zapisywalną, która zawiera częstotliwość
+odświeżania oraz stan jednostek.
+- Utworzyć layout do tabletu.
+- Poprawić GUI żeby wyglądało lepiej.
+- Utworzyć wątek odświeżający automatycznie dane.

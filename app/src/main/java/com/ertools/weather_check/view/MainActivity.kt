@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
+import com.ertools.weather_check.dto.Weather
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.utils.Utils
@@ -23,9 +24,9 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var menuFragment: MenuFragment
-    private lateinit var weatherFragment: WeatherFragment
-    private lateinit var forecastFragment: ForecastFragment
-    private lateinit var detailsFragment: DetailsFragment
+    private var weatherFragment: View? = null
+    private lateinit var forecastFragment: View
+    private lateinit var detailsFragment: View
 
     private var viewPagerAdapter: ViewPagerAdapter? = null
     private var unitStateCelsius = true
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         changeLocationBtn = findViewById(R.id.change_location)
         changeUnitsBtn = findViewById(R.id.change_units)
         refreshBtn = findViewById(R.id.refresh)
+        weatherFragment = findViewById(R.id.weather)
 
         /** Buttons listeners **/
         changeLocationBtn.setOnClickListener { requestLocation() }
@@ -137,35 +139,59 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
         runOnUiThread {
-            if(viewPagerAdapter == null) {
+            if(weatherFragment == null) {
+                if (viewPagerAdapter == null) {
+                    removeAllFragments()
+
+                    viewPagerAdapter = ViewPagerAdapter(this)
+                    viewPagerAdapter?.changeUnits(unitStateCelsius)
+                    viewPager = findViewById(R.id.view_pager)
+                    viewPager.isSaveEnabled = false
+                    viewPager.adapter = viewPagerAdapter
+                    viewPager.currentItem = fragmentCart
+
+                    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                        when (position) {
+                            0 -> tab.text = "Weather"
+                            1 -> tab.text = "Details"
+                            2 -> tab.text = "Forecast"
+                        }
+                    }.attach()
+
+                    tabLayout.visibility = View.VISIBLE
+                    viewPager.visibility = View.VISIBLE
+                    changeLocationBtn.visibility = View.VISIBLE
+                    changeUnitsBtn.visibility = View.VISIBLE
+                    refreshBtn.visibility = View.VISIBLE
+
+                }
+
+                when (valueType) {
+                    WeatherDTO::class.java -> viewPagerAdapter?.updateData(dto as WeatherDTO)
+                    ForecastDTO::class.java -> viewPagerAdapter?.updateData(dto as ForecastDTO)
+                }
+            } else {
+                /** Tablets **/
                 removeAllFragments()
+                val weather = WeatherFragment()
+                val details = DetailsFragment()
+                val forecast = ForecastFragment()
 
-                viewPagerAdapter = ViewPagerAdapter(this)
-                viewPagerAdapter?.changeUnits(unitStateCelsius)
-                viewPager = findViewById(R.id.view_pager)
-                viewPager.isSaveEnabled = false
-                viewPager.adapter = viewPagerAdapter
-                viewPager.currentItem = fragmentCart
+                supportFragmentManager.beginTransaction().add(R.id.weather, weather).commit()
+                supportFragmentManager.beginTransaction().add(R.id.details, details).commit()
+                supportFragmentManager.beginTransaction().add(R.id.forecast, forecast).commit()
 
-                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                    when (position) {
-                        0 -> tab.text = "Weather"
-                        1 -> tab.text = "Details"
-                        2 -> tab.text = "Forecast"
-                    }
-                }.attach()
-
-                tabLayout.visibility = View.VISIBLE
-                viewPager.visibility = View.VISIBLE
                 changeLocationBtn.visibility = View.VISIBLE
                 changeUnitsBtn.visibility = View.VISIBLE
                 refreshBtn.visibility = View.VISIBLE
 
-            }
-
-            when(valueType) {
-                WeatherDTO::class.java -> viewPagerAdapter?.updateData(dto as WeatherDTO)
-                ForecastDTO::class.java -> viewPagerAdapter?.updateData(dto as ForecastDTO)
+                when (valueType) {
+                    WeatherDTO::class.java -> {
+                        weather.updateData(dto as WeatherDTO)
+                        details.updateData(dto as WeatherDTO)
+                    }
+                    ForecastDTO::class.java -> forecast.updateData(dto as ForecastDTO)
+                }
             }
         }
     }

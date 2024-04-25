@@ -4,9 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.GestureDetector
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -22,11 +20,9 @@ import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.History
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.model.DataManager
-import com.ertools.weather_check.utils.InputFilterRange
 import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.activities.DataFetchListener
-import com.ertools.weather_check.widgets.HistorySpinnerAdapter
 import com.google.android.gms.location.LocationServices
 
 class MenuFragment: Fragment() {
@@ -236,7 +232,7 @@ class MenuFragment: Fragment() {
         }
     }
 
-    fun askSpinnerItem(position: Int, adapter: ArrayAdapter<String>){
+    private fun askSpinnerItem(position: Int, adapter: ArrayAdapter<String>){
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("U choose location: ${history.locations[position].name}")
 

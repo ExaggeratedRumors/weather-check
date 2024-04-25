@@ -8,4 +8,9 @@
         android:topRightRadius="50dp"
         android:bottomLeftRadius="50dp"
         android:bottomRightRadius="50dp"/>
+
+    <gradient
+        android:startColor="@color/primary"
+        android:endColor="@color/primary"
+        android:angle="0"/>
 </shape>

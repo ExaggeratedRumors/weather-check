@@ -10,8 +10,8 @@
     <color name="on_primary_alt">#FFFFFFFF</color>
     <color name="secondary">#FFD45C</color>
     <color name="on_secondary">#FFFFFFFF</color>
-    <color name="surface">#B19D92</color>
-    <color name="on_surface">#FFFFFFFF</color>
+    <color name="surface">#F4E5B6</color>
+    <color name="on_surface">#DFAB13</color>
     <color name="background">#FFF6D0</color>
     <color name="on_background">#655B3E</color>
 </resources>

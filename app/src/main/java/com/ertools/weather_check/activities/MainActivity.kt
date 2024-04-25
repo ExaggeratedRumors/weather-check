@@ -14,6 +14,7 @@ import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.fragments.MenuFragment
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.widgets.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -34,19 +35,24 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
 
         /** State from instance **/
         unitStateCelsius = savedInstanceState?.getBoolean(Utils.STORE_UNIT_STATE) ?: true
+        location = savedInstanceState?.serializable<Location>(Utils.STORE_LOCATION)
 
         /** UI widgets **/
         setContentView(R.layout.activity_main)
+        menuFragment = MenuFragment()
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
         changeLocationBtn = findViewById(R.id.change_location)
-        menuFragment = MenuFragment()
+        changeUnitsBtn = findViewById(R.id.change_units)
+        refreshBtn = findViewById(R.id.refresh)
 
         /** Buttons listeners **/
-        changeLocationBtn.setOnClickListener {
-            requestLocation()
-        }
-        changeUnitsBtn = findViewById(R.id.change_units)
+        changeLocationBtn.setOnClickListener { requestLocation() }
+        changeUnitsBtn.setImageResource(
+            if (unitStateCelsius) R.drawable.temperature_kelvin
+            else R.drawable.temperature_celsius
+        )
+
         changeUnitsBtn.setOnClickListener {
             unitStateCelsius = !unitStateCelsius
             changeUnitsBtn.setImageResource(
@@ -57,7 +63,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
             viewPagerAdapter = null
             requestData(FetchManager.ForceFetch.DATA)
         }
-        refreshBtn = findViewById(R.id.refresh)
+
         refreshBtn.setOnClickListener {
             removeAllFragments()
             viewPagerAdapter = null
@@ -65,13 +71,20 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         }
 
         /** Start application logic **/
-        requestLocation()
+        if(location == null) {
+            println("TEST: Location null")
+            requestLocation()
+        }
+        else {
+            println("TEST: Location fetched")
+            requestData()
+        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(Utils.STORE_UNIT_STATE, unitStateCelsius)
-        outState.putSerializable(Utils.STORE_VIEW_PAGER, viewPagerAdapter)
+        outState.putSerializable(Utils.STORE_LOCATION, location)
+        super.onSaveInstanceState(outState)
     }
 
     private fun removeAllFragments() {

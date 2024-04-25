@@ -5,9 +5,8 @@
     android:padding="10dp"
     android:fontFamily="monospace"
     android:autoSizeTextType="uniform"
-    android:autoSizeMinTextSize="16sp"
-    android:autoSizeMaxTextSize="24sp"
+    android:autoSizeMinTextSize="@dimen/min_small"
+    android:autoSizeMaxTextSize="@dimen/max_small"
     android:gravity="center"
-    android:descendantFocusability="blocksDescendants"
     android:background="@color/secondary"
     android:textColor="@color/on_secondary" />

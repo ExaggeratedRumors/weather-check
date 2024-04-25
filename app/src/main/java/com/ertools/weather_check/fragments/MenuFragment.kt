@@ -222,7 +222,7 @@ class MenuFragment: Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position == 0) return
                 spinner.setSelection(0)
-                askSpinnerItem(position, adapter)
+                askSpinnerItem(position - 1, adapter)
                 adapter.notifyDataSetChanged()
             }
 
@@ -234,7 +234,7 @@ class MenuFragment: Fragment() {
 
     private fun askSpinnerItem(position: Int, adapter: ArrayAdapter<String>){
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("U choose location: ${history.locations[position].name}")
+        builder.setTitle("Manage location: ${history.locations[position].name}")
 
         builder.setPositiveButton("Use") { _, _ ->
             selectedLocation = history.locations[position]
@@ -242,7 +242,7 @@ class MenuFragment: Fragment() {
         }
 
         builder.setNeutralButton("Remove") { _, _ ->
-            adapter.remove(adapter.getItem(position) as String)
+            adapter.remove(adapter.getItem(position + 1) as String)
             history.modify { this.removeAt(position) }
             DataManager.writeObject(Utils.HISTORY_PATH, history, requireContext())
         }

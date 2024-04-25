@@ -13,6 +13,7 @@ object Utils {
     const val STORE_FORECAST_DTO = "store_forecast_dto"
     const val STORE_UNIT_STATE = "store_unit_state"
     const val STORE_VIEW_PAGER = "store_view_pager"
+    const val STORE_LOCATION = "store_location"
 
     /** Permissions **/
     const val PERMISSIONS_REQUEST_LOCATION = 100

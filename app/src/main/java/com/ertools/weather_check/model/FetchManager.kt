@@ -83,7 +83,7 @@ class FetchManager(
         println("${logs.timestamp} ${fetchDiff * 60} ${System.currentTimeMillis()/1000}")
 
         /** If data is deprecated, fetch data from server **/
-        if(logs.timestamp + (fetchDiff * 60) < System.currentTimeMillis() / 1000)
+        if(logs.timestamp + (fetchDiff * 60 / 1000) < System.currentTimeMillis() / 1000)
             return fetchDataFromServer(location, url, onSuccess, valueType)
 
         /** Otherwise return data **/

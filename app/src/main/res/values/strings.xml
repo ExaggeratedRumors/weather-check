@@ -25,12 +25,12 @@
     <string name="weather_day">Monday</string>
     <string name="details_sunset">00:00:00</string>
     <string name="details_sunrise">00:00:00</string>
-    <string name="details_humidity">Humidity:\t0%</string>
-    <string name="details_wind_direction">Wind direction:\t1&#0176;</string>
+    <string name="details_humidity">Humidity: ?</string>
+    <string name="details_wind_direction">Wind direction: ?</string>
     <string name="details_sunset_icon">Sunset icon</string>
     <string name="details_sunset_label">Sunset</string>
     <string name="details_sunrise_label">Sunrise</string>
-    <string name="details_wind_speed">Wind speed:\t70km/h</string>
+    <string name="details_wind_speed">Wind speed: ?</string>
     <string name="menu_change_units">Change units</string>
     <string name="menu_refresh">Refresh data</string>
     <string name="spinner_select_location">Select location</string>

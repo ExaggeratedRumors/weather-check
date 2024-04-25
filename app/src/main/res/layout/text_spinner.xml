@@ -11,6 +11,5 @@
     android:autoSizeMinTextSize="@dimen/min_big"
     android:textAlignment="center"
     android:textColor="@color/on_primary"
-    android:padding="10dp"
     android:text="@string/spinner_select_location"
     app:drawableTint="@color/primary" />

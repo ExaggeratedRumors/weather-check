@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var menuFragment: MenuFragment
+    private lateinit var weatherFragment: WeatherFragment
+    private lateinit var forecastFragment: ForecastFragment
+    private lateinit var detailsFragment: DetailsFragment
+
     private var viewPagerAdapter: ViewPagerAdapter? = null
     private var unitStateCelsius = true
     private var location: Location? = null
@@ -48,14 +52,15 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         /** Buttons listeners **/
         changeLocationBtn.setOnClickListener { requestLocation() }
         changeUnitsBtn.setImageResource(
-            if (unitStateCelsius) R.drawable.temperature_kelvin
+            if (unitStateCelsius) R.drawable.temperature_fahrenheit
             else R.drawable.temperature_celsius
         )
 
         changeUnitsBtn.setOnClickListener {
+            fragmentCart = viewPager.currentItem
             unitStateCelsius = !unitStateCelsius
             changeUnitsBtn.setImageResource(
-                if (unitStateCelsius) R.drawable.temperature_kelvin
+                if (unitStateCelsius) R.drawable.temperature_fahrenheit
                 else R.drawable.temperature_celsius
             )
             removeAllFragments()

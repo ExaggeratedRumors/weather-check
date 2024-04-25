@@ -244,6 +244,8 @@ class MenuFragment: Fragment() {
             adapter.remove(adapter.getItem(position + 1) as String)
             history.modify { this.removeAt(position) }
             DataManager.writeObject(Utils.HISTORY_PATH, history, requireContext())
+            DataManager.removeFile("${ history.locations[position].name}${Utils.WEATHER_DATA_PATH}" , requireContext())
+            DataManager.removeFile("${ history.locations[position].name}${Utils.FORECAST_DATA_PATH}" , requireContext())
         }
 
         builder.setNegativeButton(getString(R.string.input_window_cancel)) { dialog, _ ->

@@ -4,6 +4,8 @@
     <dimen name="max_small">24sp</dimen>
     <dimen name="min_big">24sp</dimen>
     <dimen name="max_big">32sp</dimen>
+    <dimen name="min_small_tablet">32sp</dimen>
+    <dimen name="max_small_tablet">40sp</dimen>
     <dimen name="min_big_tablet">48sp</dimen>
     <dimen name="max_big_tablet">56sp</dimen>
 </resources>

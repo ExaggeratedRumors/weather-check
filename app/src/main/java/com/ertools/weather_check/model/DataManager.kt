@@ -51,5 +51,12 @@ class DataManager {
             println("ENGINE: Cannot convert to json object.")
             throw e
         }
+
+        fun removeFile(sourcePath: String, context: Context) = try {
+            context.deleteFile(sourcePath)
+            println("ENGINE: File $sourcePath removed.")
+        } catch (e: Exception) {
+            println("ENGINE: Cannot remove file $sourcePath.")
+        }
     }
 }

@@ -25,7 +25,4 @@
         <item name="autoSizeMaxTextSize">@dimen/max_big_tablet</item>
         <item name="autoSizeMinTextSize">@dimen/min_big_tablet</item>
     </style>
-
-    <dimen name="max_small_tablet">36</dimen>
-    <dimen name="min_small_tablet">44</dimen>
 </resources>

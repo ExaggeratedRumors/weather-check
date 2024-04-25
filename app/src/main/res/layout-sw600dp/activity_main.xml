@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.MainActivity"
+    android:tag="wide"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,14 +21,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/weather"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:name="com.ertools.weather_check.view.DetailsFragment"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/details"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:name="com.ertools.weather_check.view.DetailsFragment"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintTop_toBottomOf="@id/weather"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/forecast"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:name="com.ertools.weather_check.view.ForecastFragment"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintTop_toBottomOf="@id/details"
+        app:layout_constraintBottom_toTopOf="@id/change_units"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/primary"
         android:contentDescription="@string/menu_tab"
-        app:tabContentStart="@style/TabLayoutText"
         app:tabSelectedTextColor="@color/on_background"
+        app:tabTextAppearance="@style/ContentTextSmallTablet"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="1.0"
         app:layout_constraintHeight_default="percent"

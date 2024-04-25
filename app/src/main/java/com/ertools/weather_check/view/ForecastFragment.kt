@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.utils.celsiusToFahrenheit
 import com.ertools.weather_check.utils.chooseIcon
+import com.ertools.weather_check.utils.kelvinToCelsius
 import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.setDescription
 import com.ertools.weather_check.utils.setTemperature
@@ -19,6 +21,7 @@ import com.ertools.weather_check.utils.timestampToTime
 class ForecastFragment: Fragment() {
     private lateinit var view: View
     private var unitRes = R.string.temperature_celsius_short
+    private var isCelsius = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +30,8 @@ class ForecastFragment: Fragment() {
     ): View {
         this.view = inflater.inflate(R.layout.fragment_forecast, container, false)
         arguments?.getBoolean(Utils.STORE_UNIT_STATE)?.let { isCelsius ->
-            unitRes = if (isCelsius) R.string.temperature_celsius_short else R.string.temperature_kelvin_short
+            this.isCelsius = isCelsius
+            unitRes = if (isCelsius) R.string.temperature_celsius_short else R.string.temperature_fahr_short
         }
         arguments?.serializable<ForecastDTO>(Utils.STORE_FORECAST_DTO)?.let { dto ->
             updateData(dto)
@@ -50,13 +54,25 @@ class ForecastFragment: Fragment() {
 
         /** Temperatures **/
         val temperature1 = view.findViewById<TextView>(R.id.temperature_1)
-        temperature1.text = getString(unitRes, setTemperature(dto.list[0].main.temp))
+        temperature1.text = getString(unitRes, setTemperature(
+            if(this.isCelsius) kelvinToCelsius(dto.list[0].main.temp)
+            else celsiusToFahrenheit(kelvinToCelsius(dto.list[0].main.temp))
+        ))
         val temperature2 = view.findViewById<TextView>(R.id.temperature_2)
-        temperature2.text = getString(unitRes, setTemperature(dto.list[8].main.temp))
+        temperature2.text =  getString(unitRes, setTemperature(
+            if(this.isCelsius) kelvinToCelsius(dto.list[8].main.temp)
+            else celsiusToFahrenheit(kelvinToCelsius(dto.list[8].main.temp))
+        ))
         val temperature3 = view.findViewById<TextView>(R.id.temperature_3)
-        temperature3.text = getString(unitRes, setTemperature(dto.list[16].main.temp))
+        temperature3.text = getString(unitRes, setTemperature(
+            if(this.isCelsius) kelvinToCelsius(dto.list[16].main.temp)
+            else celsiusToFahrenheit(kelvinToCelsius(dto.list[16].main.temp))
+        ))
         val temperature4 = view.findViewById<TextView>(R.id.temperature_4)
-        temperature4.text = getString(unitRes, setTemperature(dto.list[24].main.temp))
+        temperature4.text = getString(unitRes, setTemperature(
+            if(this.isCelsius) kelvinToCelsius(dto.list[24].main.temp)
+            else celsiusToFahrenheit(kelvinToCelsius(dto.list[24].main.temp))
+        ))
 
         /** Descriptions **/
         val weather1 = view.findViewById<TextView>(R.id.weather_1)

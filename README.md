@@ -25,8 +25,4 @@ v1.0
 - Android Material 1.11.0
 
 # TODO
-1. Refactor powtarzajacego się kodu (Fetchdata)
-2. UI Spinnerów
-3. Spinner wyboru historii.
-4. Obrót powoduje zawieszenie programu (nie można znaleźć kontruktora Menu).
-5. Obsługa zmiany jednostek.
+x

@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
 import com.ertools.weather_check.dto.WeatherDTO
 import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.utils.celsiusToFahrenheit
 import com.ertools.weather_check.utils.chooseIcon
+import com.ertools.weather_check.utils.kelvinToCelsius
 import com.ertools.weather_check.utils.serializable
 import com.ertools.weather_check.utils.setDescription
 import com.ertools.weather_check.utils.setTemperature
@@ -19,6 +21,7 @@ import com.ertools.weather_check.utils.timestampToTime
 class WeatherFragment : Fragment() {
     private lateinit var view: View
     private var unitRes = R.string.temperature_celsius_long
+    private var isCelsius = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +30,8 @@ class WeatherFragment : Fragment() {
     ): View {
         this.view = inflater.inflate(R.layout.fragment_weather, container, false)
         arguments?.getBoolean(Utils.STORE_UNIT_STATE)?.let { isCelsius ->
-            unitRes = if (isCelsius) R.string.temperature_celsius_long else R.string.temperature_kelvin_long
+            this.isCelsius = isCelsius
+            unitRes = if (isCelsius) R.string.temperature_celsius_long else R.string.temperature_fahr_long
         }
         arguments?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
             updateData(dto)
@@ -51,7 +55,10 @@ class WeatherFragment : Fragment() {
 
         /** Temperature **/
         val temperature = view.findViewById<TextView>(R.id.weather_temperature)
-        temperature.text = getString(unitRes, setTemperature(dto.main.temp))
+        temperature.text = getString(unitRes, setTemperature(
+            if(this.isCelsius) kelvinToCelsius(dto.main.temp)
+            else celsiusToFahrenheit(kelvinToCelsius(dto.main.temp))
+        ))
 
         /** Pressure **/
         val pressure = view.findViewById<TextView>(R.id.weather_pressure)

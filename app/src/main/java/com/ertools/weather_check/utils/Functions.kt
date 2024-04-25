@@ -23,8 +23,12 @@ fun kelvinToCelsius(kelvin: Double): Double {
     return kelvin - 273.15
 }
 
+fun celsiusToFahrenheit(celsius: Double): Double {
+    return celsius * 9 / 5 + 32
+}
+
 fun setTemperature(raw: Double): String
-        = "%.2f".format(Locale.ROOT, kelvinToCelsius(raw))
+        = "%.2f".format(Locale.ROOT, raw)
 
 fun setDescription(raw: String): String {
     return raw[0].uppercase() + raw.substring(1).replace("_", " ")

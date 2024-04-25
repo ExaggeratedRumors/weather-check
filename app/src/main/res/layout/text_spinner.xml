@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="16dp"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,4 +13,5 @@
     android:textAlignment="center"
     android:textColor="@color/on_primary"
     android:text="@string/menu_select_default"
-    app:drawableTint="@color/primary" />
+    app:drawableTint="@color/on_primary"
+    app:drawableRightCompat="@drawable/baseline_arrow_drop_down_24" />

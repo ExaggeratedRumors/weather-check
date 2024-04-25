@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:tag="fragment_forecast"
+    android:stretchColumns="1" >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:baselineAligned="false" >
+
+        <TextView
+            android:id="@+id/day_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:minLines="3"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_day"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/temperature_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_surface"
+            android:text="@string/weather_temperature"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/icon_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:src="@drawable/weather_sunny"
+            android:contentDescription="@string/weather_icon"
+            app:tint="@color/on_background"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/weather_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center_horizontal"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_description"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:baselineAligned="false" >
+
+        <TextView
+            android:id="@+id/day_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:minLines="3"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_day"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/temperature_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_surface"
+            android:text="@string/weather_temperature"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/icon_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:src="@drawable/weather_sunny"
+            android:contentDescription="@string/weather_icon"
+            app:tint="@color/on_background"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/weather_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center_horizontal"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_description"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:baselineAligned="false" >
+
+        <TextView
+            android:id="@+id/day_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:minLines="3"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_day"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/temperature_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_surface"
+            android:text="@string/weather_temperature"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/icon_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:src="@drawable/weather_sunny"
+            android:contentDescription="@string/weather_icon"
+            app:tint="@color/on_background"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/weather_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center_horizontal"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_description"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:baselineAligned="false" >
+
+        <TextView
+            android:id="@+id/day_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:minLines="3"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_day"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/temperature_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_surface"
+            android:text="@string/weather_temperature"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/icon_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:src="@drawable/weather_sunny"
+            android:contentDescription="@string/weather_icon"
+            app:tint="@color/on_background"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/weather_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center_horizontal"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_background"
+            android:text="@string/weather_description"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

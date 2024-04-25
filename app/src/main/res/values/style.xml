@@ -5,4 +5,27 @@
         <item name="autoSizeMaxTextSize">@dimen/max_small</item>
         <item name="autoSizeMinTextSize">@dimen/min_small</item>
     </style>
+    <style name="ContentTextSmall" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_small</item>
+        <item name="autoSizeMinTextSize">@dimen/min_small</item>
+    </style>
+    <style name="ContentTextBig" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_big</item>
+        <item name="autoSizeMinTextSize">@dimen/min_big</item>
+    </style>
+    <style name="ContentTextSmallTablet" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_small_tablet</item>
+        <item name="autoSizeMinTextSize">@dimen/min_small_tablet</item>
+    </style>
+    <style name="ContentTextBigTablet" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_big_tablet</item>
+        <item name="autoSizeMinTextSize">@dimen/min_big_tablet</item>
+    </style>
+
+    <dimen name="max_small_tablet">36</dimen>
+    <dimen name="min_small_tablet">44</dimen>
 </resources>

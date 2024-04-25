@@ -26,7 +26,6 @@
         android:layout_height="0dp"
         android:background="@color/primary"
         android:contentDescription="@string/menu_tab"
-        app:tabTextAppearance="@style/TabLayoutText"
         app:tabSelectedTextColor="@color/on_background"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="1.0"

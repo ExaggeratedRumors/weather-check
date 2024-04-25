@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:tag="fragment_details"
+    android:padding="24dp"
+    android:stretchColumns="1">
+
+    <TextView
+        android:id="@+id/details_wind_speed"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="@dimen/min_big_tablet"
+        android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+        android:maxLines="1"
+        android:textColor="@color/on_background"
+        android:text="@string/details_wind_speed"/>
+
+    <TextView
+        android:id="@+id/details_wind_direction"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="@dimen/min_big_tablet"
+        android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+        android:maxLines="1"
+        android:textColor="@color/on_background"
+        android:text="@string/details_wind_direction"/>
+
+    <TextView
+        android:id="@+id/details_humidity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="@dimen/min_big_tablet"
+        android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+        android:maxLines="1"
+        android:textColor="@color/on_background"
+        android:text="@string/details_humidity"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_background"
+            android:text="@string/details_sunrise_label"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/details_sunrise"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_surface"
+            android:text="@string/details_sunrise"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/details_sunset_icon"
+            android:gravity="center"
+            android:padding="16dp"
+            android:src="@drawable/weather_partly_cloudy"
+            android:drawableTint="@color/on_primary"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="1.0"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/on_background" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_background"
+            android:text="@string/details_sunset_label"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/details_sunset"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="top|center"
+            android:fontFamily="monospace"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="@dimen/min_big_tablet"
+            android:autoSizeMaxTextSize="@dimen/max_big_tablet"
+            android:textColor="@color/on_surface"
+            android:text="@string/details_sunrise"
+            android:maxLines="1"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/details_sunset_icon"
+            android:gravity="center"
+            android:padding="16dp"
+            android:src="@drawable/weather_night_partly_cloudy"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="1.0"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:tint="@color/on_background" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

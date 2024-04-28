@@ -3,7 +3,7 @@ package com.ertools.weather_check.model
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.ertools.weather_check.view.DataFetchListener
+import com.ertools.weather_check.interfaces.DataFetchListener
 import com.ertools.weather_check.dto.ForecastDTO
 import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.dto.WeatherDTO
@@ -17,7 +17,7 @@ class FetchManager(
 ) {
 
     enum class ForceFetch {
-        DATA, SERVER, NONE
+        DEVICE, SERVER, NONE
     }
 
     enum class ConnectionType {
@@ -51,19 +51,19 @@ class FetchManager(
 
         /** Service force fetch server **/
         if(force == ForceFetch.SERVER && !isInternetAvailable)
-            return listener.notifyDataFetchFailure(valueType)
+            return listener.notifyDataFetchFailure(valueType, "Force server fetch failed.")
         else if(force == ForceFetch.SERVER)
             return fetchDataFromServer(location, url, onSuccess, valueType)
 
         /** Service force fetch data **/
-        if(force == ForceFetch.DATA && data == null)
-            return listener.notifyDataFetchFailure(valueType)
-        else if(force == ForceFetch.DATA && data != null)
+        if(force == ForceFetch.DEVICE && data == null)
+            return listener.notifyDataFetchFailure(valueType, "Force data fetch failed.")
+        else if(force == ForceFetch.DEVICE && data != null)
             return listener.notifyDataFetchSuccess(data, valueType)
 
         /** If logs or data are not available and no internet connection, notify failure **/
         if((data == null) && !isInternetAvailable)
-            return listener.notifyDataFetchFailure(valueType)
+            return listener.notifyDataFetchFailure(valueType, "Data and connection not available.")
 
         /** If logs & data available and no internet connection, load data **/
         if(data != null && !isInternetAvailable)
@@ -96,14 +96,15 @@ class FetchManager(
             "$endpointCall${Utils.getCityAffix(location.city)}${Utils.API_KEY_SUFFIX}"
         else if(location.lat != null && location.lon != null)
             "$endpointCall${Utils.getCoordinatesAffix(location.lat, location.lon)}${Utils.API_KEY_SUFFIX}"
-        else return listener.notifyDataFetchFailure(valueType)
+        else return listener.notifyDataFetchFailure(valueType, "Invalid location")
 
+        println("TEST: $url")
         /** Build connection **/
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object: Callback {
 
             override fun onFailure(call: Call, e: IOException) {
-                listener.notifyDataFetchFailure(valueType)
+                listener.notifyDataFetchFailure(valueType, "Call build error.")
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -113,10 +114,9 @@ class FetchManager(
                     onSuccess(dataResponse as Any)
                     listener.notifyDataFetchSuccess(dataResponse, valueType)
                 } else {
-                    listener.notifyDataFetchFailure(valueType)
+                    listener.notifyDataFetchFailure(valueType, "Response error.")
                 }
             }
-
         })
     }
 

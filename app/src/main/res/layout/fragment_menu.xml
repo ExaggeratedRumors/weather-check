@@ -31,11 +31,7 @@
 
     <TextView
         android:id="@+id/menu_version"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="12dp"
+
         android:autoSizeMinTextSize="@dimen/min_small"
         android:autoSizeMaxTextSize="@dimen/max_small"
         android:autoSizeTextType="uniform"
@@ -47,6 +43,8 @@
         android:text="@string/app_version"
         android:textAlignment="center"
         android:textColor="@color/on_surface"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintLeft_toLeftOf="parent"

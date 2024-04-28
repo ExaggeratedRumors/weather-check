@@ -23,6 +23,6 @@
     <style name="ContentTextBigTablet" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMaxTextSize">@dimen/max_big_tablet</item>
-        <item name="autoSizeMinTextSize">@dimen/min_big_tablet</item>
+        <item name="autoSizeMinTextSize">@dimen/max_big</item>
     </style>
 </resources>

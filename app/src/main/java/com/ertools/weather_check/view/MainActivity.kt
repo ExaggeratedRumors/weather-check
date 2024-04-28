@@ -7,10 +7,11 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.ertools.weather_check.R
-import com.ertools.weather_check.dto.ForecastDTO
-import com.ertools.weather_check.dto.Location
-import com.ertools.weather_check.dto.Weather
-import com.ertools.weather_check.dto.WeatherDTO
+import com.ertools.weather_check.interfaces.DataFetchListener
+import com.ertools.weather_check.dto.*
+import com.ertools.weather_check.interfaces.DataUpdateListener
+import com.ertools.weather_check.interfaces.SettingsUpdateListener
+import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.model.FetchManager
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
@@ -18,114 +19,209 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity(), DataFetchListener {
+
+    /** Common widgets **/
     private lateinit var changeLocationBtn: ImageButton
     private lateinit var changeUnitsBtn: ImageButton
     private lateinit var refreshBtn: ImageButton
-    private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
-    private lateinit var menuFragment: MenuFragment
-    private var weatherFragment: View? = null
-    private lateinit var forecastFragment: View
-    private lateinit var detailsFragment: View
 
-    private var viewPagerAdapter: ViewPagerAdapter? = null
-    private var unitStateCelsius = true
-    private var location: Location? = null
-    private var fragmentCart: Int = 0
+    /** Non-fragments depends on resolutions widgets **/
+    private var viewPager: ViewPager2? = null
+    private var tabLayout: TabLayout? = null
+
+    /** Data **/
+    private lateinit var appSettings: AppSettings
+    private lateinit var appState: AppState
+
+    /** Listeners **/
+    private val dataUpdateListeners: ArrayList<DataUpdateListener> = ArrayList()
+    private val settingsUpdateListeners: ArrayList<SettingsUpdateListener> = ArrayList()
+
+
+    /** AppCompatActivity implementation **/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /** State from instance **/
-        unitStateCelsius = savedInstanceState?.getBoolean(Utils.STORE_UNIT_STATE) ?: true
-        location = savedInstanceState?.serializable<Location>(Utils.STORE_LOCATION)
-        fragmentCart = savedInstanceState?.getInt(Utils.STORE_FRAGMENT_CART) ?: 0
+        /** Restore state **/
+        appSettings = savedInstanceState?.serializable<AppSettings>(Utils.STORE_SETTINGS)
+            ?: DataManager.readObject(Utils.SETTINGS_PATH, AppSettings::class.java, this)
+                    ?: AppSettings()
+        appState = savedInstanceState?.serializable<AppState>(Utils.STORE_STATE)
+            ?: AppState()
 
         /** UI widgets **/
         setContentView(R.layout.activity_main)
-        menuFragment = MenuFragment()
         viewPager = findViewById(R.id.view_pager)
         tabLayout = findViewById(R.id.tab_layout)
         changeLocationBtn = findViewById(R.id.change_location)
-        changeUnitsBtn = findViewById(R.id.change_units)
+        changeUnitsBtn = findViewById(R.id.settings)
         refreshBtn = findViewById(R.id.refresh)
-        weatherFragment = findViewById(R.id.weather)
 
         /** Buttons listeners **/
         changeLocationBtn.setOnClickListener { requestLocation() }
-        changeUnitsBtn.setImageResource(
-            if (unitStateCelsius) R.drawable.temperature_fahrenheit
-            else R.drawable.temperature_celsius
-        )
 
         changeUnitsBtn.setOnClickListener {
-            fragmentCart = viewPager.currentItem
+            this.appSettings = this.appSettings.copy(isSIUnit = !this.appSettings.isSIUnit)
+            settingsUpdateListeners.forEach { it.updateSettings(this.appSettings) }
+
+            /*viewState = viewPager.currentItem
             unitStateCelsius = !unitStateCelsius
             changeUnitsBtn.setImageResource(
                 if (unitStateCelsius) R.drawable.temperature_fahrenheit
                 else R.drawable.temperature_celsius
             )
             removeAllFragments()
-            viewPagerAdapter = null
-            requestData(FetchManager.ForceFetch.DATA)
+            requestData(FetchManager.ForceFetch.DATA)*/
         }
 
         refreshBtn.setOnClickListener {
-            removeAllFragments()
-            viewPagerAdapter = null
             requestData(FetchManager.ForceFetch.SERVER)
         }
 
         /** Start application logic **/
-        if(location == null) {
-            println("TEST: Location null")
-            requestLocation()
-        }
-        else {
-            println("TEST: Location fetched")
-            requestData()
-        }
+        startActivity()
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(Utils.STORE_UNIT_STATE, unitStateCelsius)
-        outState.putSerializable(Utils.STORE_LOCATION, location)
-        outState.putInt(Utils.STORE_FRAGMENT_CART, viewPager.currentItem)
-
+        outState.putSerializable(Utils.STORE_SETTINGS, appSettings)
+        if(viewPager != null) {
+            outState.putSerializable(Utils.STORE_STATE, appState.copy(
+                selectedPage = viewPager!!.currentItem
+            ))
+        } else {
+            outState.putSerializable(Utils.STORE_STATE, appState)
+        }
         super.onSaveInstanceState(outState)
+    }
+
+
+    /** Application logic **/
+
+    private fun startActivity() {
+        val savedState = this.appState.viewState
+        this.appState = this.appState.copy(viewState = ViewState.NONE)
+
+        if(this.appState.location == null)
+            requestLocation()
+        else if(savedState == ViewState.WEATHER)
+            requestData(FetchManager.ForceFetch.DEVICE)
+        else
+            requestData()
     }
 
     private fun removeAllFragments() {
         supportFragmentManager.beginTransaction().apply {
             for (fragment in supportFragmentManager.fragments) remove(fragment)
         }.commit()
+        dataUpdateListeners.clear()
+        settingsUpdateListeners.clear()
+        this.appState = this.appState.copy(viewState = ViewState.NONE)
     }
 
-    /** LocationListener implementation **/
-
-    override fun requestLocation() {
-        this.location = null
-        supportFragmentManager.beginTransaction().apply {
-            for (fragment in supportFragmentManager.fragments) remove(fragment)
-        }.commit()
-        viewPagerAdapter = null
-
-        menuFragment = MenuFragment()
+    private fun openMenu() {
+        if(this.appState.viewState == ViewState.MENU) return
+        removeAllFragments()
+        val menuFragment = MenuFragment()
         menuFragment.listener = this
+        menuFragment.setMenuVisibility(true)
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.menu, menuFragment)
             .commit()
 
-        tabLayout.visibility = View.GONE
-        viewPager.visibility = View.GONE
+        tabLayout?.visibility = View.GONE
+        viewPager?.visibility = View.GONE
+
         changeLocationBtn.visibility = View.GONE
         changeUnitsBtn.visibility = View.GONE
         refreshBtn.visibility = View.GONE
+        this.appState = this.appState.copy(viewState = ViewState.MENU)
+    }
+
+    private fun openWeather() {
+        if(this.appState.viewState == ViewState.WEATHER) return
+        removeAllFragments()
+
+        if (resources.configuration.smallestScreenWidthDp >= Utils.TABLET_RESOLUTION)
+            openWeatherTablets()
+        else
+            openWeatherPhone()
+
+        this.appState = this.appState.copy(viewState = ViewState.WEATHER)
+    }
+
+    private fun openWeatherPhone() {
+        if(this.appState.viewState == ViewState.WEATHER) return
+        val viewPagerAdapter = ViewPagerAdapter(this)
+        viewPagerAdapter.updateSettings(appSettings)
+        viewPager = findViewById(R.id.view_pager)
+        viewPager?.isSaveEnabled = false
+        viewPager?.adapter = viewPagerAdapter
+        viewPager?.currentItem = appState.selectedPage
+
+        settingsUpdateListeners.add(viewPagerAdapter)
+        dataUpdateListeners.add(viewPagerAdapter)
+
+        TabLayoutMediator(tabLayout!!, viewPager!!) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Weather"
+                1 -> tab.text = "Details"
+                2 -> tab.text = "Forecast"
+            }
+        }.attach()
+
+        tabLayout?.visibility = View.VISIBLE
+        viewPager?.visibility = View.VISIBLE
+        changeLocationBtn.visibility = View.VISIBLE
+        changeUnitsBtn.visibility = View.VISIBLE
+        refreshBtn.visibility = View.VISIBLE
+    }
+
+    private fun openWeatherTablets() {
+        if(this.appState.viewState == ViewState.WEATHER) return
+        val bundle = Bundle().apply {
+            putSerializable(Utils.STORE_SETTINGS, appSettings)
+            putSerializable(Utils.STORE_WEATHER_DTO, appState.weatherDTO)
+            putSerializable(Utils.STORE_FORECAST_DTO, appState.forecastDTO)
+        }
+
+        val weather = WeatherFragment()
+        weather.arguments = bundle
+        val details = DetailsFragment()
+        details.arguments = bundle
+        val forecast = ForecastFragment()
+        forecast.arguments = bundle
+
+        supportFragmentManager.beginTransaction().add(R.id.weather, weather).commit()
+        supportFragmentManager.beginTransaction().add(R.id.details, details).commit()
+        supportFragmentManager.beginTransaction().add(R.id.forecast, forecast).commit()
+
+        dataUpdateListeners.add(weather)
+        dataUpdateListeners.add(details)
+        dataUpdateListeners.add(forecast)
+        settingsUpdateListeners.add(weather)
+        settingsUpdateListeners.add(details)
+        settingsUpdateListeners.add(forecast)
+
+        changeLocationBtn.visibility = View.VISIBLE
+        changeUnitsBtn.visibility = View.VISIBLE
+        refreshBtn.visibility = View.VISIBLE
+    }
+
+
+    /** DataFetchListener implementation **/
+
+    override fun requestLocation() {
+        this.appState = this.appState.copy(location = null)
+        openMenu()
     }
 
     override fun requestData(forceFetch: FetchManager.ForceFetch) {
-        location?.let {
+        openWeather()
+        appState.location?.let {
             val fetchManager = FetchManager(this, this)
             fetchManager.fetchData(it, WeatherDTO::class.java, forceFetch)
             fetchManager.fetchData(it, ForecastDTO::class.java, forceFetch)
@@ -133,73 +229,29 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     }
 
     override fun notifyLocationChanged(location: Location?) {
-        this.location = location
+        this.appState = this.appState.copy(location = location)
         requestData()
     }
 
     override fun <T> notifyDataFetchSuccess(dto: T, valueType: Class<T>) {
         runOnUiThread {
-            if(weatherFragment == null) {
-                if (viewPagerAdapter == null) {
-                    removeAllFragments()
-
-                    viewPagerAdapter = ViewPagerAdapter(this)
-                    viewPagerAdapter?.changeUnits(unitStateCelsius)
-                    viewPager = findViewById(R.id.view_pager)
-                    viewPager.isSaveEnabled = false
-                    viewPager.adapter = viewPagerAdapter
-                    viewPager.currentItem = fragmentCart
-
-                    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                        when (position) {
-                            0 -> tab.text = "Weather"
-                            1 -> tab.text = "Details"
-                            2 -> tab.text = "Forecast"
-                        }
-                    }.attach()
-
-                    tabLayout.visibility = View.VISIBLE
-                    viewPager.visibility = View.VISIBLE
-                    changeLocationBtn.visibility = View.VISIBLE
-                    changeUnitsBtn.visibility = View.VISIBLE
-                    refreshBtn.visibility = View.VISIBLE
-
+            when (valueType) {
+                WeatherDTO::class.java -> {
+                    appState = appState.copy(weatherDTO = (dto as WeatherDTO))
+                    dataUpdateListeners.forEach{ it.updateData(dto as WeatherDTO) }
                 }
-
-                when (valueType) {
-                    WeatherDTO::class.java -> viewPagerAdapter?.updateData(dto as WeatherDTO)
-                    ForecastDTO::class.java -> viewPagerAdapter?.updateData(dto as ForecastDTO)
-                }
-            } else {
-                /** Tablets **/
-                removeAllFragments()
-                val weather = WeatherFragment()
-                val details = DetailsFragment()
-                val forecast = ForecastFragment()
-
-                supportFragmentManager.beginTransaction().add(R.id.weather, weather).commit()
-                supportFragmentManager.beginTransaction().add(R.id.details, details).commit()
-                supportFragmentManager.beginTransaction().add(R.id.forecast, forecast).commit()
-
-                changeLocationBtn.visibility = View.VISIBLE
-                changeUnitsBtn.visibility = View.VISIBLE
-                refreshBtn.visibility = View.VISIBLE
-
-                when (valueType) {
-                    WeatherDTO::class.java -> {
-                        weather.updateData(dto as WeatherDTO)
-                        details.updateData(dto as WeatherDTO)
-                    }
-                    ForecastDTO::class.java -> forecast.updateData(dto as ForecastDTO)
+                ForecastDTO::class.java -> {
+                    appState = appState.copy(forecastDTO = (dto as ForecastDTO))
+                    dataUpdateListeners.forEach { it.updateData(dto as ForecastDTO) }
                 }
             }
         }
     }
 
-    override fun <T> notifyDataFetchFailure(valueType: Class<T>) {
+    override fun <T> notifyDataFetchFailure(valueType: Class<T>, message: String) {
         runOnUiThread {
-            location = null
-            Toast.makeText(this, "Failed to fetch data", Toast.LENGTH_SHORT).show()
+            this.appState = this.appState.copy(location = null)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             requestLocation()
         }
     }

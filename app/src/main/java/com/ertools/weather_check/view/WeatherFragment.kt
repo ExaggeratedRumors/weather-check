@@ -8,30 +8,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.ertools.weather_check.R
+import com.ertools.weather_check.dto.AppSettings
 import com.ertools.weather_check.dto.WeatherDTO
-import com.ertools.weather_check.utils.Utils
-import com.ertools.weather_check.utils.celsiusToFahrenheit
-import com.ertools.weather_check.utils.chooseIcon
-import com.ertools.weather_check.utils.kelvinToCelsius
-import com.ertools.weather_check.utils.serializable
-import com.ertools.weather_check.utils.setDescription
-import com.ertools.weather_check.utils.setTemperature
-import com.ertools.weather_check.utils.timestampToTime
+import com.ertools.weather_check.interfaces.DataUpdateListener
+import com.ertools.weather_check.interfaces.SettingsUpdateListener
+import com.ertools.weather_check.utils.*
 
-class WeatherFragment : Fragment() {
-    private lateinit var view: View
-    private var unitRes = R.string.temperature_celsius_long
-    private var isCelsius = true
+class WeatherFragment : Fragment(), SettingsUpdateListener, DataUpdateListener {
+    private var view: View? = null
+    private var unitRes = R.string.temperature_celsius
+    private var appSettings: AppSettings = AppSettings()
+    private var weatherData: WeatherDTO? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         this.view = inflater.inflate(R.layout.fragment_weather, container, false)
-        arguments?.getBoolean(Utils.STORE_UNIT_STATE)?.let { isCelsius ->
-            this.isCelsius = isCelsius
-            unitRes = if (isCelsius) R.string.temperature_celsius_long else R.string.temperature_fahr_long
+        arguments?.serializable<AppSettings>(Utils.STORE_SETTINGS)?.let { settings ->
+            updateSettings(settings)
         }
         arguments?.serializable<WeatherDTO>(Utils.STORE_WEATHER_DTO)?.let { dto ->
             updateData(dto)
@@ -39,37 +35,48 @@ class WeatherFragment : Fragment() {
         return this.view
     }
 
-    fun updateData(dto: WeatherDTO) {
-        if(this::view.isInitialized.not()) return
+    override fun <T> updateData(dto: T) {
+        if(dto !is WeatherDTO) return
+        println("TEST: UPDATE WEATHER FRAGMENT")
+        this.weatherData = dto
+        if(this.view == null) return
+        createView(dto)
+    }
 
+    private fun createView(data: WeatherDTO) {
         /** Location **/
-        val locationName = view.findViewById<TextView>(R.id.weather_localization_name)
-        locationName.text = dto.name
-        val locationCoordinates = view.findViewById<TextView>(R.id.weather_coordinates)
-        val coordinates = "(${dto.coord.lat}, ${dto.coord.lon})"
-        locationCoordinates.text = coordinates
+        val locationName = view?.findViewById<TextView>(R.id.weather_localization_name)
+        locationName?.text = data.name
+        val locationCoordinates = view?.findViewById<TextView>(R.id.weather_coordinates)
+        val coordinates = "(${data.coord.lat}, ${data.coord.lon})"
+        locationCoordinates?.text = coordinates
 
         /** Time **/
-        val time = view.findViewById<TextView>(R.id.weather_time)
-        time.text = timestampToTime(dto.dt)
+        val time = view?.findViewById<TextView>(R.id.weather_time)
+        time?.text = timestampToTime(data.dt)
 
         /** Temperature **/
-        val temperature = view.findViewById<TextView>(R.id.weather_temperature)
-        temperature.text = getString(unitRes, setTemperature(
-            if(this.isCelsius) kelvinToCelsius(dto.main.temp)
-            else celsiusToFahrenheit(kelvinToCelsius(dto.main.temp))
+        val temperature = view?.findViewById<TextView>(R.id.weather_temperature)
+        temperature?.text = getString(unitRes, setTemperature(
+            if(this.appSettings.isSIUnit) kelvinToCelsius(data.main.temp)
+            else kelvinToFahrenheit(data.main.temp)
         ))
 
         /** Pressure **/
-        val pressure = view.findViewById<TextView>(R.id.weather_pressure)
-        pressure.text = getString(R.string.pressure_format, dto.main.pressure)
+        val pressure = view?.findViewById<TextView>(R.id.weather_pressure)
+        pressure?.text = getString(R.string.pressure_format, data.main.pressure)
 
         /** Description **/
-        val description = view.findViewById<TextView>(R.id.weather_description)
-        description.text = setDescription(dto.weather[0].description)
+        val description = view?.findViewById<TextView>(R.id.weather_description)
+        description?.text = setDescription(data.weather[0].description)
 
         /** Icon **/
-        val icon = view.findViewById<ImageView>(R.id.weather_icon)
-        icon.setImageResource(chooseIcon(dto.weather[0].description))
+        val icon = view?.findViewById<ImageView>(R.id.weather_icon)
+        icon?.setImageResource(chooseIcon(data.weather[0].description))
+    }
+
+    override fun updateSettings(appSettings: AppSettings) {
+        this.appSettings = appSettings
+        unitRes = if (appSettings.isSIUnit) R.string.temperature_celsius else R.string.temperature_fahrenheit
     }
 }

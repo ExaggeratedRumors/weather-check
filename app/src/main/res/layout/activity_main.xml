@@ -26,7 +26,6 @@
         android:layout_height="0dp"
         android:background="@color/primary"
         android:contentDescription="@string/menu_tab"
-        app:tabContentStart="@style/TabLayoutText"
         app:tabSelectedTextColor="@color/on_background"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="1.0"
@@ -66,19 +65,19 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageButton
-        android:id="@+id/change_units"
+        android:id="@+id/settings"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/tab_layout"
         android:background="@drawable/rectangle_button_center"
         android:padding="0dp"
-        android:src="@drawable/temperature_fahrenheit"
+        android:src="@drawable/navbar_settings"
         android:contentDescription="@string/menu_change_units"
         android:tooltipText="@string/menu_change_units"
         app:tint="@color/on_primary"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.3333"
         app:layout_constraintHeight_default="percent"
+        app:layout_constraintWidth_percent="0.3333"
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/change_location" />
@@ -90,7 +89,7 @@
         android:layout_below="@+id/tab_layout"
         android:background="@drawable/rectangle_button_right"
         android:padding="0dp"
-        android:src="@drawable/refresh"
+        android:src="@drawable/navbar_refresh"
         android:contentDescription="@string/menu_refresh"
         android:tooltipText="@string/menu_refresh"
         app:tint="@color/on_primary"
@@ -99,6 +98,6 @@
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/change_units" />
+        app:layout_constraintLeft_toRightOf="@id/settings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

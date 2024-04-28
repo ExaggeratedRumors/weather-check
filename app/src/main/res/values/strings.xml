@@ -1,40 +1,46 @@
 <resources>
     <string name="app_name">weather-check</string>
     <string name="app_version">v1.0-stable</string>
+
     <string name="menu_current_location">Use my location</string>
     <string name="menu_input_coordinates">Enter coordinates</string>
     <string name="menu_input_city_name">Enter city</string>
     <string name="menu_select_default">Select popular</string>
     <string name="menu_select_history">Select from history</string>
-    <string name="weather_city">CITY?</string>
-    <string name="weather_coordinates">(LAT, LON)</string>
-    <string name="temperature_celsius_long">Temperature: %1$s℃</string>
-    <string name="temperature_fahr_long">Temperature: %1$s&#0176;F</string>
-    <string name="temperature_celsius_short">%1$s℃</string>
-    <string name="temperature_fahr_short">%1$s&#0176;F</string>
-    <string name="wind_speed_format">Wind speed: %1$.2fm/s </string>
-    <string name="wind_direction_format">Wind direction: %1$d&#0176;</string>
-    <string name="humidity_format">Humidity: %1$d&#65285;</string>
-    <string name="pressure_format">Pressure: %1$dhPa</string>
-    <string name="weather_time">00:00:00</string>
+    <string name="menu_tab">Select tab</string>
+    <string name="menu_change_units">Change units</string>
+    <string name="menu_refresh">Refresh data</string>
+    <string name="menu_change_location">Change location</string>
+
+    <string name="temperature_celsius">%1$s&#0176;C</string>
+    <string name="temperature_fahrenheit">%1$s&#0176;F</string>
+    <string name="pressure_format">%1$dhPa</string>
+    <string name="wind_speed_format">%1$.2fm/s </string>
+    <string name="wind_direction_format">%1$d&#0176;</string>
+    <string name="humidity_format">%1$d&#65285;</string>
+
+    <string name="item_remove_location">Delete location</string>
+
+    <string name="weather_day">Monday</string>
+    <string name="weather_time">wwww DD/MM/YY HH:mm</string>
     <string name="weather_temperature">0℃</string>
     <string name="weather_pressure">0hPa</string>
     <string name="weather_description">Sunny</string>
     <string name="weather_icon">weather</string>
-    <string name="item_remove_location">Delete location</string>
-    <string name="menu_change_location">Change location</string>
-    <string name="menu_tab">Select tab</string>
-    <string name="weather_day">Monday</string>
+    <string name="weather_temperature_icon">Temperature</string>
+    <string name="weather_pressure_icon">Pressure</string>
+    <string name="weather_city">CITY?</string>
+    <string name="weather_coordinates">(LAT, LON)</string>
+
     <string name="details_sunset">00:00:00</string>
     <string name="details_sunrise">00:00:00</string>
-    <string name="details_humidity">Humidity: ?</string>
-    <string name="details_wind_direction">Wind direction: ?</string>
+    <string name="details_humidity">0%</string>
+    <string name="details_wind_direction">0&#0176;</string>
     <string name="details_sunset_icon">Sunset icon</string>
     <string name="details_sunset_label">Sunset</string>
     <string name="details_sunrise_label">Sunrise</string>
-    <string name="details_wind_speed">Wind speed: ?</string>
-    <string name="menu_change_units">Change units</string>
-    <string name="menu_refresh">Refresh data</string>
+    <string name="details_wind_speed">0m/s</string>
+
     <string name="input_window_cancel">Cancel</string>
     <string name="input_window_ok">OK</string>
     <string name="input_window_title">Enter new location</string>
@@ -45,6 +51,8 @@
     <string name="input_window_use">Use</string>
     <string name="input_window_remove">Remove</string>
     <string name="input_window_manage">Manage location: %1$s</string>
+    <string name="details_wind_icon">Wind</string>
+    <string name="details_sunrise_icon">Sunrise</string>
 
 
 </resources>

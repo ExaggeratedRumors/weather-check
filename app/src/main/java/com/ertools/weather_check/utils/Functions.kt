@@ -19,13 +19,9 @@ fun timestampToTime(timestamp: Long): String {
     return sdf.format(date)
 }
 
-fun kelvinToCelsius(kelvin: Double): Double {
-    return kelvin - 273.15
-}
+fun kelvinToCelsius(kelvin: Double) = kelvin - 273.15
 
-fun celsiusToFahrenheit(celsius: Double): Double {
-    return celsius * 9 / 5 + 32
-}
+fun kelvinToFahrenheit(kelvin: Double) = kelvin * 9 / 5 - 459.67
 
 fun setTemperature(raw: Double): String
         = "%.2f".format(Locale.ROOT, raw)

@@ -22,6 +22,7 @@ import com.ertools.weather_check.dto.Location
 import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.utils.Locations
 import com.ertools.weather_check.utils.Utils
+import com.ertools.weather_check.interfaces.DataFetchListener
 import com.google.android.gms.location.LocationServices
 
 class MenuFragment: Fragment() {

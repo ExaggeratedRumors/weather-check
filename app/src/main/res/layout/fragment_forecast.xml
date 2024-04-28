@@ -41,7 +41,7 @@
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.7"
+                app:layout_constraintHeight_percent="0.65"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -54,13 +54,14 @@
                 android:autoSizeMinTextSize="@dimen/min_small"
                 android:autoSizeMaxTextSize="@dimen/max_small"
                 android:textColor="@color/on_background"
-                android:gravity="center"
+                android:gravity="top|center_horizontal"
+                android:paddingHorizontal="10dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintTop_toBottomOf="@id/icon_1"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -124,7 +125,7 @@
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.7"
+                app:layout_constraintHeight_percent="0.65"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -137,13 +138,14 @@
                 android:autoSizeMinTextSize="@dimen/min_small"
                 android:autoSizeMaxTextSize="@dimen/max_small"
                 android:textColor="@color/on_background"
-                android:gravity="center"
+                android:gravity="top|center_horizontal"
+                android:paddingHorizontal="10dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintTop_toBottomOf="@id/icon_2"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -207,7 +209,7 @@
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.7"
+                app:layout_constraintHeight_percent="0.65"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -220,13 +222,14 @@
                 android:autoSizeMinTextSize="@dimen/min_small"
                 android:autoSizeMaxTextSize="@dimen/max_small"
                 android:textColor="@color/on_background"
-                android:gravity="center"
+                android:gravity="top|center_horizontal"
+                android:paddingHorizontal="10dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintTop_toBottomOf="@id/icon_3"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -290,7 +293,7 @@
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.7"
+                app:layout_constraintHeight_percent="0.65"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -303,13 +306,14 @@
                 android:autoSizeMinTextSize="@dimen/min_small"
                 android:autoSizeMaxTextSize="@dimen/max_small"
                 android:textColor="@color/on_background"
-                android:gravity="center"
+                android:gravity="top|center_horizontal"
+                android:paddingHorizontal="10dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintTop_toBottomOf="@id/icon_4"
                 app:layout_constraintRight_toRightOf="parent" />
 

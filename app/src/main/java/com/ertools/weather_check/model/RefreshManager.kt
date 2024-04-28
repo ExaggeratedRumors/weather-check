@@ -10,8 +10,8 @@ class RefreshManager {
         call: () -> Unit
     ) {
         refreshThread = object : CountDownTimer(
-            appSettings.autoRefreshPeriodSeconds,
-            appSettings.autoRefreshPeriodSeconds
+            appSettings.autoRefreshPeriodSeconds * 1000,
+            appSettings.autoRefreshPeriodSeconds * 1000
         ) {
             override fun onTick(millisUntilFinished: Long) {
                 call()

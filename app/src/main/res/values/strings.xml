@@ -35,11 +35,12 @@
     <string name="details_sunset">00:00:00</string>
     <string name="details_sunrise">00:00:00</string>
     <string name="details_humidity">0%</string>
+    <string name="details_humidity_icon">Humidity</string>
     <string name="details_wind_direction">0&#0176;</string>
-    <string name="details_sunset_icon">Sunset icon</string>
-    <string name="details_sunset_label">Sunset</string>
-    <string name="details_sunrise_label">Sunrise</string>
+    <string name="details_sunset_icon">Sunset</string>
     <string name="details_wind_speed">0m/s</string>
+    <string name="details_wind_icon">Wind</string>
+    <string name="details_sunrise_icon">Sunrise</string>
 
     <string name="input_window_cancel">Cancel</string>
     <string name="input_window_ok">OK</string>
@@ -51,12 +52,8 @@
     <string name="input_window_use">Use</string>
     <string name="input_window_remove">Remove</string>
     <string name="input_window_manage">Manage location: %1$s</string>
-    <string name="input_window_interval">Refresh time interval [seconds]</string>
+    <string name="input_window_interval">Refresh period [s], current: %1$d</string>
     <string name="input_window_switch_on">SI units</string>
     <string name="input_window_switch_off">Imperial units</string>
-
-    <string name="details_wind_icon">Wind</string>
-    <string name="details_sunrise_icon">Sunrise</string>
-
 
 </resources>

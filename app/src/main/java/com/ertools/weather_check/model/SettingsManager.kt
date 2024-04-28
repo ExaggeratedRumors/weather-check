@@ -15,14 +15,16 @@ class SettingsManager(
     private val context: Context,
     private val listener: SettingsUpdateListener
 ) {
-    fun openSettings() {
+    fun openSettings(currentSettings: AppSettings) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.input_window_title))
 
         val unitsInput = SwitchMaterial(context)
         val intervalInput = EditText(context)
 
+        unitsInput.isChecked = currentSettings.isSIUnit
         unitsInput.text = context.getString(R.string.input_window_switch_on)
+        unitsInput.textAlignment = SwitchMaterial.TEXT_ALIGNMENT_CENTER
         unitsInput.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
                 unitsInput.text = context.getString(R.string.input_window_switch_on)
@@ -30,7 +32,10 @@ class SettingsManager(
                 unitsInput.text = context.getString(R.string.input_window_switch_off)
             }
         }
-        intervalInput.hint = context.getString(R.string.input_window_interval)
+        intervalInput.hint = context.getString(
+            R.string.input_window_interval,
+            currentSettings.autoRefreshPeriodSeconds
+        )
 
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
@@ -40,9 +45,10 @@ class SettingsManager(
 
         builder.setPositiveButton(context.getString(R.string.input_window_ok)) { _, _ ->
             val interval = intervalInput.text.toString().toLongOrNull()
+                ?: currentSettings.autoRefreshPeriodSeconds
             val units = unitsInput.isChecked
 
-            if(interval == null || interval < 0) {
+            if(interval < 0) {
                 Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show()
                 return@setPositiveButton
             }

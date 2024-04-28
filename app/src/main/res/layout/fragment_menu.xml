@@ -31,7 +31,6 @@
 
     <TextView
         android:id="@+id/menu_version"
-
         android:autoSizeMinTextSize="@dimen/min_small"
         android:autoSizeMaxTextSize="@dimen/max_small"
         android:autoSizeTextType="uniform"
@@ -51,7 +50,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menu_title"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.35" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"

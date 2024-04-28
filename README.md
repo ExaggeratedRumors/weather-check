@@ -23,7 +23,3 @@ v1.0
 - Jackson 2.15.2
 - OkHttp3 4.12.0
 - Android Material 1.11.0
-
-# TODO
-- Utworzyć konfigurację aplikacji - wczytywalną oraz zapisywalną, która zawiera częstotliwość
-odświeżania oraz stan jednostek.

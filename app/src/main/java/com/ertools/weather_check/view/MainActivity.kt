@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener, SettingsUpdateListe
         changeLocationBtn.setOnClickListener { requestLocation() }
 
         changeUnitsBtn.setOnClickListener {
-            SettingsManager(this, this).openSettings()
+            SettingsManager(this, this).openSettings(appSettings)
         }
 
         refreshBtn.setOnClickListener {
@@ -259,7 +259,6 @@ class MainActivity : AppCompatActivity(), DataFetchListener, SettingsUpdateListe
         runOnUiThread {
             this.appState = this.appState.copy(location = null)
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            requestLocation()
         }
     }
 

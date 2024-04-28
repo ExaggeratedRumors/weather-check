@@ -37,7 +37,6 @@ class ForecastFragment: Fragment(), DataUpdateListener, SettingsUpdateListener {
 
     override fun <T> updateData(dto: T) {
         if(dto !is ForecastDTO) return
-        println("TEST: UPDATE FORECAST FRAGMENT")
         this.forecastData = dto
         if(this.view == null) return
         createView(dto)

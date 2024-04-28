@@ -27,7 +27,3 @@ v1.0
 # TODO
 - Utworzyć konfigurację aplikacji - wczytywalną oraz zapisywalną, która zawiera częstotliwość
 odświeżania oraz stan jednostek.
-- Utworzyć layout do tabletu.
-- Poprawić GUI żeby wyglądało lepiej.
-- Utworzyć wątek odświeżający automatycznie dane.
-- Rozwijane menu z prawej strony dla tabletów.

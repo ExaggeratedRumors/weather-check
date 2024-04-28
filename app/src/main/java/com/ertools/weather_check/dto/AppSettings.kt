@@ -9,6 +9,6 @@ import java.io.Serializable
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class AppSettings (
     val isSIUnit: Boolean = true,
-    val autoRefreshPeriodSeconds: Double = 60.0
+    val autoRefreshPeriodSeconds: Long = 60
 ) : Serializable
 

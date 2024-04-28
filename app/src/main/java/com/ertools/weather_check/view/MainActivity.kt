@@ -2,6 +2,7 @@ package com.ertools.weather_check.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -13,12 +14,14 @@ import com.ertools.weather_check.interfaces.DataUpdateListener
 import com.ertools.weather_check.interfaces.SettingsUpdateListener
 import com.ertools.weather_check.model.DataManager
 import com.ertools.weather_check.model.FetchManager
+import com.ertools.weather_check.model.RefreshManager
+import com.ertools.weather_check.model.SettingsManager
 import com.ertools.weather_check.utils.Utils
 import com.ertools.weather_check.utils.serializable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainActivity : AppCompatActivity(), DataFetchListener {
+class MainActivity : AppCompatActivity(), DataFetchListener, SettingsUpdateListener {
 
     /** Common widgets **/
     private lateinit var changeLocationBtn: ImageButton
@@ -37,6 +40,8 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     private val dataUpdateListeners: ArrayList<DataUpdateListener> = ArrayList()
     private val settingsUpdateListeners: ArrayList<SettingsUpdateListener> = ArrayList()
 
+    /** Refresh thread **/
+    private val refreshManager = RefreshManager()
 
     /** AppCompatActivity implementation **/
 
@@ -62,17 +67,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         changeLocationBtn.setOnClickListener { requestLocation() }
 
         changeUnitsBtn.setOnClickListener {
-            this.appSettings = this.appSettings.copy(isSIUnit = !this.appSettings.isSIUnit)
-            settingsUpdateListeners.forEach { it.updateSettings(this.appSettings) }
-
-            /*viewState = viewPager.currentItem
-            unitStateCelsius = !unitStateCelsius
-            changeUnitsBtn.setImageResource(
-                if (unitStateCelsius) R.drawable.temperature_fahrenheit
-                else R.drawable.temperature_celsius
-            )
-            removeAllFragments()
-            requestData(FetchManager.ForceFetch.DATA)*/
+            SettingsManager(this, this).openSettings()
         }
 
         refreshBtn.setOnClickListener {
@@ -82,6 +77,11 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         /** Start application logic **/
         startActivity()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        refreshManager.stopAutoRefresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
     }
 
     private fun removeAllFragments() {
+        refreshManager.stopAutoRefresh()
         supportFragmentManager.beginTransaction().apply {
             for (fragment in supportFragmentManager.fragments) remove(fragment)
         }.commit()
@@ -150,6 +151,9 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         else
             openWeatherPhone()
 
+        refreshManager.startAutoRefresh(this.appSettings) {
+            requestData(FetchManager.ForceFetch.SERVER)
+        }
         this.appState = this.appState.copy(viewState = ViewState.WEATHER)
     }
 
@@ -258,4 +262,13 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
             requestLocation()
         }
     }
+
+
+    /** SettingsUpdateListener implementation **/
+
+    override fun updateSettings(appSettings: AppSettings) {
+        this.appSettings = appSettings
+        settingsUpdateListeners.forEach { it.updateSettings(appSettings) }
+    }
+
 }

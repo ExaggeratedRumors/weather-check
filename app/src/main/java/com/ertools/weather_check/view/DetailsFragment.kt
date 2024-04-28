@@ -62,5 +62,6 @@ class DetailsFragment : Fragment(), DataUpdateListener, SettingsUpdateListener {
 
     override fun updateSettings(appSettings: AppSettings) {
         this.appSettings = appSettings
+        updateData(this.weatherData)
     }
 }

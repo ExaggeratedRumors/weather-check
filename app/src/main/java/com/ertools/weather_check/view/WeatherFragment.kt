@@ -78,5 +78,6 @@ class WeatherFragment : Fragment(), SettingsUpdateListener, DataUpdateListener {
     override fun updateSettings(appSettings: AppSettings) {
         this.appSettings = appSettings
         unitRes = if (appSettings.isSIUnit) R.string.temperature_celsius else R.string.temperature_fahrenheit
+        updateData(this.weatherData)
     }
 }

@@ -51,6 +51,10 @@
     <string name="input_window_use">Use</string>
     <string name="input_window_remove">Remove</string>
     <string name="input_window_manage">Manage location: %1$s</string>
+    <string name="input_window_interval">Refresh time interval [seconds]</string>
+    <string name="input_window_switch_on">SI units</string>
+    <string name="input_window_switch_off">Imperial units</string>
+
     <string name="details_wind_icon">Wind</string>
     <string name="details_sunrise_icon">Sunrise</string>
 

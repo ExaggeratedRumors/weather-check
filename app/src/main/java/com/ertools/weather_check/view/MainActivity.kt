@@ -195,9 +195,12 @@ class MainActivity : AppCompatActivity(), DataFetchListener {
         val forecast = ForecastFragment()
         forecast.arguments = bundle
 
-        supportFragmentManager.beginTransaction().add(R.id.weather, weather).commit()
-        supportFragmentManager.beginTransaction().add(R.id.details, details).commit()
-        supportFragmentManager.beginTransaction().add(R.id.forecast, forecast).commit()
+
+        supportFragmentManager.beginTransaction().run {
+            add(R.id.weather, weather)
+            add(R.id.details, details)
+            add(R.id.forecast, forecast)
+        }.commit()
 
         dataUpdateListeners.add(weather)
         dataUpdateListeners.add(details)

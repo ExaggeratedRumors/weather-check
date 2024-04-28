@@ -48,7 +48,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/weather_left_side"
+        android:id="@+id/weather_central_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rounded_surface"

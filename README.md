@@ -6,7 +6,7 @@
     <img src="images/logo.png" width="200" alt="logo"/> 
 </p>
 
-App presenting weather and forecast in selected location.
+App presenting weather and forecast in selected location based on <a href=https://openweathermap.org/api>OpenWather-API</a>.
 
 ## Features
 

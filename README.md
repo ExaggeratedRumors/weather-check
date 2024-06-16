@@ -8,6 +8,15 @@
 
 App presenting weather and forecast in selected location.
 
+## Features
+
+- Select current location.
+- Select predefined locations.
+- Select location by coordinates or name.
+- Save searching history.
+- Change units.
+- Automatically reload data.
+
 ## Release
 
 `
@@ -23,3 +32,9 @@ v1.0
 - Jackson 2.15.2
 - OkHttp3 4.12.0
 - Android Material 1.11.0
+
+## Preview
+
+<p align="center">
+    <img src="images/preview.jpg" width="300" alt="logo"/> 
+</p>

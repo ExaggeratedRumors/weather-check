@@ -98,7 +98,6 @@ class FetchManager(
             "$endpointCall${Utils.getCoordinatesAffix(location.lat, location.lon)}${Utils.API_KEY_SUFFIX}"
         else return listener.notifyDataFetchFailure(valueType, "Invalid location")
 
-        println("TEST: $url")
         /** Build connection **/
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object: Callback {
